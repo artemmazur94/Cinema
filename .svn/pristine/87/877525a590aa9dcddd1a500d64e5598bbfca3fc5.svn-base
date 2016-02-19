@@ -1,0 +1,17 @@
+﻿using System;
+
+namespace Cinema.DataAccess.Repositories.Contracts
+{
+    public interface IAccountRepository : IDisposable, IRepository<Account>
+    {
+        int CountBlocked();
+
+        bool IsExistUsername(string username);
+
+        bool IsExistEmail(string email);
+
+        bool IsValidLoginData(Account account);
+
+        void AddSecurityToken(SecurityToken securityToken);
+    }
+}

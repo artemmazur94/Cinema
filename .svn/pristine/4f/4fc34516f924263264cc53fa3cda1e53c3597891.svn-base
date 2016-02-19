@@ -1,0 +1,42 @@
+﻿using System.Web.Mvc;
+using Cinema.DataAccess;
+using Cinema.DataAccess.Repositories;
+using Cinema.Services;
+using Cinema.Web.Models;
+
+namespace Cinema.Web.Controllers
+{
+    public class AccountController : Controller
+    {
+        private readonly AccountService _accountService;
+
+        public AccountController()
+        {
+            _accountService = new AccountService(new AccountRepository(new CinemaDatabaseEntities()));
+        }
+
+        // GET: Account
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _accountService.Register(new Account()
+                {
+                    Email = model.Email,
+                    IsAdmin = false,
+                    IsBlocked = false,
+                    Login = model.Username,
+                    Salt = "salt",
+                    Password = model.Password
+                });
+            }
+            return View();
+        }
+    }
+}

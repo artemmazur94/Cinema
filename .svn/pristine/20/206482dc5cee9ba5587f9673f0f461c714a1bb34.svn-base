@@ -1,0 +1,43 @@
+﻿@model Cinema.Web.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="page-header">
+    <h1>Register</h1>
+</div>
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new {@class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("FormValidation")
+    <div class="form-group">
+        @Html.LabelFor(x => x.Username, new {@class = "control-label col-sm-2"})
+        @Html.TextBoxFor(x => x.Username, new {@class = "form-control col-sm-10"})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Email, new {@class = "control-label col-sm-2"})
+        @Html.TextBoxFor(x => x.Email, new {@class = "form-control col-sm-10"})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Name, new {@class = "control-label col-sm-2"})
+        @Html.TextBoxFor(x => x.Name, new {@class = "form-control col-sm-10"})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Surname, new { @class = "control-label col-sm-2" })
+        @Html.TextBoxFor(x => x.Surname, new { @class = "form-control col-sm-10" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Password, new {@class = "control-label col-sm-2"})
+        @Html.PasswordFor(x => x.Password, new {@class = "form-control col-sm-10"})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.PasswordConfirm, new {@class = "control-label col-sm-2"})
+        @Html.PasswordFor(x => x.PasswordConfirm, new {@class = "form-control col-sm-10"})
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" class="btn btn-success" value="Register"/>
+        </div>
+    </div>
+}

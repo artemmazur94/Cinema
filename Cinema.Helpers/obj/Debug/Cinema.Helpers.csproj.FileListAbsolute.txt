@@ -1,0 +1,5 @@
+C:\Projects\Cinema\Cinema.Helpers\bin\Debug\Cinema.Helpers.dll
+C:\Projects\Cinema\Cinema.Helpers\bin\Debug\Cinema.Helpers.pdb
+C:\Projects\Cinema\Cinema.Helpers\obj\Debug\Cinema.Helpers.csprojResolveAssemblyReference.cache
+C:\Projects\Cinema\Cinema.Helpers\obj\Debug\Cinema.Helpers.dll
+C:\Projects\Cinema\Cinema.Helpers\obj\Debug\Cinema.Helpers.pdb

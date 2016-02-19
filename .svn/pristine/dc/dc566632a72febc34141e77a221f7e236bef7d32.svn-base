@@ -1,0 +1,7 @@
+﻿namespace Cinema.Web.Models
+{
+    public class MovieDeleteViewModel
+    {
+        public string Name { get; set; } 
+    }
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e4015431d6104ea59dbdd56c0a671949" Name="Diagram1">
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Account" Width="1.5" PointX="11.875" PointY="7.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Comment" Width="1.5" PointX="9.375" PointY="7.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Genre" Width="1.5" PointX="5.375" PointY="4.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Hall" Width="1.5" PointX="13" PointY="4.125" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Language" Width="1.5" PointX="4.25" PointY="3.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.MovieLocalization" Width="1.5" PointX="3.875" PointY="5.125" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Movie" Width="1.5" PointX="10.5" PointY="5" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.PersonLocalization" Width="1.5" PointX="4.25" PointY="2.125" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Person" Width="1.5" PointX="6.375" PointY="3" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.PersonTypeLocalization" Width="1.5" PointX="1.875" PointY="2.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.PersonType" Width="1.5" PointX="1.875" PointY="1.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Photo" Width="1.5" PointX="7.125" PointY="6.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Profile" Width="1.5" PointX="11.75" PointY="9" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Seance" Width="1.5" PointX="13" PointY="5" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Ticket" Width="1.5" PointX="13" PointY="5.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Rating" Width="1.5" PointX="11.875" PointY="7" IsExpanded="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Comments__Accoun__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Profiles__Id__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Ratings__Account__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Comments__MovieI__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Genres__Language__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Movies__GenreId__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Seances__HallId__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__MovieLoca__Langu__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__PersonLoc__Langu__1AD3FDA4" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__PersonTyp__Langu__14270015" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__MovieLoca__Movie__656C112C" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Movies__Director__1F98B2C1" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Movies__PhotoId__2645B050" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Ratings__MovieId__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Seances__MovieId__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__PersonLoc__Perso__19DFD96B" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Persons__PersonT__17036CC0" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Persons__PhotoId__282DF8C2" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__PersonTyp__Perso__1332DBDC" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Profiles__PhotoI__2739D489" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Tickets__SeanceI__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="CinemaDatabaseModel.MoviePersonsJunction" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

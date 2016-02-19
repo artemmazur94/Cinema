@@ -1,0 +1,63 @@
+﻿@model Cinema.Web.Models.MovieSeanceViewModel
+
+@{
+    ViewBag.Title = "Seances";
+}
+
+<div class="page-header">
+    <h1>Seances on movie: @Model.Name.</h1>
+</div>
+
+@if (Model.Seances.Count == 0)
+{
+    <div class="row">
+        Sorry, there is no seances on this movie.
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-sm-3">
+            @if (Model.Poster == null)
+            {
+                <img class="img-responsive" src="@Url.Content("~/Content/images/default_movie_image.png")" />
+            }
+            else
+            {
+                <img class="img-responsive" src="@Url.Content(Model.Poster.Path)" />
+            }
+        </div>
+        <div class="col-sm-9">
+            @foreach (var seance in Model.Seances)
+            {
+                <div class="col-sm-offset-1 col-sm-5 panel panel-primary panel-body">
+                    <div class="col-sm-9">
+                        <div class="row">
+                            @Html.LabelFor(x => seance.Date, new {@class = "control-label"})
+                            @seance.Date.ToShortDateString()
+                        </div>
+                        <div class="row">
+                            @Html.LabelFor(x => seance.Time, new {@class = "control-label"})
+                            @seance.Time.ToString()
+                        </div>
+                        <div class="row">
+                            @Html.LabelFor(x => seance.HallName, new {@class = "control-label"})
+                            @seance.HallName
+                        </div>
+                        <div class="row">
+                            @Html.LabelFor(x => seance.Price, new {@class = "control-label"})
+                            @seance.Price
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="row">
+                            <input class="btn btn-primary pull-right " type="button" value="Book tickets"/>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    
+    
+}

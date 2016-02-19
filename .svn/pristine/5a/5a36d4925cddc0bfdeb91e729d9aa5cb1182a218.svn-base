@@ -1,0 +1,8 @@
+﻿namespace Cinema.DataAccess.Repositories.Contracts
+{
+    public interface IAccountRepository : IRepository<Account>
+    {
+        int CountBlocked();
+
+    }
+}

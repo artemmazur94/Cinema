@@ -1,0 +1,20 @@
+﻿using System.Linq;
+using Cinema.DataAccess.Repositories.Contracts;
+
+namespace Cinema.DataAccess.Repositories
+{
+    public  class AccountRepository : GenericRepositrory<Account>, IAccountRepository
+    {
+        public AccountRepository(CinemaDatabaseEntities context) : base(context)
+        {
+        }
+
+        public CinemaDatabaseEntities AccountContext => Context;
+
+        public int CountBlocked()
+        {
+            return AccountContext.Accounts.Count(x => x.IsBlocked);
+        }
+    }
+
+}

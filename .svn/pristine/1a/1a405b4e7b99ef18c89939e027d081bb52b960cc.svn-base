@@ -1,0 +1,85 @@
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using Cinema.DataAccess.Repositories.Contracts;
+
+namespace Cinema.DataAccess.Repositories
+{
+    public class MovieRepository: GenericRepositrory<Movie>, IMovieRepository
+    {
+        private CinemaDatabaseEntities _movieContext => _context;
+
+        public MovieRepository(CinemaDatabaseEntities context) : base(context)
+        {
+        }
+
+        public MovieLocalization GetMovieLocalization(int id, int languageId)
+        {
+            return _movieContext.MovieLocalizations.First(x => x.MovieId == id && x.LanguageId == languageId);
+        }
+
+        public List<string> GetActorLocalizations(ICollection<Person> actors, int languageId)
+        {
+            return actors.Select(actor => _movieContext.PersonLocalizations.FirstOrDefault(x => x.PersonId == actor.Id)?.Name).ToList();
+        }
+
+        public string GetDirectorLocalization(int directorId, int languageId)
+        {
+            return _movieContext.PersonLocalizations.FirstOrDefault
+                (
+                    x => x.PersonId == directorId && 
+                    x.LanguageId == languageId
+                )?.Name;
+        }
+
+        public void AddPoster(Photo photo)
+        {
+            _movieContext.Photos.Add(photo);
+        }
+
+        public void UpdateMoviePoster(Photo photo, int movieId)
+        {
+            var modifiedPhoto = GetPosterByMovieId(movieId);
+
+            //_movieContext.Entry(modifiedPhoto).CurrentValues.SetValues(photo);
+            _movieContext.Photos.Attach(modifiedPhoto);
+
+            modifiedPhoto.Path = photo.Path;
+            modifiedPhoto.Filename = photo.Filename;
+            modifiedPhoto.GUID = photo.GUID;
+
+            _movieContext.Entry(modifiedPhoto).State = EntityState.Modified;
+        }
+
+        public void DeletePoster(Photo photo)
+        {
+            _movieContext.Photos.Remove(photo);
+        }
+
+        public Photo GetPosterByMovieId(int movieId)
+        {
+            return _movieContext.Photos.FirstOrDefault(x => x.Movies.Any(z => z.Id == movieId));
+        }
+
+        public void AddMovieLocalization(MovieLocalization movieLocalization)
+        {
+            _movieContext.MovieLocalizations.Add(movieLocalization);
+        }
+
+        public void UpdateMovie(MovieLocalization movieLocalization)
+        {
+            //_movieContext.Photos.Attach(movieLocalization.Movie.Photo);
+            //_movieContext.Movies.Attach(movieLocalization.Movie);
+            _movieContext.MovieLocalizations.Attach(movieLocalization);
+            
+            //_movieContext.Entry(movieLocalization.Movie.Photo).State = EntityState.Added;
+            //_movieContext.Entry(movieLocalization).State = EntityState.Modified;
+            _movieContext.Entry(movieLocalization.Movie).State = EntityState.Modified;
+        }
+
+        public List<Person> GetSelectedActors(List<int> actorIds)
+        {
+            return _movieContext.Persons.Where(x => actorIds.Contains(x.Id)).ToList();
+        }
+    }
+}

@@ -1,0 +1,581 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CinemaDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Accounts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="IsAdmin" Type="bit" Nullable="false" />
+    <Property Name="IsBlocked" Type="bit" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Salt" Type="varchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MovieId" Type="int" Nullable="false" />
+    <Property Name="AccountId" Type="int" Nullable="false" />
+    <Property Name="CommentText" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GenreLocalization">
+    <Key>
+      <PropertyRef Name="GenreId" />
+      <PropertyRef Name="LanguageId" />
+    </Key>
+    <Property Name="GenreId" Type="int" Nullable="false" />
+    <Property Name="LanguageId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Genres">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Halls">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="HallPicture" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Languages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LanguageCode" Type="char" MaxLength="2" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MovieLocalization">
+    <Key>
+      <PropertyRef Name="MovieId" />
+      <PropertyRef Name="LanguageId" />
+    </Key>
+    <Property Name="MovieId" Type="int" Nullable="false" />
+    <Property Name="LanguageId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="MoviePersonsJunction">
+    <Key>
+      <PropertyRef Name="MovieId" />
+      <PropertyRef Name="PersonId" />
+    </Key>
+    <Property Name="MovieId" Type="int" Nullable="false" />
+    <Property Name="PersonId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Movies">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Length" Type="int" Nullable="false" />
+    <Property Name="GenreId" Type="int" Nullable="false" />
+    <Property Name="ReleaseDate" Type="datetime" Nullable="false" />
+    <Property Name="DirectorId" Type="int" />
+    <Property Name="Rating" Type="float" StoreGeneratedPattern="Computed" />
+    <Property Name="PhotoId" Type="int" />
+    <Property Name="VideoLink" Type="varchar(max)" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PersonLocalization">
+    <Key>
+      <PropertyRef Name="PersonId" />
+      <PropertyRef Name="LanguageId" />
+    </Key>
+    <Property Name="PersonId" Type="int" Nullable="false" />
+    <Property Name="LanguageId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Persons">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PhotoId" Type="int" />
+  </EntityType>
+  <EntityType Name="Photos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Path" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="GUID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Filename" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Profiles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Surname" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Phone" Type="varchar" MaxLength="15" />
+    <Property Name="ImageData" Type="varbinary(max)" />
+    <Property Name="AccountId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ratings">
+    <Key>
+      <PropertyRef Name="AccountId" />
+      <PropertyRef Name="MovieId" />
+    </Key>
+    <Property Name="Rate" Type="int" Nullable="false" />
+    <Property Name="AccountId" Type="int" Nullable="false" />
+    <Property Name="MovieId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Seances">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
+    <Property Name="HallId" Type="int" Nullable="false" />
+    <Property Name="MovieId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sectors">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FromRow" Type="int" Nullable="false" />
+    <Property Name="ToRow" Type="int" Nullable="false" />
+    <Property Name="FromPlace" Type="int" Nullable="false" />
+    <Property Name="ToPlace" Type="int" Nullable="false" />
+    <Property Name="SectorTypeId" Type="int" Nullable="false" />
+    <Property Name="HallId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SectorTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="8" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SecurityToken">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AccountId" Type="int" Nullable="false" />
+    <Property Name="ResetRequestDateTime" Type="datetime" Nullable="false" />
+    <Property Name="IsUsed" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tickets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Row" Type="int" Nullable="false" />
+    <Property Name="Place" Type="int" Nullable="false" />
+    <Property Name="SeanceId" Type="int" Nullable="false" />
+    <Property Name="SaleDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Comments__Accoun__2F10007B">
+    <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+    <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="AccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Comments__MovieI__300424B4">
+    <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+    <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movies">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="MovieId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GenreLoca__Langu__5441852A">
+    <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
+    <End Role="GenreLocalization" Type="Self.GenreLocalization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Languages">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GenreLocalization">
+        <PropertyRef Name="LanguageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GenreLocaliz__Id__5629CD9C">
+    <End Role="Genres" Type="Self.Genres" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="GenreLocalization" Type="Self.GenreLocalization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genres">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GenreLocalization">
+        <PropertyRef Name="GenreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MovieLoca__Langu__31EC6D26">
+    <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
+    <End Role="MovieLocalization" Type="Self.MovieLocalization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Languages">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MovieLocalization">
+        <PropertyRef Name="LanguageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MovieLoca__Movie__32E0915F">
+    <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+    <End Role="MovieLocalization" Type="Self.MovieLocalization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movies">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MovieLocalization">
+        <PropertyRef Name="MovieId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MoviePers__Movie__33D4B598">
+    <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+    <End Role="MoviePersonsJunction" Type="Self.MoviePersonsJunction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movies">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MoviePersonsJunction">
+        <PropertyRef Name="MovieId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MoviePers__Perso__34C8D9D1">
+    <End Role="Persons" Type="Self.Persons" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MoviePersonsJunction" Type="Self.MoviePersonsJunction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persons">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MoviePersonsJunction">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Movies__Director__35BCFE0A">
+    <End Role="Persons" Type="Self.Persons" Multiplicity="0..1" />
+    <End Role="Movies" Type="Self.Movies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persons">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Movies">
+        <PropertyRef Name="DirectorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Movies__GenreId__36B12243">
+    <End Role="Genres" Type="Self.Genres" Multiplicity="1" />
+    <End Role="Movies" Type="Self.Movies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genres">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Movies">
+        <PropertyRef Name="GenreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Movies__PhotoId__37A5467C">
+    <End Role="Photos" Type="Self.Photos" Multiplicity="0..1" />
+    <End Role="Movies" Type="Self.Movies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Photos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Movies">
+        <PropertyRef Name="PhotoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PersonLoc__Langu__38996AB5">
+    <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
+    <End Role="PersonLocalization" Type="Self.PersonLocalization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Languages">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PersonLocalization">
+        <PropertyRef Name="LanguageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PersonLoc__Perso__398D8EEE">
+    <End Role="Persons" Type="Self.Persons" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PersonLocalization" Type="Self.PersonLocalization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persons">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PersonLocalization">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Persons__PhotoId__3B75D760">
+    <End Role="Photos" Type="Self.Photos" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Persons" Type="Self.Persons" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Photos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Persons">
+        <PropertyRef Name="PhotoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Profiles__Accoun__7B5B524B">
+    <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+    <End Role="Profiles" Type="Self.Profiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Profiles">
+        <PropertyRef Name="AccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Ratings__Account__403A8C7D">
+    <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+    <End Role="Ratings" Type="Self.Ratings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Ratings">
+        <PropertyRef Name="AccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Ratings__MovieId__412EB0B6">
+    <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+    <End Role="Ratings" Type="Self.Ratings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movies">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Ratings">
+        <PropertyRef Name="MovieId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Seances__HallId__4222D4EF">
+    <End Role="Halls" Type="Self.Halls" Multiplicity="1" />
+    <End Role="Seances" Type="Self.Seances" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Halls">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Seances">
+        <PropertyRef Name="HallId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Seances__MovieId__4316F928">
+    <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+    <End Role="Seances" Type="Self.Seances" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movies">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Seances">
+        <PropertyRef Name="MovieId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Sectors__HallId__75A278F5">
+    <End Role="Halls" Type="Self.Halls" Multiplicity="1" />
+    <End Role="Sectors" Type="Self.Sectors" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Halls">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sectors">
+        <PropertyRef Name="HallId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Sectors__SectorT__797309D9">
+    <End Role="SectorTypes" Type="Self.SectorTypes" Multiplicity="1" />
+    <End Role="Sectors" Type="Self.Sectors" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SectorTypes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sectors">
+        <PropertyRef Name="SectorTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SecurityT__Accou__4F7CD00D">
+    <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+    <End Role="SecurityToken" Type="Self.SecurityToken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SecurityToken">
+        <PropertyRef Name="AccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Tickets__SeanceI__440B1D61">
+    <End Role="Seances" Type="Self.Seances" Multiplicity="1" />
+    <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Seances">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tickets">
+        <PropertyRef Name="SeanceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="AverageMovieRating" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+    <Parameter Name="movieId" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="CinemaDatabaseModelStoreContainer">
+    <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GenreLocalization" EntityType="Self.GenreLocalization" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Halls" EntityType="Self.Halls" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MovieLocalization" EntityType="Self.MovieLocalization" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MoviePersonsJunction" EntityType="Self.MoviePersonsJunction" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Movies" EntityType="Self.Movies" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PersonLocalization" EntityType="Self.PersonLocalization" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Persons" EntityType="Self.Persons" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Photos" EntityType="Self.Photos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Profiles" EntityType="Self.Profiles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ratings" EntityType="Self.Ratings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Seances" EntityType="Self.Seances" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sectors" EntityType="Self.Sectors" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SectorTypes" EntityType="Self.SectorTypes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SecurityToken" EntityType="Self.SecurityToken" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Comments__Accoun__2F10007B" Association="Self.FK__Comments__Accoun__2F10007B">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Comments__MovieI__300424B4" Association="Self.FK__Comments__MovieI__300424B4">
+      <End Role="Movies" EntitySet="Movies" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GenreLoca__Langu__5441852A" Association="Self.FK__GenreLoca__Langu__5441852A">
+      <End Role="Languages" EntitySet="Languages" />
+      <End Role="GenreLocalization" EntitySet="GenreLocalization" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GenreLocaliz__Id__5629CD9C" Association="Self.FK__GenreLocaliz__Id__5629CD9C">
+      <End Role="Genres" EntitySet="Genres" />
+      <End Role="GenreLocalization" EntitySet="GenreLocalization" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MovieLoca__Langu__31EC6D26" Association="Self.FK__MovieLoca__Langu__31EC6D26">
+      <End Role="Languages" EntitySet="Languages" />
+      <End Role="MovieLocalization" EntitySet="MovieLocalization" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MovieLoca__Movie__32E0915F" Association="Self.FK__MovieLoca__Movie__32E0915F">
+      <End Role="Movies" EntitySet="Movies" />
+      <End Role="MovieLocalization" EntitySet="MovieLocalization" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MoviePers__Movie__33D4B598" Association="Self.FK__MoviePers__Movie__33D4B598">
+      <End Role="Movies" EntitySet="Movies" />
+      <End Role="MoviePersonsJunction" EntitySet="MoviePersonsJunction" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MoviePers__Perso__34C8D9D1" Association="Self.FK__MoviePers__Perso__34C8D9D1">
+      <End Role="Persons" EntitySet="Persons" />
+      <End Role="MoviePersonsJunction" EntitySet="MoviePersonsJunction" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Movies__Director__35BCFE0A" Association="Self.FK__Movies__Director__35BCFE0A">
+      <End Role="Persons" EntitySet="Persons" />
+      <End Role="Movies" EntitySet="Movies" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Movies__GenreId__36B12243" Association="Self.FK__Movies__GenreId__36B12243">
+      <End Role="Genres" EntitySet="Genres" />
+      <End Role="Movies" EntitySet="Movies" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Movies__PhotoId__37A5467C" Association="Self.FK__Movies__PhotoId__37A5467C">
+      <End Role="Photos" EntitySet="Photos" />
+      <End Role="Movies" EntitySet="Movies" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PersonLoc__Langu__38996AB5" Association="Self.FK__PersonLoc__Langu__38996AB5">
+      <End Role="Languages" EntitySet="Languages" />
+      <End Role="PersonLocalization" EntitySet="PersonLocalization" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PersonLoc__Perso__398D8EEE" Association="Self.FK__PersonLoc__Perso__398D8EEE">
+      <End Role="Persons" EntitySet="Persons" />
+      <End Role="PersonLocalization" EntitySet="PersonLocalization" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Persons__PhotoId__3B75D760" Association="Self.FK__Persons__PhotoId__3B75D760">
+      <End Role="Photos" EntitySet="Photos" />
+      <End Role="Persons" EntitySet="Persons" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Profiles__Accoun__7B5B524B" Association="Self.FK__Profiles__Accoun__7B5B524B">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Profiles" EntitySet="Profiles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Ratings__Account__403A8C7D" Association="Self.FK__Ratings__Account__403A8C7D">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Ratings" EntitySet="Ratings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Ratings__MovieId__412EB0B6" Association="Self.FK__Ratings__MovieId__412EB0B6">
+      <End Role="Movies" EntitySet="Movies" />
+      <End Role="Ratings" EntitySet="Ratings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Seances__HallId__4222D4EF" Association="Self.FK__Seances__HallId__4222D4EF">
+      <End Role="Halls" EntitySet="Halls" />
+      <End Role="Seances" EntitySet="Seances" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Seances__MovieId__4316F928" Association="Self.FK__Seances__MovieId__4316F928">
+      <End Role="Movies" EntitySet="Movies" />
+      <End Role="Seances" EntitySet="Seances" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Sectors__HallId__75A278F5" Association="Self.FK__Sectors__HallId__75A278F5">
+      <End Role="Halls" EntitySet="Halls" />
+      <End Role="Sectors" EntitySet="Sectors" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Sectors__SectorT__797309D9" Association="Self.FK__Sectors__SectorT__797309D9">
+      <End Role="SectorTypes" EntitySet="SectorTypes" />
+      <End Role="Sectors" EntitySet="Sectors" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SecurityT__Accou__4F7CD00D" Association="Self.FK__SecurityT__Accou__4F7CD00D">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="SecurityToken" EntitySet="SecurityToken" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Tickets__SeanceI__440B1D61" Association="Self.FK__Tickets__SeanceI__440B1D61">
+      <End Role="Seances" EntitySet="Seances" />
+      <End Role="Tickets" EntitySet="Tickets" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

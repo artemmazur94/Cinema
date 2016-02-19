@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Cinema.Web.Helpers
+{
+    public class ImageHelper
+    {
+        private const string FORMAT_JPG = ".jpg";
+        private const string FORMAT_PNG = ".png";
+        private const string FORMAT_JPEG = ".jpeg";
+        private static List<string> AllowedFormats => new List<string>() { FORMAT_JPEG, FORMAT_JPG, FORMAT_PNG };
+
+        public static bool IsImage(string contentType)
+        {
+            return AllowedFormats.Any(format => contentType.EndsWith(format, StringComparison.OrdinalIgnoreCase));
+        }
+    }
+}

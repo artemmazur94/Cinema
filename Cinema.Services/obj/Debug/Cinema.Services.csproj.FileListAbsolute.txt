@@ -1,0 +1,12 @@
+C:\Projects\Cinema\Cinema.Services\bin\Debug\Cinema.Services.dll.config
+C:\Projects\Cinema\Cinema.Services\bin\Debug\Cinema.Services.dll
+C:\Projects\Cinema\Cinema.Services\bin\Debug\Cinema.Services.pdb
+C:\Projects\Cinema\Cinema.Services\bin\Debug\Cinema.DataAccess.dll
+C:\Projects\Cinema\Cinema.Services\bin\Debug\EntityFramework.dll
+C:\Projects\Cinema\Cinema.Services\bin\Debug\EntityFramework.SqlServer.dll
+C:\Projects\Cinema\Cinema.Services\bin\Debug\Cinema.DataAccess.pdb
+C:\Projects\Cinema\Cinema.Services\bin\Debug\EntityFramework.xml
+C:\Projects\Cinema\Cinema.Services\bin\Debug\EntityFramework.SqlServer.xml
+C:\Projects\Cinema\Cinema.Services\obj\Debug\Cinema.Services.csprojResolveAssemblyReference.cache
+C:\Projects\Cinema\Cinema.Services\obj\Debug\Cinema.Services.dll
+C:\Projects\Cinema\Cinema.Services\obj\Debug\Cinema.Services.pdb

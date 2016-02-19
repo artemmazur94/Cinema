@@ -1,0 +1,11 @@
+﻿using System.Collections.Generic;
+
+namespace Cinema.DataAccess.Repositories.Contracts
+{
+    public interface IGenreRepository : IRepository<Genre>
+    {
+        string GetGenreLocalization(int genreId, int languageId);
+
+        List<GenreLocalization> GetAllGenreLocalizations(int languageId);
+    }
+}

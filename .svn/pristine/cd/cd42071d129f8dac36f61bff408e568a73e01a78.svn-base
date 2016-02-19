@@ -1,0 +1,11 @@
+﻿using System.Collections.Generic;
+
+namespace Cinema.DataAccess.Repositories.Contracts
+{
+    public interface IPersonRepository
+    {
+        List<PersonLocalization> GetAllPersonLocalizations(int languageId);
+
+        List<int> GetActorIdsForMovie(int movieId);
+    }
+}
