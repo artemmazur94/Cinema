@@ -46,6 +46,7 @@
                 @for (var i = Model.HallPlan.Count; i > 0; i--)
                 {
                     <div class="hall-row">
+                        <span class="label label-default">Row @i</span>
                         @for (var j = 1; j <= Model.HallPlan[i].Count; j++)
                         {
                             switch (Model.HallPlan[i][j])
