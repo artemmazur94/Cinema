@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Cinema.Web.Models
@@ -21,5 +22,7 @@ namespace Cinema.Web.Models
 
         [Display(Name = "Movie name: ")]
         public string MovieName { get; set; }
+
+        public Dictionary<int, Dictionary<int ,int>> HallPlan { get; set; } 
     }
 }

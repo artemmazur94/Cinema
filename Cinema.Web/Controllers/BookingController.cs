@@ -80,8 +80,14 @@ namespace Cinema.Web.Controllers
                 MovieName = _movieService.GetMovieLocalization(seance.MovieId, LanguageHelper.CurrnetCulture).Name
             };
             List<Sector> sectors = _bookingService.GetSectorsByHallId(seance.HallId);
+            if (sectors.Count > 0)
+            {
+                model.HallPlan = HallHelper.CreateHallPlan(sectors);
+            }
             return View(model);
         }
+
+        
 
         protected override void Dispose(bool disposing)
         {

@@ -222,11 +222,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HallHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />
     <Compile Include="Helpers\LanguageType.cs" />
     <Compile Include="Helpers\MaxFileSizeAttribute .cs" />
     <Compile Include="Helpers\PhoneNumberHelper.cs" />
+    <Compile Include="Helpers\SeatType.cs" />
     <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Models\Account\EmailViewModel.cs" />
     <Compile Include="Models\Account\LoginViewModel.cs" />
