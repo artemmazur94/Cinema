@@ -6,6 +6,8 @@ namespace Cinema.Web.Models
 {
     public class MovieSeanceViewModel
     {
+        public int Id { get; set; }
+
         [Required]
         [Display(Name = "Seances")]
         public List<SeanceViewModel> Seances { get; set; }

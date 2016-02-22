@@ -11,7 +11,9 @@
 @if (Model.Seances.Count == 0)
 {
     <div class="row">
-        Sorry, there is no seances on this movie.
+        <div class="col-sm-10">
+            Sorry, there is no seances on this movie.
+        </div>
     </div>
 }
 else
@@ -51,13 +53,13 @@ else
                     </div>
                     <div class="col-sm-3">
                         <div class="row">
-                            <input class="btn btn-primary pull-right " type="button" value="Book tickets"/>
+                            <button onclick="location.href='@Url.Action("BookTickets", new { id = seance.Id})'" class="btn btn-primary pull-right " type="button"><span class="glyphicon glyphicon-tags"></span> Book tickets</button>
                         </div>
                     </div>
                 </div>
             }
         </div>
     </div>
-    
-    
 }
+<hr/>
+@Html.ActionLink("< Back to details", "Details", "Movie", new { id = Model.Id}, null)

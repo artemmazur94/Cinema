@@ -27,9 +27,13 @@
             }
         </div>
         <div class="col-sm-10">
-            <div class="row">
+            <div class="row" style="display: flex">
                 <div class="col-sm-4">
-                    <h3><strong>@item.Name</strong></h3>
+                    <h3><strong>@item.Name</strong>
+                    </h3>
+                </div>
+                <div class="col-sm-4 pull-right" style="margin: auto">
+                    <button class="btn btn-primary" onclick="location.href='@Url.Action("Seances", "Booking", new { id = item.MovieId})'"><span class="glyphicon glyphicon-th-list"></span> Seances</button>
                 </div>
             </div>
             <hr/>
@@ -83,6 +87,7 @@
                         <a href="@Url.Action("Delete", "Movie", new {id = item.MovieId})"><span class="glyphicon glyphicon-remove"></span> Remove</a>
                     </div>
                 }
+                
             </div>
         </div>
     </div>

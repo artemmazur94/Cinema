@@ -22,13 +22,23 @@ namespace Cinema.Services
             return _seanceRepository.Find(x => x.MovieId == movieId && x.DateTime > DateTime.UtcNow).ToList();
         }
 
+        public Seance GetSeance(int id)
+        {
+            return _seanceRepository.Get(id);
+        }
+
+        public List<Sector> GetSectorsByHallId(int hallId)
+        {
+            return _seanceRepository.GetSectorsByHallId(hallId);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
             {
                 if (disposing)
                 {
-                    
+                    _seanceRepository.Dispose();
                 }
             }
             _disposed = true;

@@ -8,7 +8,7 @@ namespace Cinema.Web.Helpers
         public static string GetPhoneFromMask(string maskedPhone)
         {
             string result = "";
-            foreach (var match in Regex.Matches(maskedPhone, @"[^+38\s()-]\d+"))
+            foreach (var match in Regex.Matches(maskedPhone.Substring(3), @"[^\s()-]\d+"))
             {
                 result += match.ToString();
             }

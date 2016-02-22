@@ -1,0 +1,43 @@
+﻿@model Cinema.Web.Models.SeanceViewModel
+
+@{
+    ViewBag.Title = "Book tickets";
+}
+
+<br />
+<div class="jumbotron">
+    <h2>Book tickets on movie: @Model.MovieName</h2>
+    <hr/>
+    <div class="row">
+        <div class="col-sm-4">
+            <h3>
+                <strong>Seance information: </strong>
+            </h3>
+        </div>
+        <div class="col-sm-8">
+            <br/>
+            <div class="col-sm-6">
+                @Html.LabelFor(x => x.Date)
+                @Model.Date.ToShortDateString()
+            </div>
+            <div class="col-sm-6">
+                @Html.LabelFor(x => x.Time)
+                @Model.Time.ToString()
+            </div>
+            <div class="col-sm-6">
+                @Html.LabelFor(x => x.HallName)
+                @Model.HallName
+            </div>
+            <div class="col-sm-6">
+                @Html.LabelFor(x => x.Price)
+                @Model.Price
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Hall plan: </h3>
+    </div>
+</div>

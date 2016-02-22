@@ -5,5 +5,6 @@ namespace Cinema.DataAccess.Repositories.Contracts
 {
     public interface ISeanceRepository : IDisposable, IRepository<Seance>
     {
+        List<Sector> GetSectorsByHallId(int hallId);
     }
 }

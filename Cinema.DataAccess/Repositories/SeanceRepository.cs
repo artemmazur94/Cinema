@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Cinema.DataAccess.Repositories.Contracts;
 
 namespace Cinema.DataAccess.Repositories
@@ -11,5 +12,9 @@ namespace Cinema.DataAccess.Repositories
         {
         }
 
+        public List<Sector> GetSectorsByHallId(int hallId)
+        {
+            return _seanceContext.Sectors.Where(x => x.HallId == hallId).ToList();
+        }
     }
 }

@@ -35,7 +35,7 @@ namespace Cinema.Services
 
         public Movie GetMovie(int id)
         {
-            return _movieRepository.Find(x => x.Id == id && x.IsDeleted == false).First();
+            return _movieRepository.Find(x => x.Id == id && x.IsDeleted == false).FirstOrDefault();
         }
 
         public MovieLocalization GetMovieLocalization(int id, int languageId)

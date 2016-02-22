@@ -27,21 +27,22 @@ namespace Cinema.Web.Controllers
             LanguageHelper.InitializeCulture(HttpContext);
         }
 
-        // GET: Booking
-        public ActionResult Seances(int? movieId)
+        // GET: Booking/Seances/5
+        public ActionResult Seances(int? id)
         {
-            if (movieId == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = _movieService.GetMovie(movieId.Value);
+            Movie movie = _movieService.GetMovie(id.Value);
             if (movie == null)
             {
                 return HttpNotFound();
             }
-            List<Seance> seances = _bookingService.GetActiveSeancesByMovieId(movieId.Value);
+            List<Seance> seances = _bookingService.GetActiveSeancesByMovieId(id.Value);
             var seanceModels = seances.Select(seance => new SeanceViewModel()
             {
+                Id = seance.Id,
                 Date = seance.DateTime.Date,
                 Time = seance.DateTime.TimeOfDay,
                 HallName = seance.Hall.Name,
@@ -49,10 +50,36 @@ namespace Cinema.Web.Controllers
             }).ToList();
             var model = new MovieSeanceViewModel()
             {
-                Name = _movieService.GetMovieLocalization(movieId.Value, LanguageHelper.CurrnetCulture).Name,
+                Id = movie.Id,
+                Name = _movieService.GetMovieLocalization(id.Value, LanguageHelper.CurrnetCulture).Name,
                 Poster = movie.Photo,
                 Seances = seanceModels
             };
+            return View(model);
+        }
+
+        // GET: Booking/BookTikets/5
+        public ActionResult BookTickets(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadGateway);
+            }
+            Seance seance = _bookingService.GetSeance(id.Value);
+            if (seance == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new SeanceViewModel()
+            {
+                Id = seance.Id,
+                Date = seance.DateTime.Date,
+                Time = seance.DateTime.TimeOfDay,
+                Price = seance.Price,
+                HallName = seance.Hall.Name,
+                MovieName = _movieService.GetMovieLocalization(seance.MovieId, LanguageHelper.CurrnetCulture).Name
+            };
+            List<Sector> sectors = _bookingService.GetSectorsByHallId(seance.HallId);
             return View(model);
         }
 
