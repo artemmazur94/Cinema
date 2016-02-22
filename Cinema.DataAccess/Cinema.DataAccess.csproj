@@ -139,6 +139,9 @@
     <Compile Include="Ticket.cs">
       <DependentUpon>CinemaDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TicketPreOrder.cs">
+      <DependentUpon>CinemaDataModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config">

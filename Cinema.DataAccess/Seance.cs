@@ -18,6 +18,7 @@ namespace Cinema.DataAccess
         public Seance()
         {
             this.Tickets = new HashSet<Ticket>();
+            this.TicketPreOrders = new HashSet<TicketPreOrder>();
         }
     
         public int Id { get; set; }
@@ -30,5 +31,7 @@ namespace Cinema.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ticket> Tickets { get; set; }
         public virtual Hall Hall { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TicketPreOrder> TicketPreOrders { get; set; }
     }
 }

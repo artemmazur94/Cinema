@@ -45,6 +45,9 @@
         <EntityTypeShape EntityType="CinemaDatabaseModel.Hall" Width="1.5" PointX="5.75" PointY="3.375" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Sectors__HallId__75A278F5" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.TicketPreOrder" Width="1.5" PointX="13.5" PointY="3.875" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Accou__02FC7413" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

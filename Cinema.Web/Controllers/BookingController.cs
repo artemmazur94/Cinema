@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -70,6 +71,8 @@ namespace Cinema.Web.Controllers
             {
                 return HttpNotFound();
             }
+            MovieLocalization movieLocalization = _movieService.GetMovieLocalization(seance.MovieId,
+                LanguageHelper.CurrnetCulture);
             var model = new SeanceViewModel()
             {
                 Id = seance.Id,
@@ -77,7 +80,8 @@ namespace Cinema.Web.Controllers
                 Time = seance.DateTime.TimeOfDay,
                 Price = seance.Price,
                 HallName = seance.Hall.Name,
-                MovieName = _movieService.GetMovieLocalization(seance.MovieId, LanguageHelper.CurrnetCulture).Name
+                MovieName = movieLocalization.Name,
+                MovieId = movieLocalization.MovieId
             };
             List<Sector> sectors = _bookingService.GetSectorsByHallId(seance.HallId);
             if (sectors.Count > 0)
@@ -86,8 +90,30 @@ namespace Cinema.Web.Controllers
             }
             return View(model);
         }
-
         
+        [HttpPost]
+        public ActionResult SelectPlace(int row, int place, int seanceId)
+        {
+            if (_bookingService.IsAbleToBook(row, place, seanceId))
+            {
+                _bookingService.AddTicketPreOrder(new TicketPreOrder()
+                {
+                    DateTime = DateTime.UtcNow,
+                    IsDeleted = false,
+                    Place = place,
+                    Row = row,
+                    SeanceId = seanceId
+                });
+                return Json(new
+                {
+                    Success = true
+                });
+            }
+            return Json(new
+            {
+                Success = false
+            });
+        }
 
         protected override void Dispose(bool disposing)
         {

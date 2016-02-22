@@ -44,6 +44,16 @@ namespace Cinema.Services
             _disposed = true;
         }
 
+        public bool IsAbleToBook(int row, int place, int seanceId)
+        {
+            if (_seanceRepository.IsExistTicketPreOrder(row, place, seanceId) || 
+                _seanceRepository.IsExistTicket(row, place, seanceId))
+            {
+                return false;
+            }
+            return true;
+        }
+
         public void Dispose()
         {
             Dispose(true);

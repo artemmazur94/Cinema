@@ -23,6 +23,8 @@ namespace Cinema.Web.Models
         [Display(Name = "Movie name: ")]
         public string MovieName { get; set; }
 
+        public int MovieId { get; set; }
+
         public Dictionary<int, Dictionary<int ,int>> HallPlan { get; set; } 
     }
 }

@@ -43,5 +43,6 @@ namespace Cinema.DataAccess
         public virtual DbSet<SectorType> SectorTypes { get; set; }
         public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<Hall> Halls { get; set; }
+        public virtual DbSet<TicketPreOrder> TicketPreOrders { get; set; }
     }
 }

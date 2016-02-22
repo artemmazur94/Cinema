@@ -16,5 +16,23 @@ namespace Cinema.DataAccess.Repositories
         {
             return _seanceContext.Sectors.Where(x => x.HallId == hallId).ToList();
         }
+
+        public bool IsExistTicketPreOrder(int row, int place, int seanceId)
+        {
+            return
+                _seanceContext.TicketPreOrders.FirstOrDefault(x => 
+                    x.Place == place && 
+                    x.Row == row && 
+                    x.SeanceId == seanceId) != null;
+        }
+
+        public bool IsExistTicket(int row, int place, int seanceId)
+        {
+            return
+                _seanceContext.Tickets.FirstOrDefault(x => 
+                    x.Place == place && 
+                    x.Row == row && 
+                    x.SeanceId == seanceId) != null;
+        }
     }
 }
