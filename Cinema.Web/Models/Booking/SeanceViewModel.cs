@@ -25,6 +25,10 @@ namespace Cinema.Web.Models
 
         public int MovieId { get; set; }
 
-        public Dictionary<int, Dictionary<int ,int>> HallPlan { get; set; } 
+        public Dictionary<int, Dictionary<int ,int>> HallPlan { get; set; }
+
+        public List<HallSeat> Seats { get; set; } 
+
+        public List<HallSeat> SelectedSeats { get; set; } 
     }
 }

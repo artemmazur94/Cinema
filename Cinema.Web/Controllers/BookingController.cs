@@ -15,11 +15,13 @@ namespace Cinema.Web.Controllers
     {
         private readonly BookingService _bookingService;
         private readonly MovieService _movieService;
+        private readonly AccountService _accountService;
 
-        public BookingController(BookingService bookingService, MovieService movieService)
+        public BookingController(BookingService bookingService, MovieService movieService, AccountService accountService)
         {
             _bookingService = bookingService;
             _movieService = movieService;
+            _accountService = accountService;
         }
 
         protected override void Initialize(RequestContext requestContext)
@@ -59,6 +61,7 @@ namespace Cinema.Web.Controllers
             return View(model);
         }
 
+        [Authorize]
         // GET: Booking/BookTikets/5
         public ActionResult BookTickets(int? id)
         {
@@ -87,25 +90,49 @@ namespace Cinema.Web.Controllers
             if (sectors.Count > 0)
             {
                 model.HallPlan = HallHelper.CreateHallPlan(sectors);
+                int accountId = _accountService.GetAccountByUserName(User.Identity.Name).Id;
+                List<Ticket> seanceTickets = _bookingService.GetSeanceTickets(seance.Id);
+                List<TicketPreOrder> seanceTicketPreOrders = _bookingService.GetSeanceTicketPreOrdersOfOtherUsers(seance.Id, accountId);
+                model.Seats = HallSeat.GetAllSeats(seanceTickets, seanceTicketPreOrders);
+                model.SelectedSeats = HallSeat.GetAllSeats(_bookingService.GetSeanceTicketPreOrdersOfCurUser(seance.Id, accountId));
             }
             return View(model);
         }
         
+        [Authorize]
         [HttpPost]
-        public ActionResult SelectPlace(int row, int place, int seanceId)
+        public ActionResult ChangePlaceStatus(int row, int place, int seanceId)
         {
-            if (_bookingService.IsAbleToBook(row, place, seanceId))
+            int accountId = _accountService.GetAccountByUserName(User.Identity.Name).Id;
+            if (_bookingService.IsAbleToBook(row, place, seanceId) && !_bookingService.IsBindedToOtherAccount(row, place, seanceId, accountId))
             {
-                _bookingService.AddTicketPreOrder(new TicketPreOrder()
+                if (_bookingService.IsBindedByCurrnetUser(row, place, seanceId, accountId))
+                {
+                    _bookingService.DeleteTicketPreOrder(row, place, seanceId, accountId);
+                    _bookingService.Save();
+                    return Json(new
+                    {
+                        Status = "free",
+                        Success = true
+                    });
+                }
+                var ticketPreOrder = new TicketPreOrder()
                 {
                     DateTime = DateTime.UtcNow,
                     IsDeleted = false,
                     Place = place,
                     Row = row,
                     SeanceId = seanceId
-                });
+                };
+                if (User.Identity.IsAuthenticated)
+                {
+                    ticketPreOrder.AccountId = _accountService.GetAccountByUserName(User.Identity.Name).Id;
+                }
+                _bookingService.AddTicketPreOrder(ticketPreOrder);
+                _bookingService.Save();
                 return Json(new
                 {
+                    Status = "occupied",
                     Success = true
                 });
             }
@@ -115,12 +142,22 @@ namespace Cinema.Web.Controllers
             });
         }
 
+        [Authorize]
+        public ActionResult CancelSelectedSeats(int seanceId)
+        {
+            _bookingService.RemoveTicketPreOrdersForUser(seanceId,
+                _accountService.GetAccountByUserName(User.Identity.Name).Id);
+            _bookingService.Save();
+            return RedirectToAction("Index", "Movie");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
                 _movieService.Dispose();
                 _bookingService.Dispose();
+                _accountService.Dispose();
             }
             base.Dispose(disposing);
         }

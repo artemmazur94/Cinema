@@ -233,6 +233,7 @@
     <Compile Include="Models\Account\EmailViewModel.cs" />
     <Compile Include="Models\Account\LoginViewModel.cs" />
     <Compile Include="Models\Account\ProfileViewModel.cs" />
+    <Compile Include="Models\Booking\HallSeat.cs" />
     <Compile Include="Models\Booking\MovieSeanceViewModel.cs" />
     <Compile Include="Models\Booking\SeanceViewModel.cs" />
     <Compile Include="Models\Genre\GenreViewModel.cs" />
