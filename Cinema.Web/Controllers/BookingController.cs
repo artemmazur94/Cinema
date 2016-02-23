@@ -63,7 +63,7 @@ namespace Cinema.Web.Controllers
 
         [Authorize]
         // GET: Booking/BookTikets/5
-        public ActionResult BookTickets(int? id)
+        public ActionResult SelectSeats(int? id)
         {
             if (id == null)
             {
@@ -143,10 +143,78 @@ namespace Cinema.Web.Controllers
         }
 
         [Authorize]
-        public ActionResult CancelSelectedSeats(int seanceId)
+        public ActionResult CancelSelectedSeats(int? seanceId)
         {
-            _bookingService.RemoveTicketPreOrdersForUser(seanceId,
+            if (seanceId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadGateway);
+            }
+            Seance seance = _bookingService.GetSeance(seanceId.Value);
+            if (seance == null)
+            {
+                return HttpNotFound();
+            }
+            _bookingService.RemoveTicketPreOrdersForUser(seanceId.Value,
                 _accountService.GetAccountByUserName(User.Identity.Name).Id);
+            _bookingService.Save();
+            return RedirectToAction("Index", "Movie");
+        }
+
+        [Authorize]
+        public ActionResult ConfirmSelectedSeats(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadGateway);
+            }
+            Seance seance = _bookingService.GetSeance(id.Value);
+            if (seance == null)
+            {
+                return HttpNotFound();
+            }
+            MovieLocalization movieLocalization = _movieService.GetMovieLocalization(seance.MovieId,
+                LanguageHelper.CurrnetCulture);
+            var model = new SeanceViewModel()
+            {
+                Id = seance.Id,
+                Date = seance.DateTime.Date,
+                Time = seance.DateTime.TimeOfDay,
+                Price = seance.Price,
+                HallName = seance.Hall.Name,
+                MovieName = movieLocalization.Name,
+                MovieId = movieLocalization.MovieId,
+                SelectedSeats =
+                    HallSeat.GetAllSeats(_bookingService.GetSeanceTicketPreOrdersOfCurUser(seance.Id,
+                        _accountService.GetAccountByUserName(User.Identity.Name).Id))
+            };
+            List<Sector> sectors = _bookingService.GetSectorsByHallId(seance.HallId);
+            HallSeat.SetSeatTypes(model.SelectedSeats, sectors);
+            return View(model);
+        }
+
+        public ActionResult BookTickets(int? seanceId)
+        {
+            if (seanceId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadGateway);
+            }
+            Seance seance = _bookingService.GetSeance(seanceId.Value);
+            if (seance == null)
+            {
+                return HttpNotFound();
+            }
+            int accountId = _accountService.GetAccountByUserName(User.Identity.Name).Id;
+            List<TicketPreOrder> ticketPreOrders = _bookingService.GetSeanceTicketPreOrdersOfCurUser(seanceId.Value,accountId);
+            List<Ticket> tickets = (from ticketPreOrder in ticketPreOrders
+                select new Ticket()
+                {
+                    Place = ticketPreOrder.Place,
+                    Row = ticketPreOrder.Row,
+                    SaleDate = DateTime.UtcNow,
+                    Seance = seance
+                }).ToList();
+            _bookingService.RemoveTicketPreOrdersForUser(seance.Id, accountId);
+            _bookingService.AddTickets(tickets);
             _bookingService.Save();
             return RedirectToAction("Index", "Movie");
         }

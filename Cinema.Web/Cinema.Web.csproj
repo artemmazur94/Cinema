@@ -433,7 +433,8 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Shared\FormValidation.cshtml" />
     <Content Include="Views\Account\EditProfile.cshtml" />
-    <None Include="Views\Booking\BookTickets.cshtml" />
+    <None Include="Views\Booking\SelectSeats.cshtml" />
+    <Content Include="Views\Booking\ConfirmSelectedSeats.cshtml" />
     <None Include="Views\Booking\Seances.cshtml" />
   </ItemGroup>
   <ItemGroup>

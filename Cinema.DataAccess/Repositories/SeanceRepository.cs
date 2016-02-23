@@ -112,5 +112,10 @@ namespace Cinema.DataAccess.Repositories
                         !x.IsDeleted).ToList();
             ticketPreOrders.ForEach(x => x.IsDeleted = true);
         }
+
+        public void AddTickets(List<Ticket> tickets)
+        {
+            _seanceContext.Tickets.AddRange(tickets);
+        }
     }
 }

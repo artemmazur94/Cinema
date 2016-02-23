@@ -53,7 +53,7 @@ else
                     </div>
                     <div class="col-sm-3">
                         <div class="row">
-                            <button onclick="location.href='@Url.Action("BookTickets", new { id = seance.Id})'" class="btn btn-primary pull-right " type="button"><span class="glyphicon glyphicon-tags"></span> Book tickets</button>
+                            <button onclick="location.href = '@Url.Action("SelectSeats", new { id = seance.Id})'" class="btn btn-primary pull-right " type="button"><span class="glyphicon glyphicon-tags"></span> Book tickets</button>
                         </div>
                     </div>
                 </div>

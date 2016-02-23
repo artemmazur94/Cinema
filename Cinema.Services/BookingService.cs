@@ -99,6 +99,11 @@ namespace Cinema.Services
             _seanceRepository.RemoveTicketPreOrdersForUser(seanceId, accountId);
         }
 
+        public void AddTickets(List<Ticket> tickets)
+        {
+            _seanceRepository.AddTickets(tickets);
+        }
+
         public void Dispose()
         {
             Dispose(true);

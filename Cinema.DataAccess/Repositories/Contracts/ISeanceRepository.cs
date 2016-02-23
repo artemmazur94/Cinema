@@ -28,5 +28,7 @@ namespace Cinema.DataAccess.Repositories.Contracts
         void DeleteTicketPreOrder(TicketPreOrder ticketPreOrder);
 
         void RemoveTicketPreOrdersForUser(int seanceId, int accountId);
+
+        void AddTickets(List<Ticket> tickets);
     }
 }
