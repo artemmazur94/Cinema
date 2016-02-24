@@ -82,7 +82,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Length" Type="int" Nullable="false" />
-          <Property Name="GenreId" Type="int" Nullable="false" />
+          <Property Name="GenreId" Type="int" />
           <Property Name="ReleaseDate" Type="datetime" Nullable="false" />
           <Property Name="DirectorId" Type="int" />
           <Property Name="Rating" Type="float" StoreGeneratedPattern="Computed" />
@@ -308,7 +308,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Movies__GenreId__36B12243">
-          <End Role="Genres" Type="Self.Genres" Multiplicity="1" />
+          <End Role="Genres" Type="Self.Genres" Multiplicity="0..1" />
           <End Role="Movies" Type="Self.Movies" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Genres">
@@ -659,15 +659,15 @@
           <Property Name="CommentText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Account" Relationship="Self.FK__Comments__Accoun__2F10007B" FromRole="Comments" ToRole="Accounts" />
-          <NavigationProperty Name="Movie" Relationship="Self.FK__Comments__MovieI__300424B4" FromRole="Comments" ToRole="Movies" />
+          <NavigationProperty Name="Movy" Relationship="CinemaDatabaseModel.FK__Comments__MovieI__300424B4" FromRole="Comment" ToRole="Movy" />
         </EntityType>
         <EntityType Name="Genre">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Movies" Relationship="Self.FK__Movies__GenreId__36B12243" FromRole="Genres" ToRole="Movies" />
           <NavigationProperty Name="GenreLocalizations" Relationship="CinemaDatabaseModel.FK__GenreLocaliz__Id__5629CD9C" FromRole="Genre" ToRole="GenreLocalization" />
+          <NavigationProperty Name="Movies" Relationship="CinemaDatabaseModel.FK__Movies__GenreId__36B12243" FromRole="Genre" ToRole="Movy" />
         </EntityType>
         <EntityType Name="Language">
           <Key>
@@ -689,29 +689,7 @@
           <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Language" Relationship="Self.FK__MovieLoca__Langu__31EC6D26" FromRole="MovieLocalization" ToRole="Languages" />
-          <NavigationProperty Name="Movie" Relationship="Self.FK__MovieLoca__Movie__32E0915F" FromRole="MovieLocalization" ToRole="Movies" />
-        </EntityType>
-        <EntityType Name="Movie">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Length" Type="Int32" Nullable="false" />
-          <Property Name="GenreId" Type="Int32" Nullable="false" />
-          <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DirectorId" Type="Int32" />
-          <Property Name="Rating" Type="Double" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="PhotoId" Type="Int32" />
-          <Property Name="VideoLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Comments" Relationship="Self.FK__Comments__MovieI__300424B4" FromRole="Movies" ToRole="Comments" />
-          <NavigationProperty Name="Genre" Relationship="Self.FK__Movies__GenreId__36B12243" FromRole="Movies" ToRole="Genres" />
-          <NavigationProperty Name="MovieLocalizations" Relationship="Self.FK__MovieLoca__Movie__32E0915F" FromRole="Movies" ToRole="MovieLocalization" />
-          <NavigationProperty Name="Director" Relationship="Self.FK__Movies__Director__35BCFE0A" FromRole="Movies" ToRole="Persons" />
-          <NavigationProperty Name="Photo" Relationship="Self.FK__Movies__PhotoId__37A5467C" FromRole="Movies" ToRole="Photos" />
-          <NavigationProperty Name="Ratings" Relationship="Self.FK__Ratings__MovieId__412EB0B6" FromRole="Movies" ToRole="Ratings" />
-          <NavigationProperty Name="Seances" Relationship="Self.FK__Seances__MovieId__4316F928" FromRole="Movies" ToRole="Seances" />
-          <NavigationProperty Name="Actors" Relationship="Self.MoviePersonsJunction" FromRole="Movies" ToRole="Persons" />
+          <NavigationProperty Name="Movie" Relationship="CinemaDatabaseModel.FK__MovieLoca__Movie__32E0915F" FromRole="MovieLocalization" ToRole="Movy" />
         </EntityType>
         <EntityType Name="PersonLocalization">
           <Key>
@@ -730,10 +708,10 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PhotoId" Type="Int32" />
-          <NavigationProperty Name="DirectorOfMovies" Relationship="Self.FK__Movies__Director__35BCFE0A" FromRole="Persons" ToRole="Movies" />
           <NavigationProperty Name="PersonLocalizations" Relationship="Self.FK__PersonLoc__Perso__398D8EEE" FromRole="Persons" ToRole="PersonLocalization" />
           <NavigationProperty Name="Photo" Relationship="Self.FK__Persons__PhotoId__3B75D760" FromRole="Persons" ToRole="Photos" />
-          <NavigationProperty Name="ActorInMovies" Relationship="Self.MoviePersonsJunction" FromRole="Persons" ToRole="Movies" />
+          <NavigationProperty Name="DirectorOfMovies" Relationship="CinemaDatabaseModel.FK__Movies__Director__35BCFE0A" FromRole="Person" ToRole="Movy" />
+          <NavigationProperty Name="ActorInMovies" Relationship="CinemaDatabaseModel.MoviePersonsJunction" FromRole="Person" ToRole="Movy" />
         </EntityType>
         <EntityType Name="Photo">
           <Key>
@@ -743,8 +721,8 @@
           <Property Name="Path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="GUID" Type="Guid" Nullable="false" />
           <Property Name="Filename" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Movies" Relationship="Self.FK__Movies__PhotoId__37A5467C" FromRole="Photos" ToRole="Movies" />
           <NavigationProperty Name="Persons" Relationship="Self.FK__Persons__PhotoId__3B75D760" FromRole="Photos" ToRole="Persons" />
+          <NavigationProperty Name="Movies" Relationship="CinemaDatabaseModel.FK__Movies__PhotoId__37A5467C" FromRole="Photo" ToRole="Movy" />
         </EntityType>
         <EntityType Name="Rating">
           <Key>
@@ -755,7 +733,7 @@
           <Property Name="AccountId" Type="Int32" Nullable="false" />
           <Property Name="MovieId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="Self.FK__Ratings__Account__403A8C7D" FromRole="Ratings" ToRole="Accounts" />
-          <NavigationProperty Name="Movie" Relationship="Self.FK__Ratings__MovieId__412EB0B6" FromRole="Ratings" ToRole="Movies" />
+          <NavigationProperty Name="Movy" Relationship="CinemaDatabaseModel.FK__Ratings__MovieId__412EB0B6" FromRole="Rating" ToRole="Movy" />
         </EntityType>
         <EntityType Name="Seance">
           <Key>
@@ -766,10 +744,10 @@
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="HallId" Type="Int32" Nullable="false" />
           <Property Name="MovieId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Movie" Relationship="Self.FK__Seances__MovieId__4316F928" FromRole="Seances" ToRole="Movies" />
           <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__SeanceI__440B1D61" FromRole="Seances" ToRole="Tickets" />
           <NavigationProperty Name="Hall" Relationship="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF" FromRole="Seance" ToRole="Hall" />
           <NavigationProperty Name="TicketPreOrders" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" FromRole="Seance" ToRole="TicketPreOrder" />
+          <NavigationProperty Name="Movy" Relationship="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" FromRole="Seance" ToRole="Movy" />
         </EntityType>
         <EntityType Name="SecurityToken">
           <Key>
@@ -828,30 +806,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Comments__MovieI__300424B4">
-          <End Role="Movies" Type="CinemaDatabaseModel.Movie" Multiplicity="1" />
-          <End Role="Comments" Type="Self.Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Movies">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Comments">
-              <PropertyRef Name="MovieId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Movies__GenreId__36B12243">
-          <End Role="Genres" Type="Self.Genre" Multiplicity="1" />
-          <End Role="Movies" Type="CinemaDatabaseModel.Movie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Genres">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Movies">
-              <PropertyRef Name="GenreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__MovieLoca__Langu__31EC6D26">
           <End Role="Languages" Type="Self.Language" Multiplicity="1" />
           <End Role="MovieLocalization" Type="Self.MovieLocalization" Multiplicity="*" />
@@ -873,66 +827,6 @@
             </Principal>
             <Dependent Role="PersonLocalization">
               <PropertyRef Name="LanguageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MovieLoca__Movie__32E0915F">
-          <End Role="Movies" Type="CinemaDatabaseModel.Movie" Multiplicity="1" />
-          <End Role="MovieLocalization" Type="Self.MovieLocalization" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Movies">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MovieLocalization">
-              <PropertyRef Name="MovieId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Movies__Director__35BCFE0A">
-          <End Role="Persons" Type="Self.Person" Multiplicity="0..1" />
-          <End Role="Movies" Type="CinemaDatabaseModel.Movie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Persons">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Movies">
-              <PropertyRef Name="DirectorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Movies__PhotoId__37A5467C">
-          <End Role="Photos" Type="Self.Photo" Multiplicity="0..1" />
-          <End Role="Movies" Type="CinemaDatabaseModel.Movie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Photos">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Movies">
-              <PropertyRef Name="PhotoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Ratings__MovieId__412EB0B6">
-          <End Role="Movies" Type="CinemaDatabaseModel.Movie" Multiplicity="1" />
-          <End Role="Ratings" Type="Self.Rating" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Movies">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Ratings">
-              <PropertyRef Name="MovieId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Seances__MovieId__4316F928">
-          <End Role="Movies" Type="CinemaDatabaseModel.Movie" Multiplicity="1" />
-          <End Role="Seances" Type="Self.Seance" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Movies">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Seances">
-              <PropertyRef Name="MovieId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -976,17 +870,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="MoviePersonsJunction">
-          <End Role="Movies" Type="CinemaDatabaseModel.Movie" Multiplicity="*" />
-          <End Role="Persons" Type="Self.Person" Multiplicity="*" />
-        </Association>
         <EntityContainer Name="CinemaDatabaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Accounts" EntityType="Self.Account" />
           <EntitySet Name="Comments" EntityType="Self.Comment" />
           <EntitySet Name="Genres" EntityType="Self.Genre" />
           <EntitySet Name="Languages" EntityType="Self.Language" />
           <EntitySet Name="MovieLocalizations" EntityType="Self.MovieLocalization" />
-          <EntitySet Name="Movies" EntityType="CinemaDatabaseModel.Movie" />
           <EntitySet Name="PersonLocalizations" EntityType="Self.PersonLocalization" />
           <EntitySet Name="Persons" EntityType="Self.Person" />
           <EntitySet Name="Photos" EntityType="Self.Photo" />
@@ -1006,14 +895,6 @@
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="SecurityToken" EntitySet="SecurityTokens" />
           </AssociationSet>
-          <AssociationSet Name="FK__Comments__MovieI__300424B4" Association="Self.FK__Comments__MovieI__300424B4">
-            <End Role="Movies" EntitySet="Movies" />
-            <End Role="Comments" EntitySet="Comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Movies__GenreId__36B12243" Association="Self.FK__Movies__GenreId__36B12243">
-            <End Role="Genres" EntitySet="Genres" />
-            <End Role="Movies" EntitySet="Movies" />
-          </AssociationSet>
           <AssociationSet Name="FK__MovieLoca__Langu__31EC6D26" Association="Self.FK__MovieLoca__Langu__31EC6D26">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="MovieLocalization" EntitySet="MovieLocalizations" />
@@ -1021,26 +902,6 @@
           <AssociationSet Name="FK__PersonLoc__Langu__38996AB5" Association="Self.FK__PersonLoc__Langu__38996AB5">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="PersonLocalization" EntitySet="PersonLocalizations" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MovieLoca__Movie__32E0915F" Association="Self.FK__MovieLoca__Movie__32E0915F">
-            <End Role="Movies" EntitySet="Movies" />
-            <End Role="MovieLocalization" EntitySet="MovieLocalizations" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Movies__Director__35BCFE0A" Association="Self.FK__Movies__Director__35BCFE0A">
-            <End Role="Persons" EntitySet="Persons" />
-            <End Role="Movies" EntitySet="Movies" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Movies__PhotoId__37A5467C" Association="Self.FK__Movies__PhotoId__37A5467C">
-            <End Role="Photos" EntitySet="Photos" />
-            <End Role="Movies" EntitySet="Movies" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Ratings__MovieId__412EB0B6" Association="Self.FK__Ratings__MovieId__412EB0B6">
-            <End Role="Movies" EntitySet="Movies" />
-            <End Role="Ratings" EntitySet="Ratings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Seances__MovieId__4316F928" Association="Self.FK__Seances__MovieId__4316F928">
-            <End Role="Movies" EntitySet="Movies" />
-            <End Role="Seances" EntitySet="Seances" />
           </AssociationSet>
           <AssociationSet Name="FK__PersonLoc__Perso__398D8EEE" Association="Self.FK__PersonLoc__Perso__398D8EEE">
             <End Role="Persons" EntitySet="Persons" />
@@ -1053,10 +914,6 @@
           <AssociationSet Name="FK__Tickets__SeanceI__440B1D61" Association="Self.FK__Tickets__SeanceI__440B1D61">
             <End Role="Seances" EntitySet="Seances" />
             <End Role="Tickets" EntitySet="Tickets" />
-          </AssociationSet>
-          <AssociationSet Name="MoviePersonsJunction" Association="Self.MoviePersonsJunction">
-            <End Role="Movies" EntitySet="Movies" />
-            <End Role="Persons" EntitySet="Persons" />
           </AssociationSet>
           <EntitySet Name="GenreLocalizations" EntityType="CinemaDatabaseModel.GenreLocalization" />
           <AssociationSet Name="FK__GenreLoca__Langu__5441852A" Association="CinemaDatabaseModel.FK__GenreLoca__Langu__5441852A">
@@ -1095,6 +952,39 @@
           <AssociationSet Name="FK__TicketPre__Seanc__03F0984C" Association="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C">
             <End Role="Seance" EntitySet="Seances" />
             <End Role="TicketPreOrder" EntitySet="TicketPreOrders" />
+          </AssociationSet>
+          <EntitySet Name="Movies" EntityType="CinemaDatabaseModel.Movie" />
+          <AssociationSet Name="FK__Comments__MovieI__300424B4" Association="CinemaDatabaseModel.FK__Comments__MovieI__300424B4">
+            <End Role="Movy" EntitySet="Movies" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Movies__GenreId__36B12243" Association="CinemaDatabaseModel.FK__Movies__GenreId__36B12243">
+            <End Role="Genre" EntitySet="Genres" />
+            <End Role="Movy" EntitySet="Movies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MovieLoca__Movie__32E0915F" Association="CinemaDatabaseModel.FK__MovieLoca__Movie__32E0915F">
+            <End Role="Movy" EntitySet="Movies" />
+            <End Role="MovieLocalization" EntitySet="MovieLocalizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Movies__Director__35BCFE0A" Association="CinemaDatabaseModel.FK__Movies__Director__35BCFE0A">
+            <End Role="Person" EntitySet="Persons" />
+            <End Role="Movy" EntitySet="Movies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Movies__PhotoId__37A5467C" Association="CinemaDatabaseModel.FK__Movies__PhotoId__37A5467C">
+            <End Role="Photo" EntitySet="Photos" />
+            <End Role="Movy" EntitySet="Movies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ratings__MovieId__412EB0B6" Association="CinemaDatabaseModel.FK__Ratings__MovieId__412EB0B6">
+            <End Role="Movy" EntitySet="Movies" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Seances__MovieId__4316F928" Association="CinemaDatabaseModel.FK__Seances__MovieId__4316F928">
+            <End Role="Movy" EntitySet="Movies" />
+            <End Role="Seance" EntitySet="Seances" />
+          </AssociationSet>
+          <AssociationSet Name="MoviePersonsJunction" Association="CinemaDatabaseModel.MoviePersonsJunction">
+            <End Role="Movy" EntitySet="Movies" />
+            <End Role="Person" EntitySet="Persons" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="GenreLocalization">
@@ -1263,6 +1153,116 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Length" Type="Int32" Nullable="false" />
+          <Property Name="GenreId" Type="Int32" />
+          <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DirectorId" Type="Int32" />
+          <Property Name="Rating" Type="Double" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="PhotoId" Type="Int32" />
+          <Property Name="VideoLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Comments" Relationship="CinemaDatabaseModel.FK__Comments__MovieI__300424B4" FromRole="Movy" ToRole="Comment" />
+          <NavigationProperty Name="Genre" Relationship="CinemaDatabaseModel.FK__Movies__GenreId__36B12243" FromRole="Movy" ToRole="Genre" />
+          <NavigationProperty Name="MovieLocalizations" Relationship="CinemaDatabaseModel.FK__MovieLoca__Movie__32E0915F" FromRole="Movy" ToRole="MovieLocalization" />
+          <NavigationProperty Name="Director" Relationship="CinemaDatabaseModel.FK__Movies__Director__35BCFE0A" FromRole="Movy" ToRole="Person" />
+          <NavigationProperty Name="Photo" Relationship="CinemaDatabaseModel.FK__Movies__PhotoId__37A5467C" FromRole="Movy" ToRole="Photo" />
+          <NavigationProperty Name="Ratings" Relationship="CinemaDatabaseModel.FK__Ratings__MovieId__412EB0B6" FromRole="Movy" ToRole="Rating" />
+          <NavigationProperty Name="Seances" Relationship="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" FromRole="Movy" ToRole="Seance" />
+          <NavigationProperty Name="Actors" Relationship="CinemaDatabaseModel.MoviePersonsJunction" FromRole="Movy" ToRole="Person" />
+        </EntityType>
+        <Association Name="FK__Comments__MovieI__300424B4">
+          <End Type="CinemaDatabaseModel.Movie" Role="Movy" Multiplicity="1" />
+          <End Type="CinemaDatabaseModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Movies__GenreId__36B12243">
+          <End Type="CinemaDatabaseModel.Genre" Role="Genre" Multiplicity="0..1" />
+          <End Type="CinemaDatabaseModel.Movie" Role="Movy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Movy">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MovieLoca__Movie__32E0915F">
+          <End Type="CinemaDatabaseModel.Movie" Role="Movy" Multiplicity="1" />
+          <End Type="CinemaDatabaseModel.MovieLocalization" Role="MovieLocalization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MovieLocalization">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Movies__Director__35BCFE0A">
+          <End Type="CinemaDatabaseModel.Person" Role="Person" Multiplicity="0..1" />
+          <End Type="CinemaDatabaseModel.Movie" Role="Movy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Movy">
+              <PropertyRef Name="DirectorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Movies__PhotoId__37A5467C">
+          <End Type="CinemaDatabaseModel.Photo" Role="Photo" Multiplicity="0..1" />
+          <End Type="CinemaDatabaseModel.Movie" Role="Movy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Photo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Movy">
+              <PropertyRef Name="PhotoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ratings__MovieId__412EB0B6">
+          <End Type="CinemaDatabaseModel.Movie" Role="Movy" Multiplicity="1" />
+          <End Type="CinemaDatabaseModel.Rating" Role="Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Seances__MovieId__4316F928">
+          <End Type="CinemaDatabaseModel.Movie" Role="Movy" Multiplicity="1" />
+          <End Type="CinemaDatabaseModel.Seance" Role="Seance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seance">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MoviePersonsJunction">
+          <End Type="CinemaDatabaseModel.Movie" Role="Movy" Multiplicity="*" />
+          <End Type="CinemaDatabaseModel.Person" Role="Person" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1315,21 +1315,6 @@
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Movies">
-            <EntityTypeMapping TypeName="CinemaDatabaseModel.Movie">
-              <MappingFragment StoreEntitySet="Movies">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Length" ColumnName="Length" />
-                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
-                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
-                <ScalarProperty Name="DirectorId" ColumnName="DirectorId" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
-                <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />
-                <ScalarProperty Name="VideoLink" ColumnName="VideoLink" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1401,14 +1386,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="MoviePersonsJunction" TypeName="CinemaDatabaseModel.MoviePersonsJunction" StoreEntitySet="MoviePersonsJunction">
-            <EndProperty Name="Movies">
-              <ScalarProperty Name="Id" ColumnName="MovieId" />
-            </EndProperty>
-            <EndProperty Name="Persons">
-              <ScalarProperty Name="Id" ColumnName="PersonId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="GenreLocalizations">
             <EntityTypeMapping TypeName="CinemaDatabaseModel.GenreLocalization">
               <MappingFragment StoreEntitySet="GenreLocalization">
@@ -1474,6 +1451,29 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Movies">
+            <EntityTypeMapping TypeName="CinemaDatabaseModel.Movie">
+              <MappingFragment StoreEntitySet="Movies">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="VideoLink" ColumnName="VideoLink" />
+                <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="DirectorId" ColumnName="DirectorId" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MoviePersonsJunction" TypeName="CinemaDatabaseModel.MoviePersonsJunction" StoreEntitySet="MoviePersonsJunction">
+            <EndProperty Name="Person">
+              <ScalarProperty Name="Id" ColumnName="PersonId" />
+            </EndProperty>
+            <EndProperty Name="Movy">
+              <ScalarProperty Name="Id" ColumnName="MovieId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -37,12 +37,15 @@
                 </div>
             </div>
             <hr/>
-            <div class="row">
-                <div class="col-sm-4">
-                    @Html.LabelFor(x => item.GenreName)
-                    @item.GenreName
+            @if (!String.IsNullOrEmpty(item.GenreName))
+            {
+                <div class="row">
+                    <div class="col-sm-4">
+                        @Html.LabelFor(x => item.GenreName)
+                        @item.GenreName
+                    </div>
                 </div>
-            </div>
+            }
             <div class="row">
                 <div class="col-sm-4">
                     @Html.LabelFor(x => item.Length)

@@ -17,8 +17,8 @@ namespace Cinema.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Person()
         {
-            this.DirectorOfMovies = new HashSet<Movie>();
             this.PersonLocalizations = new HashSet<PersonLocalization>();
+            this.DirectorOfMovies = new HashSet<Movie>();
             this.ActorInMovies = new HashSet<Movie>();
         }
     
@@ -26,10 +26,10 @@ namespace Cinema.DataAccess
         public Nullable<int> PhotoId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Movie> DirectorOfMovies { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonLocalization> PersonLocalizations { get; set; }
         public virtual Photo Photo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Movie> DirectorOfMovies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movie> ActorInMovies { get; set; }
     }

@@ -17,17 +17,17 @@ namespace Cinema.DataAccess.Repositories.Contracts
 
         List<TicketPreOrder> GetSeanceTicketPreOrdersOfOtherUsers(int seanceId, int accountId);
 
-        List<TicketPreOrder> GetSeanceTicketPreOrdersOfCurUser(int seanceId, int accountId);
+        List<TicketPreOrder> GetSeanceTicketPreOrdersForUser(int seanceId, int accountId);
 
-        bool IsBindedToOtherAccount(int row, int place, int seanceId, int accountId);
+        bool IsSeatBindedToOtherUser(int row, int place, int seanceId, int accountId);
 
-        bool IsBindedByCurrnetUser(int row, int place, int seanceId, int accountId);
+        bool IsSeatBindedByCurrnetUser(int row, int place, int seanceId, int accountId);
 
-        TicketPreOrder GetBySeanceData(int row, int place, int seanceId, int accountId);
+        TicketPreOrder GetTicketPreOrderBySeanceData(int row, int place, int seanceId, int accountId);
 
-        void DeleteTicketPreOrder(TicketPreOrder ticketPreOrder);
+        void RemoveTicketPreOrder(TicketPreOrder ticketPreOrder);
 
-        void RemoveTicketPreOrdersForUser(int seanceId, int accountId);
+        void MarkSeanceTicketPreOrdersAsDeletedForUser(int seanceId, int accountId);
 
         void AddTickets(List<Ticket> tickets);
     }

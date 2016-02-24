@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="CinemaDatabaseModel.Genre" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.Language" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.MovieLocalization" Width="1.5" PointX="5.25" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaDatabaseModel.Movie" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.PersonLocalization" Width="1.5" PointX="7.5" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.Person" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.Photo" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
@@ -21,19 +20,11 @@
         <AssociationConnector Association="CinemaDatabaseModel.FK__Comments__Accoun__2F10007B" ManuallyRouted="false" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Ratings__Account__403A8C7D" ManuallyRouted="false" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__SecurityT__Accou__4F7CD00D" ManuallyRouted="false" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__Comments__MovieI__300424B4" ManuallyRouted="false" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__Movies__GenreId__36B12243" ManuallyRouted="false" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__MovieLoca__Langu__31EC6D26" ManuallyRouted="false" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__PersonLoc__Langu__38996AB5" ManuallyRouted="false" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__MovieLoca__Movie__32E0915F" ManuallyRouted="false" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__Movies__Director__35BCFE0A" ManuallyRouted="false" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__Movies__PhotoId__37A5467C" ManuallyRouted="false" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__Ratings__MovieId__412EB0B6" ManuallyRouted="false" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" ManuallyRouted="false" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__PersonLoc__Perso__398D8EEE" ManuallyRouted="false" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Persons__PhotoId__3B75D760" ManuallyRouted="false" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Tickets__SeanceI__440B1D61" ManuallyRouted="false" />
-        <AssociationConnector Association="CinemaDatabaseModel.MoviePersonsJunction" ManuallyRouted="false" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.GenreLocalization" Width="1.5" PointX="8.25" PointY="3.125" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__GenreLoca__Langu__5441852A" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__GenreLocaliz__Id__5629CD9C" />
@@ -48,6 +39,15 @@
         <EntityTypeShape EntityType="CinemaDatabaseModel.TicketPreOrder" Width="1.5" PointX="13.5" PointY="3.875" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Accou__02FC7413" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Movie" Width="1.5" PointX="5.25" PointY="13.625" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Comments__MovieI__300424B4" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Movies__GenreId__36B12243" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__MovieLoca__Movie__32E0915F" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Movies__Director__35BCFE0A" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Movies__PhotoId__37A5467C" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Ratings__MovieId__412EB0B6" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" />
+        <AssociationConnector Association="CinemaDatabaseModel.MoviePersonsJunction" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

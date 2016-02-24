@@ -37,25 +37,9 @@ namespace Cinema.Services
             return _seanceRepository.GetSectorsByHallId(hallId);
         }
 
-        protected virtual void Dispose(bool disposing)
+        public bool IsTicketAbleToBook(int row, int place, int seanceId)
         {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    _seanceRepository.Dispose();
-                }
-            }
-            _disposed = true;
-        }
-
-        public bool IsAbleToBook(int row, int place, int seanceId)
-        {
-            if (_seanceRepository.IsExistTicket(row, place, seanceId))
-            {
-                return false;
-            }
-            return true;
+            return !_seanceRepository.IsExistTicket(row, place, seanceId);
         }
 
         public void AddTicketPreOrder(TicketPreOrder ticketPreOrder)
@@ -73,35 +57,53 @@ namespace Cinema.Services
             return _seanceRepository.GetSeanceTicketPreOrdersOfOtherUsers(seanceId, accountId);
         }
 
-        public List<TicketPreOrder> GetSeanceTicketPreOrdersOfCurUser(int seanceId, int accountId)
+        public List<TicketPreOrder> GetSeanceTicketPreOrdersForCurrentUser(int seanceId, int accountId)
         {
-            return _seanceRepository.GetSeanceTicketPreOrdersOfCurUser(seanceId, accountId);
+            return _seanceRepository.GetSeanceTicketPreOrdersForUser(seanceId, accountId);
         }
 
-        public bool IsBindedToOtherAccount(int row, int place, int seanceId, int accountId)
+        public bool IsSeatBindedToOtherUser(int row, int place, int seanceId, int accountId)
         {
-            return _seanceRepository.IsBindedToOtherAccount(row, place, seanceId, accountId);
+            return _seanceRepository.IsSeatBindedToOtherUser(row, place, seanceId, accountId);
         }
 
-        public bool IsBindedByCurrnetUser(int row, int place, int seanceId, int accountId)
+        public bool IsSeatBindedByCurrnetUser(int row, int place, int seanceId, int accountId)
         {
-            return _seanceRepository.IsBindedByCurrnetUser(row, place, seanceId, accountId);
+            return _seanceRepository.IsSeatBindedByCurrnetUser(row, place, seanceId, accountId);
         }
 
-        public void DeleteTicketPreOrder(int row, int place, int seanceId, int accountId)
+        public void RemoveTicketPreOrderForUser(int row, int place, int seanceId, int accountId)
         {
-            TicketPreOrder ticketPreOrder = _seanceRepository.GetBySeanceData(row, place, seanceId, accountId);
-            _seanceRepository.DeleteTicketPreOrder(ticketPreOrder);
+            TicketPreOrder ticketPreOrder = _seanceRepository.GetTicketPreOrderBySeanceData(row, place, seanceId, accountId);
+            _seanceRepository.RemoveTicketPreOrder(ticketPreOrder);
         }
 
-        public void RemoveTicketPreOrdersForUser(int seanceId, int accountId)
+        public void MarkTicketPreOrdersAsDeletedForUser(int seanceId, int accountId)
         {
-            _seanceRepository.RemoveTicketPreOrdersForUser(seanceId, accountId);
+            _seanceRepository.MarkSeanceTicketPreOrdersAsDeletedForUser(seanceId, accountId);
         }
 
         public void AddTickets(List<Ticket> tickets)
         {
             _seanceRepository.AddTickets(tickets);
+        }
+
+        public void RemoveTicketPreOrdersForUser(int seanceId, int accountId)
+        {
+            List<TicketPreOrder> ticketPreOrders = GetSeanceTicketPreOrdersForCurrentUser(seanceId, accountId);
+            ticketPreOrders.ForEach(x => _seanceRepository.RemoveTicketPreOrder(x));
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _seanceRepository.Dispose();
+                }
+            }
+            _disposed = true;
         }
 
         public void Dispose()

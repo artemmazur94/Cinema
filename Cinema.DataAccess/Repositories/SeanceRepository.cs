@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Cinema.DataAccess.Repositories.Contracts;
 
@@ -56,7 +54,7 @@ namespace Cinema.DataAccess.Repositories
                         x.AccountId != accountId).ToList();
         }
 
-        public List<TicketPreOrder> GetSeanceTicketPreOrdersOfCurUser(int seanceId, int accountId)
+        public List<TicketPreOrder> GetSeanceTicketPreOrdersForUser(int seanceId, int accountId)
         {
             return
                 _seanceContext.TicketPreOrders.Where( x => 
@@ -65,7 +63,7 @@ namespace Cinema.DataAccess.Repositories
                         x.AccountId == accountId).ToList();
         }
 
-        public bool IsBindedToOtherAccount(int row, int place, int seanceId, int accountId)
+        public bool IsSeatBindedToOtherUser(int row, int place, int seanceId, int accountId)
         {
             return
                 _seanceContext.TicketPreOrders.FirstOrDefault( x => 
@@ -76,7 +74,7 @@ namespace Cinema.DataAccess.Repositories
                         x.AccountId != accountId) != null;
         }
 
-        public bool IsBindedByCurrnetUser(int row, int place, int seanceId, int accountId)
+        public bool IsSeatBindedByCurrnetUser(int row, int place, int seanceId, int accountId)
         {
             return
                 _seanceContext.TicketPreOrders.FirstOrDefault( x => 
@@ -87,7 +85,7 @@ namespace Cinema.DataAccess.Repositories
                         x.Place == place) != null;
         }
 
-        public TicketPreOrder GetBySeanceData(int row, int place, int seanceId, int accountId)
+        public TicketPreOrder GetTicketPreOrderBySeanceData(int row, int place, int seanceId, int accountId)
         {
             return
                 _seanceContext.TicketPreOrders.FirstOrDefault( x => 
@@ -98,18 +96,14 @@ namespace Cinema.DataAccess.Repositories
                         x.AccountId == accountId);
         }
 
-        public void DeleteTicketPreOrder(TicketPreOrder ticketPreOrder)
+        public void RemoveTicketPreOrder(TicketPreOrder ticketPreOrder)
         {
             _seanceContext.TicketPreOrders.Remove(ticketPreOrder);
         }
 
-        public void RemoveTicketPreOrdersForUser(int seanceId, int accountId)
+        public void MarkSeanceTicketPreOrdersAsDeletedForUser(int seanceId, int accountId)
         {
-            List<TicketPreOrder> ticketPreOrders =
-                _seanceContext.TicketPreOrders.Where( x => 
-                        x.AccountId == accountId && 
-                        x.SeanceId == seanceId && 
-                        !x.IsDeleted).ToList();
+            List<TicketPreOrder> ticketPreOrders = GetSeanceTicketPreOrdersForUser(seanceId, accountId);
             ticketPreOrders.ForEach(x => x.IsDeleted = true);
         }
 

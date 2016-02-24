@@ -88,9 +88,11 @@ else
             </div>
         }
     </div>
-    <div class="row pull-right">
-        <input type="button" class="btn btn-danger" value="Cancel selected tickets" onclick="location.href = '@Url.Action("CancelSelectedSeats", "Booking", new {seanceId = Model.Id})'" />
-        <input type="button" class="btn btn-success" value="Book tickets" onclick="location.href = '@Url.Action("BookTickets", new {seanceId = Model.Id})'"/>
+    <div class="row">
+        <div class="col-sm-4 pull-right">
+            <input type="button" class="btn btn-danger" value="Cancel selected tickets" onclick="location.href = '@Url.Action("CancelSelectedSeats", "Booking", new {seanceId = Model.Id})'" />
+            <input type="button" class="btn btn-success" value="Book tickets" onclick="location.href = '@Url.Action("BookTickets", new {seanceId = Model.Id})'" />
+        </div>
     </div>
 }
 <hr />

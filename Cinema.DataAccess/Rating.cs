@@ -19,6 +19,6 @@ namespace Cinema.DataAccess
         public int MovieId { get; set; }
     
         public virtual Account Account { get; set; }
-        public virtual Movie Movie { get; set; }
+        public virtual Movie Movy { get; set; }
     }
 }

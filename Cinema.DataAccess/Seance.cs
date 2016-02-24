@@ -27,11 +27,11 @@ namespace Cinema.DataAccess
         public int HallId { get; set; }
         public int MovieId { get; set; }
     
-        public virtual Movie Movie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ticket> Tickets { get; set; }
         public virtual Hall Hall { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TicketPreOrder> TicketPreOrders { get; set; }
+        public virtual Movie Movy { get; set; }
     }
 }

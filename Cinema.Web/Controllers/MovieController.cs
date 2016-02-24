@@ -35,7 +35,7 @@ namespace Cinema.Web.Controllers
         {
             List<Movie> movies = _movieService.GetAllMovies();
 
-            List<int> genreIds = (from movie in movies select movie.GenreId).ToList();
+            List<int> genreIds = (from movie in movies where movie.GenreId != null select movie.GenreId.Value).ToList();
 
             List<GenreLocalization> genreLocalizations = _movieService.GetGenresForMovies(genreIds,
                 LanguageHelper.CurrnetCulture);
@@ -92,10 +92,15 @@ namespace Cinema.Web.Controllers
                 ActorNames = _movieService.GetActorLocalizations(movie.Actors, LanguageHelper.CurrnetCulture),
                 Photo = movie.Photo,
                 ReleaseDate = movie.ReleaseDate.ToShortDateString(),
-                GenreName = _movieService.GetGenreLocalizationName(movie.GenreId, LanguageHelper.CurrnetCulture),
                 Rating = movie.Rating,
                 VideoLink = movie.VideoLink
             };
+            if (movie.GenreId != null)
+            {
+                model.GenreName = _movieService.GetGenreLocalizationName(
+                    movie.GenreId.Value,
+                    LanguageHelper.CurrnetCulture);
+            }
             if (movie.DirectorId != null)
             {
                 model.DirectorName = _movieService.GetDirectorLocalization(
@@ -135,11 +140,14 @@ namespace Cinema.Web.Controllers
                 Name = movieLocalization.Name,
                 Description = movieLocalization.Description,
                 ActorIds = _movieService.GetActorIdsForMovie(movie.Id),
-                GenreId = movie.GenreId,
                 Length = movie.Length,
                 VideoLink = movie.VideoLink,
                 ReleaseDate = movie.ReleaseDate
             };
+            if (movie.GenreId != null)
+            {
+                model.GenreId = movie.GenreId.Value;
+            }
             if (movie.DirectorId != null)
             {
                 model.DirectorId = movie.DirectorId.Value;

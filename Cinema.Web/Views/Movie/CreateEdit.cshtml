@@ -43,7 +43,7 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(x => x.GenreId, new { @class = "control-label col-sm-2" })
-        @Html.DropDownListFor(x => x.GenreId, (SelectList)ViewBag.GenreLocalizations, new { @class = "form-control" })
+        @Html.DropDownListFor(x => x.GenreId, (SelectList)ViewBag.GenreLocalizations, "Select genre", new { @class = "form-control" })
     </div>
     <div class="form-group">
         @Html.LabelFor(x => x.ReleaseDate, new { @class = "control-label col-sm-2" })

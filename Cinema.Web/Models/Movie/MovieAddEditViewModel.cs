@@ -22,10 +22,9 @@ namespace Cinema.Web.Models
         [Range(1, Int32.MaxValue)]
         [Display(Name = "Length: ")]
         public int Length { get; set; }
-
-        [Required]
+        
         [Display(Name = "Genre: ")]
-        public int GenreId { get; set; }
+        public int? GenreId { get; set; }
 
         [Display(Name = "Director: ")]
         public int? DirectorId { get; set; }

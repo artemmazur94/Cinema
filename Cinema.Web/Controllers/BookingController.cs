@@ -17,6 +17,8 @@ namespace Cinema.Web.Controllers
         private readonly MovieService _movieService;
         private readonly AccountService _accountService;
 
+        private const string MESSAGE_KEY = "Message";
+
         public BookingController(BookingService bookingService, MovieService movieService, AccountService accountService)
         {
             _bookingService = bookingService;
@@ -94,7 +96,11 @@ namespace Cinema.Web.Controllers
                 List<Ticket> seanceTickets = _bookingService.GetSeanceTickets(seance.Id);
                 List<TicketPreOrder> seanceTicketPreOrders = _bookingService.GetSeanceTicketPreOrdersOfOtherUsers(seance.Id, accountId);
                 model.Seats = HallSeat.GetAllSeats(seanceTickets, seanceTicketPreOrders);
-                model.SelectedSeats = HallSeat.GetAllSeats(_bookingService.GetSeanceTicketPreOrdersOfCurUser(seance.Id, accountId));
+                model.SelectedSeats = HallSeat.GetAllSeats(_bookingService.GetSeanceTicketPreOrdersForCurrentUser(seance.Id, accountId));
+            }
+            if (TempData[MESSAGE_KEY] != null)
+            {
+                ViewBag.Message = TempData[MESSAGE_KEY].ToString();
             }
             return View(model);
         }
@@ -104,11 +110,11 @@ namespace Cinema.Web.Controllers
         public ActionResult ChangePlaceStatus(int row, int place, int seanceId)
         {
             int accountId = _accountService.GetAccountByUserName(User.Identity.Name).Id;
-            if (_bookingService.IsAbleToBook(row, place, seanceId) && !_bookingService.IsBindedToOtherAccount(row, place, seanceId, accountId))
+            if (_bookingService.IsTicketAbleToBook(row, place, seanceId) && !_bookingService.IsSeatBindedToOtherUser(row, place, seanceId, accountId))
             {
-                if (_bookingService.IsBindedByCurrnetUser(row, place, seanceId, accountId))
+                if (_bookingService.IsSeatBindedByCurrnetUser(row, place, seanceId, accountId))
                 {
-                    _bookingService.DeleteTicketPreOrder(row, place, seanceId, accountId);
+                    _bookingService.RemoveTicketPreOrderForUser(row, place, seanceId, accountId);
                     _bookingService.Save();
                     return Json(new
                     {
@@ -154,7 +160,7 @@ namespace Cinema.Web.Controllers
             {
                 return HttpNotFound();
             }
-            _bookingService.RemoveTicketPreOrdersForUser(seanceId.Value,
+            _bookingService.MarkTicketPreOrdersAsDeletedForUser(seanceId.Value,
                 _accountService.GetAccountByUserName(User.Identity.Name).Id);
             _bookingService.Save();
             return RedirectToAction("Index", "Movie");
@@ -184,7 +190,7 @@ namespace Cinema.Web.Controllers
                 MovieName = movieLocalization.Name,
                 MovieId = movieLocalization.MovieId,
                 SelectedSeats =
-                    HallSeat.GetAllSeats(_bookingService.GetSeanceTicketPreOrdersOfCurUser(seance.Id,
+                    HallSeat.GetAllSeats(_bookingService.GetSeanceTicketPreOrdersForCurrentUser(seance.Id,
                         _accountService.GetAccountByUserName(User.Identity.Name).Id))
             };
             List<Sector> sectors = _bookingService.GetSectorsByHallId(seance.HallId);
@@ -204,7 +210,12 @@ namespace Cinema.Web.Controllers
                 return HttpNotFound();
             }
             int accountId = _accountService.GetAccountByUserName(User.Identity.Name).Id;
-            List<TicketPreOrder> ticketPreOrders = _bookingService.GetSeanceTicketPreOrdersOfCurUser(seanceId.Value,accountId);
+            List<TicketPreOrder> ticketPreOrders = _bookingService.GetSeanceTicketPreOrdersForCurrentUser(seanceId.Value,accountId);
+            if (ticketPreOrders.Count == 0)
+            {
+                TempData[MESSAGE_KEY] = "Sorry, choosen tickets are already booked. You can choose other onces.";
+                return RedirectToAction("SelectSeats", new { id = seance.Id });
+            }
             List<Ticket> tickets = (from ticketPreOrder in ticketPreOrders
                 select new Ticket()
                 {

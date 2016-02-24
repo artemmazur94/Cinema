@@ -42,6 +42,13 @@
         </div>
     </div>
 </div>
+@if (ViewBag.Message != null)
+{
+    <div class="panel panel-warning">
+        <div class="panel-heading"><strong>Warning!</strong></div>
+        <div class="panel-body">@ViewBag.Message</div>
+    </div>
+}
 @if (Model.HallPlan != null)
 {
     <div class="row">

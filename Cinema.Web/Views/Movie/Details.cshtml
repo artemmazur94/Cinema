@@ -20,12 +20,15 @@
         }
     </div>
     <div class="col-sm-8">
-        <div class="row">
-            <div class="col-sm-4">
-                @Html.LabelFor(x => x.GenreName)
-                @Model.GenreName
+        @if (!String.IsNullOrEmpty(Model.GenreName))
+        {
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.LabelFor(x => x.GenreName)
+                    @Model.GenreName
+                </div>
             </div>
-        </div>
+        }
         <div class="row">
             <div class="col-sm-4">
                 @Html.LabelFor(x => x.ReleaseDate)
@@ -56,23 +59,21 @@
                 @Model.Length min.
             </div>
         </div>
-        <div class="row">
+        @*TODO: Show when rating calculated*@
+        @*<div class="row">
             <div class="col-sm-4">
                 @Html.LabelFor(x => x.Rating)
                 @Model.Rating
             </div>
-        </div>
+        </div>*@
         <div class="row">
             <div class="col-sm-12">
                 @Html.LabelFor(x => x.Description)
                 @Model.Description
             </div>
         </div>
-        <hr />
+        <hr/>
         <div class="row">
-            <div class="col-sm-2">
-                <a href=""><span class="glyphicon glyphicon-check"></span> Book tickets</a>
-            </div>
             @if (User.Identity.IsAuthenticated)
             {
                 <div class="col-sm-2">

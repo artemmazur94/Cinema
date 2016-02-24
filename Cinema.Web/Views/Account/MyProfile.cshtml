@@ -3,15 +3,10 @@
 @{
     ViewBag.Title = "My profile";
 }
+
 <div class="page-header">
     <h1>Profile: <strong>@User.Identity.Name</strong></h1>
 </div>
-
-<h4><a href="@Url.Action("ChangePassword")"><span class="glyphicon glyphicon-retweet"></span> Change password</a></h4>
-<hr/>
-<h4><a href="@Url.Action("EditProfile")"><span class="glyphicon glyphicon-edit"></span> Edit profile</a></h4>
-
-<hr/>
 <div class="row">
     <div class="col-sm-3">
         @if (Model.ImageBytes == null)
@@ -41,3 +36,7 @@
         }
     </div>
 </div>
+<hr/>
+<h4><a href="@Url.Action("EditProfile")"><span class="glyphicon glyphicon-edit"></span> Edit profile</a></h4>
+<hr/>
+<h4><a href="@Url.Action("ChangePassword")"><span class="glyphicon glyphicon-retweet"></span> Change password</a></h4>

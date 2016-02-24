@@ -26,7 +26,7 @@ namespace Cinema.DataAccess
     
         public int Id { get; set; }
         public int Length { get; set; }
-        public int GenreId { get; set; }
+        public Nullable<int> GenreId { get; set; }
         public System.DateTime ReleaseDate { get; set; }
         public Nullable<int> DirectorId { get; set; }
         public Nullable<double> Rating { get; set; }
