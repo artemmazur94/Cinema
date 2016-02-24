@@ -288,7 +288,11 @@ namespace Cinema.Web.Controllers
             return View(model);
         }
 
-
+        [Authorize]
+        public ActionResult MyTickets()
+        {
+            return View();
+        }
 
         protected override void Dispose(bool disposing)
         {

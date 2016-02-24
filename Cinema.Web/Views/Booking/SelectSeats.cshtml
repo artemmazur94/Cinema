@@ -90,27 +90,27 @@
                         {
                             if (Model.Seats.Exists(x => x.Row == i && x.Place == j))
                             {
-                                <button type="button" class="btn btn-default seat disabled">@j</button>
+                                <button type="button" class="btn btn-default seat selected-seat disabled">@j</button>
                             }
                             else
                             {
                                 int type = Model.HallPlan[i][j];
                                 if (Model.SelectedSeats.Exists(x => x.Row == i && x.Place == j))
                                 {
-                                    <button type="button" class="btn btn-success seat" data-row="@i" data-place="@j" data-type="@type">@j</button>
+                                    <button type="button" class="btn btn-success seat selected-seat" data-row="@i" data-place="@j" data-type="@type">@j</button>
                                 }
                                 else
                                 {
                                     switch (type)
                                     {
                                         case (int)SeatType.Single:
-                                            <button type="button" class="btn btn-primary seat" data-row="@i" data-place="@j" data-type="@type">@j</button>
+                                            <button type="button" class="btn btn-primary seat selected-seat" data-row="@i" data-place="@j" data-type="@type">@j</button>
                                             break;
                                         case (int)SeatType.Double:
-                                            <button type="button" class="btn btn-info seat" data-row="@i" data-place="@j" data-type="@type">@j</button>
+                                            <button type="button" class="btn btn-info seat selected-seat" data-row="@i" data-place="@j" data-type="@type">@j</button>
                                             break;
                                         case (int)SeatType.Single4D:
-                                            <button type="button" class="btn btn-danger seat" data-row="@i" data-place="@j" data-type="@type">@j</button>
+                                            <button type="button" class="btn btn-danger seat selected-seat" data-row="@i" data-place="@j" data-type="@type">@j</button>
                                             break;
                                     }
                                 }

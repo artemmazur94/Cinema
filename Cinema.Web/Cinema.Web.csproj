@@ -232,7 +232,9 @@
     <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Models\Account\EmailViewModel.cs" />
     <Compile Include="Models\Account\LoginViewModel.cs" />
+    <Compile Include="Models\Account\MyTicketsViewModel.cs" />
     <Compile Include="Models\Account\ProfileViewModel.cs" />
+    <Compile Include="Models\Account\TicketViewModel.cs" />
     <Compile Include="Models\Booking\HallSeat.cs" />
     <Compile Include="Models\Booking\MovieSeanceViewModel.cs" />
     <Compile Include="Models\Booking\SeanceViewModel.cs" />
@@ -433,6 +435,7 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Shared\FormValidation.cshtml" />
     <Content Include="Views\Account\EditProfile.cshtml" />
+    <Content Include="Views\Account\MyTickets.cshtml" />
     <None Include="Views\Booking\SelectSeats.cshtml" />
     <Content Include="Views\Booking\ConfirmSelectedSeats.cshtml" />
     <None Include="Views\Booking\Seances.cshtml" />

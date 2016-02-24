@@ -8,6 +8,8 @@ using Cinema.DataAccess;
 using Cinema.Services;
 using Cinema.Web.Helpers;
 using Cinema.Web.Models;
+using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json.Linq;
 
 namespace Cinema.Web.Controllers
 {

@@ -1,5 +1,5 @@
 ﻿$(document).ready(function() {
-    $(".seat").click(function () {
+    $(".selected-seat").click(function () {
         var $this = $(this);
         $.ajax({
             url: window.myActionUrl,
