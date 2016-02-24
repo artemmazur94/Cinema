@@ -51,7 +51,7 @@ namespace Cinema.Web.Controllers
                 {
                     Id = person.Id,
                     Photo = person.Photo,
-                    Name = personLocalizations.FirstOrDefault(x => x.PersonId == person.Id).Name,
+                    Name = personLocalizations.FirstOrDefault(x => x.PersonId == person.Id)?.Name,
                     ActorInMovies =
                         (from movieLocalization in
                             movieLocalizations.Where(

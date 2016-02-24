@@ -109,6 +109,7 @@ namespace Cinema.Services
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

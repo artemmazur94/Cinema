@@ -19,6 +19,11 @@ namespace Cinema.Services
             _movieRepository = movieRepository;
         }
 
+        public void Save()
+        {
+            _movieRepository.Save();
+        }
+
         public List<Person> GetAllPersons()
         {
             return _personRepository.GetAll().ToList();
@@ -52,11 +57,6 @@ namespace Cinema.Services
         public void RemovePerson(Person person)
         {
             _personRepository.Remove(person);
-        }
-
-        public void Save()
-        {
-            _movieRepository.Save();
         }
 
         protected virtual void Dispose(bool disposing)

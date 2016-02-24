@@ -189,7 +189,7 @@ namespace Cinema.Web.Controllers
             }
             string message = (string) Session[MESSAGE_KEY];
             Session[MESSAGE_KEY] = null;
-            return View("ShowMessage" ,message);
+            return View("ShowMessage", model: message);
         }
 
         [Authorize]
@@ -287,6 +287,8 @@ namespace Cinema.Web.Controllers
             }
             return View(model);
         }
+
+
 
         protected override void Dispose(bool disposing)
         {
