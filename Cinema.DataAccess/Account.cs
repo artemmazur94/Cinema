@@ -22,6 +22,7 @@ namespace Cinema.DataAccess
             this.SecurityTokens = new HashSet<SecurityToken>();
             this.Profile = new HashSet<Profile>();
             this.TicketPreOrders = new HashSet<TicketPreOrder>();
+            this.Tickets = new HashSet<Ticket>();
         }
     
         public int Id { get; set; }
@@ -42,5 +43,7 @@ namespace Cinema.DataAccess
         public virtual ICollection<Profile> Profile { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TicketPreOrder> TicketPreOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Ticket> Tickets { get; set; }
     }
 }

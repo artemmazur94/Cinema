@@ -194,6 +194,7 @@
           <Property Name="Place" Type="int" Nullable="false" />
           <Property Name="SeanceId" Type="int" Nullable="false" />
           <Property Name="SaleDate" Type="datetime" Nullable="false" />
+          <Property Name="AccountId" Type="int" />
         </EntityType>
         <Association Name="FK__Comments__Accoun__2F10007B">
           <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
@@ -491,6 +492,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Tickets__Account__06CD04F7">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Tickets__SeanceI__440B1D61">
           <End Role="Seances" Type="Self.Seances" Multiplicity="1" />
           <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
@@ -623,6 +636,10 @@
             <End Role="Seances" EntitySet="Seances" />
             <End Role="TicketPreOrders" EntitySet="TicketPreOrders" />
           </AssociationSet>
+          <AssociationSet Name="FK__Tickets__Account__06CD04F7" Association="Self.FK__Tickets__Account__06CD04F7">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
           <AssociationSet Name="FK__Tickets__SeanceI__440B1D61" Association="Self.FK__Tickets__SeanceI__440B1D61">
             <End Role="Seances" EntitySet="Seances" />
             <End Role="Tickets" EntitySet="Tickets" />
@@ -648,6 +665,7 @@
           <NavigationProperty Name="SecurityTokens" Relationship="Self.FK__SecurityT__Accou__4F7CD00D" FromRole="Accounts" ToRole="SecurityToken" />
           <NavigationProperty Name="Profile" Relationship="CinemaDatabaseModel.FK__Profiles__Accoun__7B5B524B" FromRole="Account" ToRole="Profile" />
           <NavigationProperty Name="TicketPreOrders" Relationship="CinemaDatabaseModel.FK__TicketPre__Accou__02FC7413" FromRole="Account" ToRole="TicketPreOrder" />
+          <NavigationProperty Name="Tickets" Relationship="CinemaDatabaseModel.FK__Tickets__Account__06CD04F7" FromRole="Account" ToRole="Ticket" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -769,6 +787,8 @@
           <Property Name="SeanceId" Type="Int32" Nullable="false" />
           <Property Name="SaleDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Seance" Relationship="Self.FK__Tickets__SeanceI__440B1D61" FromRole="Tickets" ToRole="Seances" />
+          <Property Name="AccountId" Type="Int32" />
+          <NavigationProperty Name="Account" Relationship="CinemaDatabaseModel.FK__Tickets__Account__06CD04F7" FromRole="Ticket" ToRole="Account" />
         </EntityType>
         <Association Name="FK__Comments__Accoun__2F10007B">
           <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
@@ -985,6 +1005,10 @@
           <AssociationSet Name="MoviePersonsJunction" Association="CinemaDatabaseModel.MoviePersonsJunction">
             <End Role="Movy" EntitySet="Movies" />
             <End Role="Person" EntitySet="Persons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__Account__06CD04F7" Association="CinemaDatabaseModel.FK__Tickets__Account__06CD04F7">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Ticket" EntitySet="Tickets" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="GenreLocalization">
@@ -1263,6 +1287,18 @@
           <End Type="CinemaDatabaseModel.Movie" Role="Movy" Multiplicity="*" />
           <End Type="CinemaDatabaseModel.Person" Role="Person" Multiplicity="*" />
         </Association>
+        <Association Name="FK__Tickets__Account__06CD04F7">
+          <End Type="CinemaDatabaseModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="CinemaDatabaseModel.Ticket" Role="Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1378,6 +1414,7 @@
           <EntitySetMapping Name="Tickets">
             <EntityTypeMapping TypeName="CinemaDatabaseModel.Ticket">
               <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Row" ColumnName="Row" />
                 <ScalarProperty Name="Place" ColumnName="Place" />

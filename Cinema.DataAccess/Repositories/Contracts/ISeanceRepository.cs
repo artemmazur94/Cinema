@@ -30,5 +30,7 @@ namespace Cinema.DataAccess.Repositories.Contracts
         void MarkSeanceTicketPreOrdersAsDeletedForUser(int seanceId, int accountId);
 
         void AddTickets(List<Ticket> tickets);
+
+        List<Ticket> GetTicketsForUser(int accountId);
     }
 }

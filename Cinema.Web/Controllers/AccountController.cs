@@ -13,6 +13,7 @@ namespace Cinema.Web.Controllers
     public class AccountController : Controller
     {
         private readonly AccountService _accountService;
+        private readonly BookingService _bookingService;
 
         private const string MESSAGE_KEY = "Message";
 
@@ -22,9 +23,10 @@ namespace Cinema.Web.Controllers
             LanguageHelper.InitializeCulture(HttpContext);
         }
 
-        public AccountController(AccountService accountService)
+        public AccountController(AccountService accountService, BookingService bookingService)
         {
             _accountService = accountService;
+            _bookingService = bookingService;
         }
 
         public ActionResult Register()
@@ -79,6 +81,7 @@ namespace Cinema.Web.Controllers
         }
 
         [HttpPost]
+        // TODO: Post from 2 different login pages in one browser (antiforgety tocken expects loged in user)
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model)
         {
@@ -232,7 +235,7 @@ namespace Cinema.Web.Controllers
                 {
                     _accountService.ChangePassword(account.Login, model.NewPassword);
                     _accountService.Save();
-                    return RedirectToAction("Index", "Movie");
+                    return RedirectToAction("MyProfile", "Account");
                 }
                 ModelState.AddModelError("key", "Wrong old password.");
             }
@@ -288,17 +291,20 @@ namespace Cinema.Web.Controllers
             return View(model);
         }
 
-        [Authorize]
-        public ActionResult MyTickets()
-        {
-            return View();
-        }
+        //[Authorize]
+        //public ActionResult MyTickets()
+        //{
+        //    int accountId = _accountService.GetAccountByUserName(User.Identity.Name).Id;
+        //    List<Ticket> tickets = _bookingService.GetTicketsForUser(accountId);
+        //    return View();
+        //}
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
                 _accountService.Dispose();
+                _bookingService.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -111,5 +111,10 @@ namespace Cinema.DataAccess.Repositories
         {
             _seanceContext.Tickets.AddRange(tickets);
         }
+
+        public List<Ticket> GetTicketsForUser(int accountId)
+        {
+            return _seanceContext.Tickets.Where(x => x.AccountId == accountId).ToList();
+        }
     }
 }

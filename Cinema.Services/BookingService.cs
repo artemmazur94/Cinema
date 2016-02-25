@@ -106,6 +106,11 @@ namespace Cinema.Services
             _disposed = true;
         }
 
+        public List<Ticket> GetTicketsForUser(int accountId)
+        {
+            return _seanceRepository.GetTicketsForUser(accountId);
+        }
+
         public void Dispose()
         {
             Dispose(true);

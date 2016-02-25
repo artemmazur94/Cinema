@@ -4,8 +4,8 @@ namespace Cinema.Web.Models
 {
     public class MyTicketsViewModel
     {
-        public List<TicketViewModel> UsedTickets { get; set; }
+        public List<TicketViewModel> UpcomingTickets { get; set; }
 
-        public List<TicketViewModel> UnusedTickets { get; set; }
+        public List<TicketViewModel> PastTickets { get; set; }
     }
 }

@@ -48,6 +48,7 @@
         <AssociationConnector Association="CinemaDatabaseModel.FK__Ratings__MovieId__412EB0B6" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" />
         <AssociationConnector Association="CinemaDatabaseModel.MoviePersonsJunction" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Tickets__Account__06CD04F7" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

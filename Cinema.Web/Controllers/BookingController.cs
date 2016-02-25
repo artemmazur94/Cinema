@@ -8,8 +8,6 @@ using Cinema.DataAccess;
 using Cinema.Services;
 using Cinema.Web.Helpers;
 using Cinema.Web.Models;
-using Microsoft.Ajax.Utilities;
-using Newtonsoft.Json.Linq;
 
 namespace Cinema.Web.Controllers
 {
@@ -165,7 +163,7 @@ namespace Cinema.Web.Controllers
             _bookingService.MarkTicketPreOrdersAsDeletedForUser(seanceId.Value,
                 _accountService.GetAccountByUserName(User.Identity.Name).Id);
             _bookingService.Save();
-            return RedirectToAction("Index", "Movie");
+            return RedirectToAction("Seances", new { id = seance.Id});
         }
 
         [Authorize]
@@ -224,7 +222,8 @@ namespace Cinema.Web.Controllers
                     Place = ticketPreOrder.Place,
                     Row = ticketPreOrder.Row,
                     SaleDate = DateTime.UtcNow,
-                    Seance = seance
+                    Seance = seance,
+                    AccountId = accountId
                 }).ToList();
             _bookingService.RemoveTicketPreOrdersForUser(seance.Id, accountId);
             _bookingService.AddTickets(tickets);

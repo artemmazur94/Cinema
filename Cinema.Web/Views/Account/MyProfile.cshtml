@@ -30,12 +30,14 @@
         @if (Model.Phone != null)
         {
             <div class="row">
-                @Html.LabelFor(x => x.Phone, new { @class = "control-label col-sm-2" })
+                @Html.LabelFor(x => x.Phone, new {@class = "control-label col-sm-2"})
                 @Model.Phone
             </div>
         }
     </div>
 </div>
+@*<hr/>
+<h4><a href="@Url.Action("MyTickets")"><span class="glyphicon glyphicon-tags"></span> My tickets</a></h4>*@
 <hr/>
 <h4><a href="@Url.Action("EditProfile")"><span class="glyphicon glyphicon-edit"></span> Edit profile</a></h4>
 <hr/>
