@@ -163,7 +163,7 @@ namespace Cinema.Web.Controllers
             _bookingService.MarkTicketPreOrdersAsDeletedForUser(seanceId.Value,
                 _accountService.GetAccountByUserName(User.Identity.Name).Id);
             _bookingService.Save();
-            return RedirectToAction("Seances", new { id = seance.Id});
+            return RedirectToAction("Seances", new { id = seance.MovieId});
         }
 
         [Authorize]
