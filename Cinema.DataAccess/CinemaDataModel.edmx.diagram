@@ -31,8 +31,6 @@
         <EntityTypeShape EntityType="CinemaDatabaseModel.Sector" Width="1.5" PointX="11.25" PointY="3.125" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.SectorType" Width="1.5" PointX="9" PointY="0.75" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Sectors__SectorT__797309D9" />
-        <EntityTypeShape EntityType="CinemaDatabaseModel.Profile" Width="1.5" PointX="0.75" PointY="2.625" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__Profiles__Accoun__7B5B524B" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.Hall" Width="1.5" PointX="5.75" PointY="3.375" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Sectors__HallId__75A278F5" />
@@ -49,6 +47,8 @@
         <AssociationConnector Association="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" />
         <AssociationConnector Association="CinemaDatabaseModel.MoviePersonsJunction" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Tickets__Account__06CD04F7" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Profile" Width="1.5" PointX="5.25" PointY="18.875" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Profiles__Accoun__0A9D95DB" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

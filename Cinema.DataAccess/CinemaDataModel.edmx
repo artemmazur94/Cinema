@@ -372,8 +372,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Profiles__Accoun__7B5B524B">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+        <Association Name="FK__Profiles__Accoun__0A9D95DB">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Profiles" Type="Self.Profiles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Accounts">
@@ -596,7 +598,7 @@
             <End Role="Photos" EntitySet="Photos" />
             <End Role="Persons" EntitySet="Persons" />
           </AssociationSet>
-          <AssociationSet Name="FK__Profiles__Accoun__7B5B524B" Association="Self.FK__Profiles__Accoun__7B5B524B">
+          <AssociationSet Name="FK__Profiles__Accoun__0A9D95DB" Association="Self.FK__Profiles__Accoun__0A9D95DB">
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="Profiles" EntitySet="Profiles" />
           </AssociationSet>
@@ -663,9 +665,9 @@
           <NavigationProperty Name="Comments" Relationship="Self.FK__Comments__Accoun__2F10007B" FromRole="Accounts" ToRole="Comments" />
           <NavigationProperty Name="Ratings" Relationship="Self.FK__Ratings__Account__403A8C7D" FromRole="Accounts" ToRole="Ratings" />
           <NavigationProperty Name="SecurityTokens" Relationship="Self.FK__SecurityT__Accou__4F7CD00D" FromRole="Accounts" ToRole="SecurityToken" />
-          <NavigationProperty Name="Profile" Relationship="CinemaDatabaseModel.FK__Profiles__Accoun__7B5B524B" FromRole="Account" ToRole="Profile" />
           <NavigationProperty Name="TicketPreOrders" Relationship="CinemaDatabaseModel.FK__TicketPre__Accou__02FC7413" FromRole="Account" ToRole="TicketPreOrder" />
           <NavigationProperty Name="Tickets" Relationship="CinemaDatabaseModel.FK__Tickets__Account__06CD04F7" FromRole="Account" ToRole="Ticket" />
+          <NavigationProperty Name="Profile" Relationship="CinemaDatabaseModel.FK__Profiles__Accoun__0A9D95DB" FromRole="Account" ToRole="Profile" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -950,11 +952,6 @@
             <End Role="SectorType" EntitySet="SectorTypes" />
             <End Role="Sector" EntitySet="Sectors" />
           </AssociationSet>
-          <EntitySet Name="Profiles" EntityType="CinemaDatabaseModel.Profile" />
-          <AssociationSet Name="FK__Profiles__Accoun__7B5B524B" Association="CinemaDatabaseModel.FK__Profiles__Accoun__7B5B524B">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="Profile" EntitySet="Profiles" />
-          </AssociationSet>
           <EntitySet Name="Halls" EntityType="CinemaDatabaseModel.Hall" />
           <AssociationSet Name="FK__Seances__HallId__4222D4EF" Association="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF">
             <End Role="Hall" EntitySet="Halls" />
@@ -1009,6 +1006,11 @@
           <AssociationSet Name="FK__Tickets__Account__06CD04F7" Association="CinemaDatabaseModel.FK__Tickets__Account__06CD04F7">
             <End Role="Account" EntitySet="Accounts" />
             <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <EntitySet Name="Profiles" EntityType="CinemaDatabaseModel.Profile" />
+          <AssociationSet Name="FK__Profiles__Accoun__0A9D95DB" Association="CinemaDatabaseModel.FK__Profiles__Accoun__0A9D95DB">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Profile" EntitySet="Profiles" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="GenreLocalization">
@@ -1078,30 +1080,6 @@
             </Principal>
             <Dependent Role="Sector">
               <PropertyRef Name="SectorTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Profile">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Surname" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="ImageData" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="AccountId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Account" Relationship="CinemaDatabaseModel.FK__Profiles__Accoun__7B5B524B" FromRole="Profile" ToRole="Account" />
-        </EntityType>
-        <Association Name="FK__Profiles__Accoun__7B5B524B">
-          <End Type="CinemaDatabaseModel.Account" Role="Account" Multiplicity="1" />
-          <End Type="CinemaDatabaseModel.Profile" Role="Profile" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Profile">
-              <PropertyRef Name="AccountId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1299,6 +1277,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Profile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ImageData" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="AccountId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="CinemaDatabaseModel.FK__Profiles__Accoun__0A9D95DB" FromRole="Profile" ToRole="Account" />
+        </EntityType>
+        <Association Name="FK__Profiles__Accoun__0A9D95DB">
+          <End Type="CinemaDatabaseModel.Account" Role="Account" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CinemaDatabaseModel.Profile" Role="Profile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Profile">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1454,18 +1458,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Profiles">
-            <EntityTypeMapping TypeName="CinemaDatabaseModel.Profile">
-              <MappingFragment StoreEntitySet="Profiles">
-                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-                <ScalarProperty Name="ImageData" ColumnName="ImageData" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Halls">
             <EntityTypeMapping TypeName="CinemaDatabaseModel.Hall">
               <MappingFragment StoreEntitySet="Halls">
@@ -1511,6 +1503,18 @@
               <ScalarProperty Name="Id" ColumnName="MovieId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Profiles">
+            <EntityTypeMapping TypeName="CinemaDatabaseModel.Profile">
+              <MappingFragment StoreEntitySet="Profiles">
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="ImageData" ColumnName="ImageData" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
