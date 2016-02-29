@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Cinema.DataAccess;
 using Cinema.DataAccess.Repositories;
-using Cinema.Helpers;
 using Cinema.Services;
+using Cinema.Services.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cinema.Test.Services
@@ -73,7 +73,41 @@ namespace Cinema.Test.Services
         [TestMethod]
         public void IsValidLoginDataSuccess()
         {
-            
+            var account = new Account()
+            {
+                Login = "somelogin",
+                Password = "somepassword"
+            };
+            Assert.IsTrue(_accountService.IsValidLoginData(account));
+        }
+
+        [TestMethod]
+        public void IsvalidLoginDataWrongPassword()
+        {
+            var account = new Account()
+            {
+                Login = "somelogin",
+                Password = "somewrongpassword"
+            };
+            Assert.IsFalse(_accountService.IsValidLoginData(account));
+        }
+
+        [TestMethod]
+        public void IsExistUsernameSuccess()
+        {
+            Assert.IsTrue(_accountService.IsExistUsername("somelogin"));
+            Assert.IsTrue(_accountService.IsExistUsername("SOMELOGIN"));
+            Assert.IsTrue(_accountService.IsExistUsername("SOMElogin"));
+            Assert.IsFalse(_accountService.IsExistUsername("somewronglogin"));
+        }
+
+        [TestMethod]
+        public void IsExistEmailSuccess()
+        {
+            Assert.IsTrue(_accountService.IsExistEmail("somemail@mail.com"));
+            Assert.IsTrue(_accountService.IsExistEmail("SOMEMAIL@MAIL.COM"));
+            Assert.IsTrue(_accountService.IsExistEmail("someMAIL@mail.COM"));
+            Assert.IsFalse(_accountService.IsExistEmail("somewrongmail@mail.com"));
         }
     }
 }

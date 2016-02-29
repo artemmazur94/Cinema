@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
-using static System.String;
 
-namespace Cinema.Helpers
+namespace Cinema.Services.Helpers
 {
     public static class PasswordManager
     {
@@ -13,13 +12,13 @@ namespace Cinema.Helpers
             using (var random = new RNGCryptoServiceProvider())
             {
                 random.GetNonZeroBytes(salt);
+                return Convert.ToBase64String(salt);
             }
-            return Convert.ToBase64String(salt);
         }
 
         public static string GenerateSaltedPassword(string password, string salt)
         {
-            string saltedPassword = Concat(password, salt);
+            string saltedPassword = String.Concat(password, salt);
             using (MD5 md5 = MD5.Create())
             {
                 var saltedPasswordHash = md5.ComputeHash(Encoding.Unicode.GetBytes(saltedPassword));

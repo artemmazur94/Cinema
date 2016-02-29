@@ -21,6 +21,7 @@ namespace Cinema.Services
 
         public void Save()
         {
+            _personRepository.Save();
             _movieRepository.Save();
         }
 

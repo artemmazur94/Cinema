@@ -26,6 +26,8 @@ namespace Cinema.Services
         public void Save()
         {
             _movieRepository.Save();
+            _genreRepository.Save();
+            _personRepository.Save();
         }
 
         public List<Movie> GetAllMovies()

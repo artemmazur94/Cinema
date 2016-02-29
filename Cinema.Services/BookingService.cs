@@ -94,6 +94,11 @@ namespace Cinema.Services
             ticketPreOrders.ForEach(x => _seanceRepository.RemoveTicketPreOrder(x));
         }
 
+        public List<Ticket> GetTicketsForUser(int accountId)
+        {
+            return _seanceRepository.GetTicketsForUser(accountId);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
@@ -104,11 +109,6 @@ namespace Cinema.Services
                 }
             }
             _disposed = true;
-        }
-
-        public List<Ticket> GetTicketsForUser(int accountId)
-        {
-            return _seanceRepository.GetTicketsForUser(accountId);
         }
 
         public void Dispose()

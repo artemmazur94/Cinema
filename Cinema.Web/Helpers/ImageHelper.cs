@@ -27,15 +27,5 @@ namespace Cinema.Web.Helpers
             }
             return data;
         }
-
-        //public static HttpPostedFileBase ConvertByteArrayToImage(byte[] data)
-        //{
-        //    HttpPostedFileBase file = new HttpPostedFileWrapper(null);
-        //    using (Stream stream = file.InputStream)
-        //    {
-        //        stream.Write(data, 0, data.Length);
-        //    }
-        //    return file;
-        //}
     }
 }

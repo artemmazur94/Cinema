@@ -2,7 +2,6 @@
 using System.Linq;
 using Cinema.DataAccess;
 using Cinema.DataAccess.Repositories.Contracts;
-using Cinema.Helpers;
 using Cinema.Services.Helpers;
 
 namespace Cinema.Services
