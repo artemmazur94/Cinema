@@ -3,7 +3,7 @@ using System.Net;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Cinema.DataAccess;
-using Cinema.Services;
+using Cinema.Services.Contracts;
 using Cinema.Web.Helpers;
 using Cinema.Web.Models;
 
@@ -11,10 +11,10 @@ namespace Cinema.Web.Controllers
 {
     public class GenreController : Controller
     {
-        private readonly GenreService _genreService;
-        private readonly MovieService _movieService;
+        private readonly IGenreService _genreService;
+        private readonly IMovieService _movieService;
 
-        public GenreController(GenreService genreService, MovieService movieService)
+        public GenreController(IGenreService genreService, IMovieService movieService)
         {
             _genreService = genreService;
             _movieService = movieService;

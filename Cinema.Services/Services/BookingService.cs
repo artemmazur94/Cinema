@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Cinema.DataAccess;
 using Cinema.DataAccess.Repositories.Contracts;
+using Cinema.Services.Contracts;
 
 namespace Cinema.Services
 {
-    public class BookingService : IDisposable
+    public class BookingService : IBookingService
     {
         private readonly ISeanceRepository _seanceRepository;
 

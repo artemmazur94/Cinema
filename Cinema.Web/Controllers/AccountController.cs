@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using Cinema.DataAccess;
-using Cinema.Services;
+using Cinema.Services.Contracts;
 using Cinema.Web.Helpers;
 using Cinema.Web.Models;
 
@@ -12,8 +12,8 @@ namespace Cinema.Web.Controllers
 
     public class AccountController : Controller
     {
-        private readonly AccountService _accountService;
-        private readonly BookingService _bookingService;
+        private readonly IAccountService _accountService;
+        private readonly IBookingService _bookingService;
 
         private const string MESSAGE_KEY = "Message";
 
@@ -23,7 +23,7 @@ namespace Cinema.Web.Controllers
             LanguageHelper.InitializeCulture(HttpContext);
         }
 
-        public AccountController(AccountService accountService, BookingService bookingService)
+        public AccountController(IAccountService accountService, IBookingService bookingService)
         {
             _accountService = accountService;
             _bookingService = bookingService;
@@ -198,7 +198,7 @@ namespace Cinema.Web.Controllers
         [Authorize]
         public ActionResult MyProfile()
         {
-            Profile profile = _accountService.GetProfileByUserName(User.Identity.Name);
+            Profile profile = _accountService.GetProfileByUsername(User.Identity.Name);
             var model = new ProfileViewModel()
             {
                 Id = profile.Id,
@@ -245,7 +245,7 @@ namespace Cinema.Web.Controllers
         [Authorize]
         public ActionResult EditProfile()
         {
-            Profile profile = _accountService.GetProfileByUserName(User.Identity.Name);
+            Profile profile = _accountService.GetProfileByUsername(User.Identity.Name);
             var model = new ProfileViewModel()
             {
                 Id = profile.Id,
@@ -268,17 +268,10 @@ namespace Cinema.Web.Controllers
             {
                 if (model.Photo == null || ImageHelper.IsImage(model.Photo.FileName))
                 {
-                    Profile profile = _accountService.GetProfileByUserName(User.Identity.Name);
+                    Profile profile = _accountService.GetProfileByUsername(User.Identity.Name);
                     profile.Name = model.Name;
                     profile.Surname = model.Surname;
-                    if (!String.IsNullOrEmpty(model.Phone))
-                    {
-                        profile.Phone = PhoneNumberHelper.GetPhoneFromMask(model.Phone);
-                    }
-                    else
-                    {
-                        profile.Phone = null;
-                    }
+                    profile.Phone = !String.IsNullOrEmpty(model.Phone) ? PhoneNumberHelper.GetPhoneFromMask(model.Phone) : null;
                     if (model.Photo != null)
                     {
                         profile.ImageData = ImageHelper.ConvertImageToByteArray(model.Photo);
@@ -294,7 +287,7 @@ namespace Cinema.Web.Controllers
         //[Authorize]
         //public ActionResult MyTickets()
         //{
-        //    int accountId = _accountService.GetAccountByUserName(User.Identity.Name).Id;
+        //    int accountId = _accountService.GetAccountByUsername(User.Identity.Name).Id;
         //    List<Ticket> tickets = _bookingService.GetTicketsForUser(accountId);
         //    return View();
         //}

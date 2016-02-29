@@ -5,7 +5,7 @@ using System.Net;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Cinema.DataAccess;
-using Cinema.Services;
+using Cinema.Services.Contracts;
 using Cinema.Web.Helpers;
 using Cinema.Web.Models;
 
@@ -13,13 +13,13 @@ namespace Cinema.Web.Controllers
 {
     public class BookingController : Controller
     {
-        private readonly BookingService _bookingService;
-        private readonly MovieService _movieService;
-        private readonly AccountService _accountService;
+        private readonly IBookingService _bookingService;
+        private readonly IMovieService _movieService;
+        private readonly IAccountService _accountService;
 
         private const string MESSAGE_KEY = "Message";
 
-        public BookingController(BookingService bookingService, MovieService movieService, AccountService accountService)
+        public BookingController(IBookingService bookingService, IMovieService movieService, IAccountService accountService)
         {
             _bookingService = bookingService;
             _movieService = movieService;
@@ -92,7 +92,7 @@ namespace Cinema.Web.Controllers
             if (sectors.Count > 0)
             {
                 model.HallPlan = HallHelper.CreateHallPlan(sectors);
-                int accountId = _accountService.GetAccountByUserName(User.Identity.Name).Id;
+                int accountId = _accountService.GetAccountByUsername(User.Identity.Name).Id;
                 List<Ticket> seanceTickets = _bookingService.GetSeanceTickets(seance.Id);
                 List<TicketPreOrder> seanceTicketPreOrders = _bookingService.GetSeanceTicketPreOrdersOfOtherUsers(seance.Id, accountId);
                 model.Seats = HallSeat.GetAllSeats(seanceTickets, seanceTicketPreOrders);
@@ -109,7 +109,7 @@ namespace Cinema.Web.Controllers
         [HttpPost]
         public ActionResult ChangePlaceStatus(int row, int place, int seanceId)
         {
-            int accountId = _accountService.GetAccountByUserName(User.Identity.Name).Id;
+            int accountId = _accountService.GetAccountByUsername(User.Identity.Name).Id;
             if (_bookingService.IsTicketAbleToBook(row, place, seanceId) && !_bookingService.IsSeatBindedToOtherUser(row, place, seanceId, accountId))
             {
                 if (_bookingService.IsSeatBindedByCurrnetUser(row, place, seanceId, accountId))
@@ -132,7 +132,7 @@ namespace Cinema.Web.Controllers
                 };
                 if (User.Identity.IsAuthenticated)
                 {
-                    ticketPreOrder.AccountId = _accountService.GetAccountByUserName(User.Identity.Name).Id;
+                    ticketPreOrder.AccountId = _accountService.GetAccountByUsername(User.Identity.Name).Id;
                 }
                 _bookingService.AddTicketPreOrder(ticketPreOrder);
                 _bookingService.Save();
@@ -161,7 +161,7 @@ namespace Cinema.Web.Controllers
                 return HttpNotFound();
             }
             _bookingService.MarkTicketPreOrdersAsDeletedForUser(seanceId.Value,
-                _accountService.GetAccountByUserName(User.Identity.Name).Id);
+                _accountService.GetAccountByUsername(User.Identity.Name).Id);
             _bookingService.Save();
             return RedirectToAction("Seances", new { id = seance.MovieId});
         }
@@ -191,7 +191,7 @@ namespace Cinema.Web.Controllers
                 MovieId = movieLocalization.MovieId,
                 SelectedSeats =
                     HallSeat.GetAllSeats(_bookingService.GetSeanceTicketPreOrdersForCurrentUser(seance.Id,
-                        _accountService.GetAccountByUserName(User.Identity.Name).Id))
+                        _accountService.GetAccountByUsername(User.Identity.Name).Id))
             };
             List<Sector> sectors = _bookingService.GetSectorsByHallId(seance.HallId);
             HallSeat.SetSeatTypes(model.SelectedSeats, sectors);
@@ -209,7 +209,7 @@ namespace Cinema.Web.Controllers
             {
                 return HttpNotFound();
             }
-            int accountId = _accountService.GetAccountByUserName(User.Identity.Name).Id;
+            int accountId = _accountService.GetAccountByUsername(User.Identity.Name).Id;
             List<TicketPreOrder> ticketPreOrders = _bookingService.GetSeanceTicketPreOrdersForCurrentUser(seanceId.Value,accountId);
             if (ticketPreOrders.Count == 0)
             {

@@ -5,10 +5,11 @@ using System.Linq;
 using System.Web;
 using Cinema.DataAccess;
 using Cinema.DataAccess.Repositories.Contracts;
+using Cinema.Services.Contracts;
 
 namespace Cinema.Services
 {
-    public class MovieService : IDisposable
+    public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IGenreRepository _genreRepository;
@@ -121,7 +122,7 @@ namespace Cinema.Services
             _movieRepository.DeletePhoto(photo);
         }
 
-        public List<GenreLocalization> GetGenresForMovies(List<int> genreIds, int languageId)
+        public List<GenreLocalization> GetGenreLocalizationsForMovies(List<int> genreIds, int languageId)
         {
             return _genreRepository.GetGenresForMovies(genreIds, languageId);
         }

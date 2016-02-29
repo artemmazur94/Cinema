@@ -4,7 +4,7 @@ using System.Net;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Cinema.DataAccess;
-using Cinema.Services;
+using Cinema.Services.Contracts;
 using Cinema.Web.Helpers;
 using Cinema.Web.Models;
 
@@ -12,10 +12,10 @@ namespace Cinema.Web.Controllers
 {
     public class PersonController : Controller
     {
-        private readonly PersonService _personService;
-        private readonly MovieService _movieService;
+        private readonly IPersonService _personService;
+        private readonly IMovieService _movieService;
 
-        public PersonController(PersonService personService, MovieService movieService)
+        public PersonController(IPersonService personService, IMovieService movieService)
         {
             _personService = personService;
             _movieService = movieService;
@@ -43,7 +43,7 @@ namespace Cinema.Web.Controllers
                  from movieAsDirector in person.DirectorOfMovies
                  select movieAsDirector.Id).Distinct());
 
-            List<MovieLocalization> movieLocalizations = _personService.GetMovieLocalizationsForPersons(movieIds,
+            List<MovieLocalization> movieLocalizations = _personService.GetMovieLocalizations(movieIds,
                 LanguageHelper.CurrnetCulture);
 
             var models = (from person in persons

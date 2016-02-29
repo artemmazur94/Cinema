@@ -2,11 +2,12 @@
 using System.Linq;
 using Cinema.DataAccess;
 using Cinema.DataAccess.Repositories.Contracts;
+using Cinema.Services.Contracts;
 using Cinema.Services.Helpers;
 
 namespace Cinema.Services
 {
-    public class AccountService : IDisposable
+    public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
         private readonly ISecurityTokenRepository _securityTokenRepository;
@@ -97,12 +98,12 @@ namespace Cinema.Services
             CreatePassword(account, newPassword);
         }
 
-        public Profile GetProfileByUserName(string username)
+        public Profile GetProfileByUsername(string username)
         {
             return _accountRepository.GetAccountByUsername(username).Profile.First();
         }
 
-        public Account GetAccountByUserName(string username)
+        public Account GetAccountByUsername(string username)
         {
             return _accountRepository.GetAccountByUsername(username);
         }

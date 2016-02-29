@@ -4,7 +4,7 @@ using System.Net;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Cinema.DataAccess;
-using Cinema.Services;
+using Cinema.Services.Contracts;
 using Cinema.Web.Helpers;
 using Cinema.Web.Models;
 
@@ -12,14 +12,14 @@ namespace Cinema.Web.Controllers
 {
     public class MovieController : Controller
     {
-        private readonly MovieService _movieService;
+        private readonly IMovieService _movieService;
 
         private const string NAME_COLUMN = "Name";
         private const string GENRE_ID_COLUMN = "GenreId";
         private const string PERSON_ID_COLUMN = "PersonId";
         private const int FIRST_FILMRELEASE_YEAR = 1896;
 
-        public MovieController(MovieService movieService)
+        public MovieController(IMovieService movieService)
         {
             _movieService = movieService;
         }
@@ -37,7 +37,7 @@ namespace Cinema.Web.Controllers
 
             List<int> genreIds = (from movie in movies where movie.GenreId != null select movie.GenreId.Value).ToList();
 
-            List<GenreLocalization> genreLocalizations = _movieService.GetGenresForMovies(genreIds,
+            List<GenreLocalization> genreLocalizations = _movieService.GetGenreLocalizationsForMovies(genreIds,
                 LanguageHelper.CurrnetCulture);
 
             List<int> personIds = (from movie in movies

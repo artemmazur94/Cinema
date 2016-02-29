@@ -1,6 +1,8 @@
 using Cinema.DataAccess;
 using Cinema.DataAccess.Repositories;
 using Cinema.DataAccess.Repositories.Contracts;
+using Cinema.Services;
+using Cinema.Services.Contracts;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Cinema.Web.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(Cinema.Web.App_Start.NinjectWebCommon), "Stop")]
@@ -66,6 +68,12 @@ namespace Cinema.Web.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<CinemaDatabaseEntities>().ToSelf().InRequestScope();
+
+            kernel.Bind<IAccountService>().To<AccountService>();
+            kernel.Bind<IBookingService>().To<BookingService>();
+            kernel.Bind<IGenreService>().To<GenreService>();
+            kernel.Bind<IMovieService>().To<MovieService>();
+            kernel.Bind<IPersonService>().To<PersonService>();
 
             kernel.Bind<IAccountRepository>().To<AccountRepository>();
             kernel.Bind<IMovieRepository>().To<MovieRepository>();

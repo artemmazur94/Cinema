@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Cinema.DataAccess;
 using Cinema.DataAccess.Repositories.Contracts;
+using Cinema.Services.Contracts;
 
 namespace Cinema.Services
 {
-    public class PersonService : IDisposable
+    public class PersonService : IPersonService
     {
         private readonly IPersonRepository _personRepository;
         private readonly IMovieRepository _movieRepository;
@@ -40,7 +41,7 @@ namespace Cinema.Services
             return _personRepository.GetAllPersonLocalizations(languageId);
         }
 
-        public List<MovieLocalization> GetMovieLocalizationsForPersons(List<int> movieIds, int languageId)
+        public List<MovieLocalization> GetMovieLocalizations(List<int> movieIds, int languageId)
         {
             return _movieRepository.GetMovieLocalizationsForPersons(movieIds, languageId);
         }
