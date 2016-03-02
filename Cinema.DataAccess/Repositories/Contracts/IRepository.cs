@@ -16,8 +16,6 @@ namespace Cinema.DataAccess.Repositories.Contracts
 
         void Remove(TEntity entity);
 
-        void Save();
-
         void Update(TEntity entityToUpdate);
     }
 }

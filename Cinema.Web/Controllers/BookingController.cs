@@ -115,7 +115,7 @@ namespace Cinema.Web.Controllers
                 if (_bookingService.IsSeatBindedByCurrnetUser(row, place, seanceId, accountId))
                 {
                     _bookingService.RemoveTicketPreOrderForUser(row, place, seanceId, accountId);
-                    _bookingService.Save();
+                    _bookingService.Commit();
                     return Json(new
                     {
                         Status = "free",
@@ -135,7 +135,7 @@ namespace Cinema.Web.Controllers
                     ticketPreOrder.AccountId = _accountService.GetAccountByUsername(User.Identity.Name).Id;
                 }
                 _bookingService.AddTicketPreOrder(ticketPreOrder);
-                _bookingService.Save();
+                _bookingService.Commit();
                 return Json(new
                 {
                     Status = "occupied",
@@ -162,7 +162,7 @@ namespace Cinema.Web.Controllers
             }
             _bookingService.MarkTicketPreOrdersAsDeletedForUser(seanceId.Value,
                 _accountService.GetAccountByUsername(User.Identity.Name).Id);
-            _bookingService.Save();
+            _bookingService.Commit();
             return RedirectToAction("Seances", new { id = seance.MovieId});
         }
 
@@ -227,7 +227,7 @@ namespace Cinema.Web.Controllers
                 }).ToList();
             _bookingService.RemoveTicketPreOrdersForUser(seance.Id, accountId);
             _bookingService.AddTickets(tickets);
-            _bookingService.Save();
+            _bookingService.Commit();
             return RedirectToAction("Index", "Movie");
         }
 

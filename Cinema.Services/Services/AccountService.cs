@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Cinema.DataAccess;
-using Cinema.DataAccess.Repositories.Contracts;
 using Cinema.Services.Contracts;
 using Cinema.Services.Helpers;
 
@@ -9,21 +8,16 @@ namespace Cinema.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly IAccountRepository _accountRepository;
-        private readonly ISecurityTokenRepository _securityTokenRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        private bool _disposed;
-
-        public AccountService(IAccountRepository accountRepository, ISecurityTokenRepository securityTokenRepository)
+        public AccountService(IUnitOfWork unitOfWork)
         {
-            _accountRepository = accountRepository;
-            _securityTokenRepository = securityTokenRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public void Save()
+        public void Commit()
         {
-            _accountRepository.Save();
-            _securityTokenRepository.Save();
+            _unitOfWork.Commit();
         }
 
         public void CreatePassword(Account account)
@@ -39,26 +33,26 @@ namespace Cinema.Services
 
         public bool IsValidLoginData(Account account)
         {
-            string salt = _accountRepository.GetAccountByUsername(account.Login).Salt;
+            string salt = _unitOfWork.AccountRepository.GetAccountByUsername(account.Login).Salt;
             account.Password = PasswordManager.GenerateSaltedPassword(account.Password, salt);
-            return _accountRepository.IsValidLoginData(account);
+            return _unitOfWork.AccountRepository.IsValidLoginData(account);
         }
 
         public bool IsExistUsername(string username)
         {
-            return _accountRepository.IsExistUsername(username);
+            return _unitOfWork.AccountRepository.IsExistUsername(username);
         }
 
         public bool IsExistEmail(string email)
         {
-            return _accountRepository.IsExistEmail(email);
+            return _unitOfWork.AccountRepository.IsExistEmail(email);
         }
 
         public void RestorePassword(string email, string restoreDomain)
         {
-            var account = _accountRepository.Find(x => x.Email == email).First();
+            var account = _unitOfWork.AccountRepository.Find(x => x.Email == email).First();
             var guid = Guid.NewGuid();
-            _accountRepository.AddSecurityToken(new SecurityToken()
+            _unitOfWork.AccountRepository.AddSecurityToken(new SecurityToken()
             {
                 AccountId = account.Id,
                 Id = guid,
@@ -75,55 +69,50 @@ namespace Cinema.Services
 
         public string GetUsernameByToken(Guid token)
         {
-            return _securityTokenRepository.GetUsernameByToken(token);
+            return _unitOfWork.SecurityTokenRepository.GetUsernameByToken(token);
         }
 
         public void UpdatePassword(string username, string password)
         {
-            var account = _accountRepository.Find(x => x.Login == username).First();
+            var account = _unitOfWork.AccountRepository.Find(x => x.Login == username).First();
             account.Password = PasswordManager.GenerateSaltedPassword(password, account.Salt);
-            _accountRepository.Update(account);
+            _unitOfWork.AccountRepository.Update(account);
         }
 
         public void UseSecurityToken(Guid token)
         {
-            var securityToken = _securityTokenRepository.Find(x => x.Id == token).First();
+            var securityToken = _unitOfWork.SecurityTokenRepository.Find(x => x.Id == token).First();
             securityToken.IsUsed = true;
-            _securityTokenRepository.Update(securityToken);
+            _unitOfWork.SecurityTokenRepository.Update(securityToken);
         }
 
         public void ChangePassword(string login, string newPassword)
         {
-            Account account = _accountRepository.GetAccountByUsername(login);
+            Account account = _unitOfWork.AccountRepository.GetAccountByUsername(login);
             CreatePassword(account, newPassword);
         }
 
         public Profile GetProfileByUsername(string username)
         {
-            return _accountRepository.GetAccountByUsername(username).Profile.First();
+            return _unitOfWork.AccountRepository.GetAccountByUsername(username).Profile.First();
         }
 
         public Account GetAccountByUsername(string username)
         {
-            return _accountRepository.GetAccountByUsername(username);
+            return _unitOfWork.AccountRepository.GetAccountByUsername(username);
         }
 
         public void AddProfile(Profile profile)
         {
-            _accountRepository.AddProfile(profile);
+            _unitOfWork.AccountRepository.AddProfile(profile);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    _accountRepository.Dispose();
-                    _securityTokenRepository.Dispose();
-                }
+                _unitOfWork.Dispose();
             }
-            _disposed = true;
         }
 
         public void Dispose()

@@ -137,7 +137,7 @@ namespace Cinema.Web.Controllers
                 Name = model.Name,
                 LanguageId = (int) LanguageType.EN
             });
-            _personService.Save();
+            _personService.Commit();
         }
 
         private void EditPerson(PersonAddEditViewModel model)
@@ -156,7 +156,7 @@ namespace Cinema.Web.Controllers
                 personLocalization.Person = person;
             }
 
-            _personService.Save();
+            _personService.Commit();
         }
 
         // GET: People/Delete/5
@@ -189,7 +189,7 @@ namespace Cinema.Web.Controllers
                 _movieService.DeletePreviousPhotoFromDirectory(person.Photo, Server.MapPath("~/"));
             }
             _personService.RemovePerson(person);
-            _personService.Save();
+            _personService.Commit();
             return RedirectToAction("Index");
         }
 

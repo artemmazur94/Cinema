@@ -49,11 +49,6 @@ namespace Cinema.DataAccess.Repositories
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Save()
-        {
-            _context.SaveChanges();
-        }
-
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)

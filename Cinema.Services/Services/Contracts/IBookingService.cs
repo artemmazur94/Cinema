@@ -6,7 +6,7 @@ namespace Cinema.Services.Contracts
 {
     public interface IBookingService : IDisposable
     {
-        void Save();
+        void Commit();
 
         List<Seance> GetActiveSeancesByMovieId(int movieId);
 

@@ -224,7 +224,7 @@ namespace Cinema.Web.Controllers
                 Name = model.Name,
                 Movie = movie
             });
-            _movieService.Save();
+            _movieService.Commit();
         }
 
         private void EditMovie(MovieAddEditViewModel model)
@@ -258,7 +258,7 @@ namespace Cinema.Web.Controllers
             movieLocalization.Name = model.Name;
             movieLocalization.Description = model.Description;
 
-            _movieService.Save();
+            _movieService.Commit();
         }
 
         private void EditActorsList(ICollection<Person> oldActors, List<Person> newActors)
@@ -304,6 +304,7 @@ namespace Cinema.Web.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             _movieService.RemoveMovie(id);
+            _movieService.Commit();
             return RedirectToAction("Index");
         }
 

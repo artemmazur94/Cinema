@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using Cinema.DataAccess;
+using Cinema.DataAccess.Exceptions;
 using Cinema.Services.Contracts;
 using Cinema.Web.Helpers;
 using Cinema.Web.Models;
@@ -43,30 +44,38 @@ namespace Cinema.Web.Controllers
         public ActionResult Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid) return View();
-            if (!_accountService.IsExistUsername(model.Username))
+            try
             {
-                if (!_accountService.IsExistEmail(model.Email))
+                if (!_accountService.IsExistUsername(model.Username))
                 {
-                    model.Email = model.Email.ToLower();
-                    var profile = new Profile()
+                    if (!_accountService.IsExistEmail(model.Email))
                     {
-                        Name = model.Name,
-                        Surname = model.Surname,
-                        Account = new Account()
+                        model.Email = model.Email.ToLower();
+                        var profile = new Profile()
                         {
-                            Email = model.Email,
-                            Login = model.Username,
-                            Password = model.Password
-                        }
-                    };
-                    _accountService.CreatePassword(profile.Account);
-                    _accountService.AddProfile(profile);
-                    _accountService.Save();
-                    return RedirectToAction("Index", "Movie");
+                            Name = model.Name,
+                            Surname = model.Surname,
+                            Account = new Account()
+                            {
+                                Email = model.Email,
+                                Login = model.Username,
+                                Password = model.Password
+                            }
+                        };
+                        _accountService.CreatePassword(profile.Account);
+                        _accountService.AddProfile(profile);
+                        _accountService.Commit();
+                        return RedirectToAction("Index", "Movie");
+                    }
+                    ModelState.AddModelError("", "User with this email already exists");
+                    return View(model);
                 }
-                ModelState.AddModelError("", "User with this email already exists");
-                return View(model);
             }
+            catch (DatabaseNotAvailableException ex)
+            {
+                return View("Error");
+            }
+            
             ModelState.AddModelError("", "User with this username already exists");
             return View(model);
         }
@@ -122,7 +131,7 @@ namespace Cinema.Web.Controllers
                 if(_accountService.IsExistEmail(model.Email))
                 {
                     _accountService.RestorePassword(model.Email, Request.Url.Authority);
-                    _accountService.Save();
+                    _accountService.Commit();
                     Session[MESSAGE_KEY] = "Message for restoring password was sent to your email.";
                     return RedirectToAction("ShowMessage");
                 }
@@ -177,7 +186,7 @@ namespace Cinema.Web.Controllers
             {
                 _accountService.UpdatePassword(model.Username, model.Password);
                 _accountService.UseSecurityToken(model.Token);
-                _accountService.Save();
+                _accountService.Commit();
                 Session[MESSAGE_KEY] = "Your password was updated.";
                 return RedirectToAction("ShowMessage");
             }
@@ -234,7 +243,7 @@ namespace Cinema.Web.Controllers
                 if (_accountService.IsValidLoginData(account))
                 {
                     _accountService.ChangePassword(account.Login, model.NewPassword);
-                    _accountService.Save();
+                    _accountService.Commit();
                     return RedirectToAction("MyProfile", "Account");
                 }
                 ModelState.AddModelError("key", "Wrong old password.");
@@ -276,7 +285,7 @@ namespace Cinema.Web.Controllers
                     {
                         profile.ImageData = ImageHelper.ConvertImageToByteArray(model.Photo);
                     }
-                    _accountService.Save();
+                    _accountService.Commit();
                     return RedirectToAction("MyProfile", "Account");
                 }
                 ModelState.AddModelError("", "Photo has bad format.Allowed formats are '.png', '.jpeg', '.jpg'.");

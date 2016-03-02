@@ -1,58 +1,51 @@
 ﻿using System;
 using Cinema.DataAccess;
-using Cinema.DataAccess.Repositories.Contracts;
 using Cinema.Services.Contracts;
 
 namespace Cinema.Services
 {
     public class GenreService : IGenreService
     {
-        private readonly IGenreRepository _genreRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        private bool _disposed;
-
-        public GenreService(IGenreRepository genreRepository)
+        public GenreService(IUnitOfWork unitOfWork)
         {
-            _genreRepository = genreRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public void Save()
+        public void Commit()
         {
-            _genreRepository.Save();
+            _unitOfWork.Commit();
         }
 
         public Genre GetGenre(int id)
         {
-            return _genreRepository.Get(id);
+            return _unitOfWork.GenreRepository.Get(id);
         }
 
         public GenreLocalization GetGenreLocalization(int id, int languageId)
         {
-            return _genreRepository.GetGenreLocalization(id, languageId);
+            return _unitOfWork.GenreRepository.GetGenreLocalization(id, languageId);
         }
 
         public void AddGenreLocalization(GenreLocalization genreLocalization)
         {
-            _genreRepository.AddGenreLocalization(genreLocalization);
+            _unitOfWork.GenreRepository.AddGenreLocalization(genreLocalization);
         }
 
         public void RemoveGenre(Genre genre)
         {
-            _genreRepository.Remove(genre);
+            _unitOfWork.GenreRepository.Remove(genre);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    _genreRepository.Dispose();
-                }
+                _unitOfWork.Dispose();
             }
-            _disposed = true;
         }
-        
+
         public void Dispose()
         {
             Dispose(true);

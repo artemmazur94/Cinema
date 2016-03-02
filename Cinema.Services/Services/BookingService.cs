@@ -2,114 +2,107 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cinema.DataAccess;
-using Cinema.DataAccess.Repositories.Contracts;
 using Cinema.Services.Contracts;
 
 namespace Cinema.Services
 {
     public class BookingService : IBookingService
     {
-        private readonly ISeanceRepository _seanceRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        private bool _disposed;
-
-        public BookingService(ISeanceRepository seanceRepository)
+        public BookingService(IUnitOfWork unitOfWork)
         {
-            _seanceRepository = seanceRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public void Save()
+        public void Commit()
         {
-            _seanceRepository.Save();
+            _unitOfWork.Commit();
         }
 
         public List<Seance> GetActiveSeancesByMovieId(int movieId)
         {
-            return _seanceRepository.Find(x => x.MovieId == movieId && x.DateTime > DateTime.UtcNow).ToList();
+            return _unitOfWork.SeanceRepository.Find(x => x.MovieId == movieId && x.DateTime > DateTime.UtcNow).ToList();
         }
 
         public Seance GetSeance(int id)
         {
-            return _seanceRepository.Get(id);
+            return _unitOfWork.SeanceRepository.Get(id);
         }
 
         public List<Sector> GetSectorsByHallId(int hallId)
         {
-            return _seanceRepository.GetSectorsByHallId(hallId);
+            return _unitOfWork.SeanceRepository.GetSectorsByHallId(hallId);
         }
 
         public bool IsTicketAbleToBook(int row, int place, int seanceId)
         {
-            return !_seanceRepository.IsExistTicket(row, place, seanceId);
+            return !_unitOfWork.SeanceRepository.IsExistTicket(row, place, seanceId);
         }
 
         public void AddTicketPreOrder(TicketPreOrder ticketPreOrder)
         {
-            _seanceRepository.AddTicketPreOrder(ticketPreOrder);
+            _unitOfWork.SeanceRepository.AddTicketPreOrder(ticketPreOrder);
         }
 
         public List<Ticket> GetSeanceTickets(int seanceId)
         {
-            return _seanceRepository.GetSeanceTickets(seanceId);
+            return _unitOfWork.SeanceRepository.GetSeanceTickets(seanceId);
         }
 
         public List<TicketPreOrder> GetSeanceTicketPreOrdersOfOtherUsers(int seanceId, int accountId)
         {
-            return _seanceRepository.GetSeanceTicketPreOrdersOfOtherUsers(seanceId, accountId);
+            return _unitOfWork.SeanceRepository.GetSeanceTicketPreOrdersOfOtherUsers(seanceId, accountId);
         }
 
         public List<TicketPreOrder> GetSeanceTicketPreOrdersForCurrentUser(int seanceId, int accountId)
         {
-            return _seanceRepository.GetSeanceTicketPreOrdersForUser(seanceId, accountId);
+            return _unitOfWork.SeanceRepository.GetSeanceTicketPreOrdersForUser(seanceId, accountId);
         }
 
         public bool IsSeatBindedToOtherUser(int row, int place, int seanceId, int accountId)
         {
-            return _seanceRepository.IsSeatBindedToOtherUser(row, place, seanceId, accountId);
+            return _unitOfWork.SeanceRepository.IsSeatBindedToOtherUser(row, place, seanceId, accountId);
         }
 
         public bool IsSeatBindedByCurrnetUser(int row, int place, int seanceId, int accountId)
         {
-            return _seanceRepository.IsSeatBindedByCurrnetUser(row, place, seanceId, accountId);
+            return _unitOfWork.SeanceRepository.IsSeatBindedByCurrnetUser(row, place, seanceId, accountId);
         }
 
         public void RemoveTicketPreOrderForUser(int row, int place, int seanceId, int accountId)
         {
-            TicketPreOrder ticketPreOrder = _seanceRepository.GetTicketPreOrderBySeanceData(row, place, seanceId, accountId);
-            _seanceRepository.RemoveTicketPreOrder(ticketPreOrder);
+            TicketPreOrder ticketPreOrder = _unitOfWork.SeanceRepository.GetTicketPreOrderBySeanceData(row, place, seanceId, accountId);
+            _unitOfWork.SeanceRepository.RemoveTicketPreOrder(ticketPreOrder);
         }
 
         public void MarkTicketPreOrdersAsDeletedForUser(int seanceId, int accountId)
         {
-            _seanceRepository.MarkSeanceTicketPreOrdersAsDeletedForUser(seanceId, accountId);
+            _unitOfWork.SeanceRepository.MarkSeanceTicketPreOrdersAsDeletedForUser(seanceId, accountId);
         }
 
         public void AddTickets(List<Ticket> tickets)
         {
-            _seanceRepository.AddTickets(tickets);
+            _unitOfWork.SeanceRepository.AddTickets(tickets);
         }
 
         public void RemoveTicketPreOrdersForUser(int seanceId, int accountId)
         {
             List<TicketPreOrder> ticketPreOrders = GetSeanceTicketPreOrdersForCurrentUser(seanceId, accountId);
-            ticketPreOrders.ForEach(x => _seanceRepository.RemoveTicketPreOrder(x));
+            ticketPreOrders.ForEach(x => _unitOfWork.SeanceRepository.RemoveTicketPreOrder(x));
         }
 
         public List<Ticket> GetTicketsForUser(int accountId)
         {
-            return _seanceRepository.GetTicketsForUser(accountId);
+            return _unitOfWork.SeanceRepository.GetTicketsForUser(accountId);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    _seanceRepository.Dispose();
-                }
+                _unitOfWork.Dispose();
             }
-            _disposed = true;
         }
 
         public void Dispose()

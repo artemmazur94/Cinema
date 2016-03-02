@@ -4,76 +4,67 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using Cinema.DataAccess;
-using Cinema.DataAccess.Repositories.Contracts;
 using Cinema.Services.Contracts;
 
 namespace Cinema.Services
 {
     public class MovieService : IMovieService
     {
-        private readonly IMovieRepository _movieRepository;
-        private readonly IGenreRepository _genreRepository;
-        private readonly IPersonRepository _personRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        private bool _disposed;
-
-        public MovieService(IMovieRepository movieRepository, IGenreRepository genreRepository, IPersonRepository personRepository)
+        public MovieService(IUnitOfWork unitOfWork)
         {
-            _movieRepository = movieRepository;
-            _genreRepository = genreRepository;
-            _personRepository = personRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public void Save()
+        public void Commit()
         {
-            _movieRepository.Save();
-            _genreRepository.Save();
-            _personRepository.Save();
+            _unitOfWork.Commit();
         }
 
         public List<Movie> GetAllMovies()
         {
-            return _movieRepository.Find(x => x.IsDeleted == false).ToList();
+            return _unitOfWork.MovieRepository.Find(x => x.IsDeleted == false).ToList();
         }
 
         public Movie GetMovie(int id)
         {
-            return _movieRepository.Find(x => x.Id == id && x.IsDeleted == false).FirstOrDefault();
+            return _unitOfWork.MovieRepository.Find(x => x.Id == id && x.IsDeleted == false).FirstOrDefault();
         }
 
         public MovieLocalization GetMovieLocalization(int id, int languageId)
         {
-            return _movieRepository.GetMovieLocalization(id, languageId);
+            return _unitOfWork.MovieRepository.GetMovieLocalization(id, languageId);
         }
 
         public string GetGenreLocalizationName(int genreId, int languageId)
         {
-            return _genreRepository.GetGenreLocalization(genreId, languageId).Name;
+            return _unitOfWork.GenreRepository.GetGenreLocalization(genreId, languageId).Name;
         }
 
         public List<string> GetActorLocalizations(ICollection<Person> actors, int languageId)
         {
-            return _personRepository.GetActorLocalizations(actors, languageId);
+            return _unitOfWork.PersonRepository.GetActorLocalizations(actors, languageId);
         }
 
         public List<PersonLocalization> GetActorLocalizationsForMovies(List<int> personIds, int languageId)
         {
-            return _personRepository.GetActorLocalizationsForMovies(personIds, languageId);
+            return _unitOfWork.PersonRepository.GetActorLocalizationsForMovies(personIds, languageId);
         }
 
         public string GetDirectorLocalization(int directorId, int languageId)
         {
-            return _personRepository.GetPersonLocalization(directorId, languageId).Name;
+            return _unitOfWork.PersonRepository.GetPersonLocalization(directorId, languageId).Name;
         }
 
         public List<GenreLocalization> GetAllGenreLocalizations(int languageId)
         {
-            return _genreRepository.GetAllGenreLocalizations(languageId);
+            return _unitOfWork.GenreRepository.GetAllGenreLocalizations(languageId);
         }
 
         public List<PersonLocalization> GetAllPersonLocalizations(int languageId)
         {
-            return _personRepository.GetAllPersonLocalizations(languageId);
+            return _unitOfWork.PersonRepository.GetAllPersonLocalizations(languageId);
         }
 
         public Photo SetPhotoToDirectory(HttpPostedFileBase poster, string serverPath)
@@ -93,24 +84,23 @@ namespace Cinema.Services
 
         public List<Person> GetSelectedActors(List<int> actorIds)
         {
-            return _personRepository.GetSelectedActors(actorIds);
+            return _unitOfWork.PersonRepository.GetSelectedActors(actorIds);
         }
 
         public void AddMovieLocalization(MovieLocalization movieLocalization)
         {
-            _movieRepository.AddMovieLocalization(movieLocalization);
+            _unitOfWork.MovieRepository.AddMovieLocalization(movieLocalization);
         }
 
         public List<int> GetActorIdsForMovie(int movieId)
         {
-            return _personRepository.GetActorIdsForMovie(movieId);
+            return _unitOfWork.PersonRepository.GetActorIdsForMovie(movieId);
         }
 
         public void RemoveMovie(int id)
         {
-            Movie movie = _movieRepository.Get(id);
+            Movie movie = _unitOfWork.MovieRepository.Get(id);
             movie.IsDeleted = true;
-            _movieRepository.Save();
         }
 
         public void DeletePreviousPhotoFromDirectory(Photo photo, string serverPath)
@@ -119,26 +109,20 @@ namespace Cinema.Services
             {
                 System.IO.File.Delete(serverPath + photo.Path);
             }
-            _movieRepository.DeletePhoto(photo);
+            _unitOfWork.MovieRepository.DeletePhoto(photo);
         }
 
         public List<GenreLocalization> GetGenreLocalizationsForMovies(List<int> genreIds, int languageId)
         {
-            return _genreRepository.GetGenresForMovies(genreIds, languageId);
+            return _unitOfWork.GenreRepository.GetGenresForMovies(genreIds, languageId);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    _movieRepository.Dispose();
-                    _genreRepository.Dispose();
-                    _personRepository.Dispose();
-                }
+                _unitOfWork.Dispose();
             }
-            _disposed = true;
         }
 
         public void Dispose()

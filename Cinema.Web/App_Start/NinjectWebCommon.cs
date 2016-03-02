@@ -69,6 +69,8 @@ namespace Cinema.Web.App_Start
         {
             kernel.Bind<CinemaDatabaseEntities>().ToSelf().InRequestScope();
 
+            kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
+
             kernel.Bind<IAccountService>().To<AccountService>();
             kernel.Bind<IBookingService>().To<BookingService>();
             kernel.Bind<IGenreService>().To<GenreService>();

@@ -2,75 +2,64 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cinema.DataAccess;
-using Cinema.DataAccess.Repositories.Contracts;
 using Cinema.Services.Contracts;
 
 namespace Cinema.Services
 {
     public class PersonService : IPersonService
     {
-        private readonly IPersonRepository _personRepository;
-        private readonly IMovieRepository _movieRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        private bool _disposed;
-
-        public PersonService(IPersonRepository personRepository, IMovieRepository movieRepository)
+        public PersonService(IUnitOfWork unitOfWork)
         {
-            _personRepository = personRepository;
-            _movieRepository = movieRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public void Save()
+        public void Commit()
         {
-            _personRepository.Save();
-            _movieRepository.Save();
+            _unitOfWork.Commit();
         }
 
         public List<Person> GetAllPersons()
         {
-            return _personRepository.GetAll().ToList();
+            return _unitOfWork.PersonRepository.GetAll().ToList();
         }
 
         public Person GetPerson(int id)
         {
-            return _personRepository.Get(id);
+            return _unitOfWork.PersonRepository.Get(id);
         }
 
         public List<PersonLocalization> GetAllPersonLocalizations(int languageId)
         {
-            return _personRepository.GetAllPersonLocalizations(languageId);
+            return _unitOfWork.PersonRepository.GetAllPersonLocalizations(languageId);
         }
 
         public List<MovieLocalization> GetMovieLocalizations(List<int> movieIds, int languageId)
         {
-            return _movieRepository.GetMovieLocalizationsForPersons(movieIds, languageId);
+            return _unitOfWork.MovieRepository.GetMovieLocalizationsForPersons(movieIds, languageId);
         }
 
         public void AddPersonLocalization(PersonLocalization personLocalization)
         {
-            _personRepository.AddPersonLocalization(personLocalization);
+            _unitOfWork.PersonRepository.AddPersonLocalization(personLocalization);
         }
 
         public PersonLocalization GetPersonLocalization(int id, int languageId)
         {
-            return _personRepository.GetPersonLocalization(id, languageId);
+            return _unitOfWork.PersonRepository.GetPersonLocalization(id, languageId);
         }
 
         public void RemovePerson(Person person)
         {
-            _personRepository.Remove(person);
+            _unitOfWork.PersonRepository.Remove(person);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    _movieRepository.Dispose();
-                    _personRepository.Dispose();
-                }
-                _disposed = true;
+                _unitOfWork.Dispose();
             }
         }
 

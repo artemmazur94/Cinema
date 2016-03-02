@@ -19,7 +19,10 @@ namespace Cinema.Test.Services
         public AccountServiceTests()
         {
             _context = new CinemaDatabaseEntities();
-            _accountService = new AccountService(new AccountRepository(_context), new SecurityTokenRepository(_context));
+            _accountService =
+                new AccountService(new UnitOfWork(_context, new AccountRepository(_context),
+                    new GenreRepository(_context), new MovieRepository(_context), new PersonRepository(_context),
+                    new SeanceRepository(_context), new SecurityTokenRepository(_context)));
         }
 
         [TestInitialize]
@@ -41,7 +44,7 @@ namespace Cinema.Test.Services
             _password = _profile.Account.Password;
             _accountService.CreatePassword(_profile.Account);
             _accountService.AddProfile(_profile);
-            _accountService.Save();
+            _accountService.Commit();
         }
 
         [TestCleanup]

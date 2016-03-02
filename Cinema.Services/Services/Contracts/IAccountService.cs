@@ -5,7 +5,7 @@ namespace Cinema.Services.Contracts
 {
     public interface IAccountService: IDisposable
     {
-        void Save();
+        void Commit();
 
         void CreatePassword(Account account);
 

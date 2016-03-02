@@ -5,7 +5,7 @@ namespace Cinema.Services.Contracts
 {
     public interface IGenreService : IDisposable
     {
-        void Save();
+        void Commit();
 
         Genre GetGenre(int id);
 

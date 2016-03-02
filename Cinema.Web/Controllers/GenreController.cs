@@ -99,7 +99,7 @@ namespace Cinema.Web.Controllers
                 Name = model.Name,
                 LanguageId = (int) LanguageType.EN
             });
-            _genreService.Save();
+            _genreService.Commit();
         }
 
         private void EditGenre(GenreViewModel model)
@@ -107,7 +107,7 @@ namespace Cinema.Web.Controllers
             GenreLocalization genreLocalization = _genreService.GetGenreLocalization(model.Id, (int) LanguageType.EN);
             genreLocalization.Name = model.Name;
             genreLocalization.Description = model.Description;
-            _genreService.Save();
+            _genreService.Commit();
         }
 
         // GET: Genre/Delete/5
@@ -136,7 +136,7 @@ namespace Cinema.Web.Controllers
         {
             Genre genre = _genreService.GetGenre(id);
             _genreService.RemoveGenre(genre);
-            _genreService.Save();
+            _genreService.Commit();
             return RedirectToAction("Index");
         }
 
