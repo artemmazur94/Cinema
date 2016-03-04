@@ -9,6 +9,7 @@ using Cinema.Web.Models;
 
 namespace Cinema.Web.Controllers
 {
+    [HandleLogError]
     public class GenreController : Controller
     {
         private readonly IGenreService _genreService;

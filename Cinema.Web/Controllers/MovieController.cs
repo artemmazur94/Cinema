@@ -10,18 +10,21 @@ using Cinema.Web.Models;
 
 namespace Cinema.Web.Controllers
 {
+    [HandleLogError]
     public class MovieController : Controller
     {
         private readonly IMovieService _movieService;
+        private readonly IAccountService _accountService;
 
         private const string NAME_COLUMN = "Name";
         private const string GENRE_ID_COLUMN = "GenreId";
         private const string PERSON_ID_COLUMN = "PersonId";
         private const int FIRST_FILMRELEASE_YEAR = 1896;
 
-        public MovieController(IMovieService movieService)
+        public MovieController(IMovieService movieService, IAccountService accountService)
         {
             _movieService = movieService;
+            _accountService = accountService;
         }
 
         protected override void Initialize(RequestContext requestContext)
@@ -159,6 +162,7 @@ namespace Cinema.Web.Controllers
         }
 
         // POST: Movies/CreateEdit
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateEdit(MovieAddEditViewModel model)
@@ -280,6 +284,7 @@ namespace Cinema.Web.Controllers
         }
 
         // GET: Movies/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -299,11 +304,12 @@ namespace Cinema.Web.Controllers
         }
 
         //POST: Movies/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            _movieService.RemoveMovie(id);
+            _movieService.RemoveMovie(id, _accountService.GetAccountByUsername(User.Identity.Name).Id);
             _movieService.Commit();
             return RedirectToAction("Index");
         }

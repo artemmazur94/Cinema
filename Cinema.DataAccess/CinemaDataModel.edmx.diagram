@@ -49,6 +49,7 @@
         <AssociationConnector Association="CinemaDatabaseModel.FK__Tickets__Account__06CD04F7" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.Profile" Width="1.5" PointX="5.25" PointY="18.875" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Profiles__Accoun__0A9D95DB" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Movies__RemoveEx__14270015" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

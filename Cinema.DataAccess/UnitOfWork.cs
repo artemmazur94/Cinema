@@ -1,5 +1,4 @@
 ﻿using System;
-using Cinema.DataAccess.Exceptions;
 using Cinema.DataAccess.Repositories.Contracts;
 
 namespace Cinema.DataAccess
@@ -35,15 +34,7 @@ namespace Cinema.DataAccess
 
         public void Commit()
         {
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                throw new DatabaseNotAvailableException("Database is not available.");
-            }
-            
+            _context.SaveChanges();
         }
 
         private bool _disposed;

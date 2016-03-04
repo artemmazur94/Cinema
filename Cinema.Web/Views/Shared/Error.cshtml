@@ -1,8 +1,22 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
+﻿@model HandleErrorInfo
 
 @{
     ViewBag.Title = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<div class="page-header">
+    <h1 class="text"><strong>Error</strong></h1>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h2 class="text">An error occurred while processing your request.</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="well">
+            <p>@Model.Exception.GetType().ToString()</p>
+            <p>@Model.Exception.Message</p>
+        </div>
+    </div>
+</div>

@@ -10,6 +10,7 @@ using Cinema.Web.Models;
 
 namespace Cinema.Web.Controllers
 {
+    [HandleLogError]
     public class PersonController : Controller
     {
         private readonly IPersonService _personService;

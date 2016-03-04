@@ -76,7 +76,6 @@
     <Compile Include="Comment.cs">
       <DependentUpon>CinemaDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Exceptions\DatabaseNotAvailableException.cs" />
     <Compile Include="Genre.cs">
       <DependentUpon>CinemaDataModel.tt</DependentUpon>
     </Compile>

@@ -89,6 +89,7 @@
           <Property Name="PhotoId" Type="int" />
           <Property Name="VideoLink" Type="varchar(max)" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="RemoveExecutorId" Type="int" />
         </EntityType>
         <EntityType Name="PersonLocalization">
           <Key>
@@ -329,6 +330,18 @@
             </Principal>
             <Dependent Role="Movies">
               <PropertyRef Name="PhotoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Movies__RemoveEx__14270015">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
+          <End Role="Movies" Type="Self.Movies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Movies">
+              <PropertyRef Name="RemoveExecutorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -586,6 +599,10 @@
             <End Role="Photos" EntitySet="Photos" />
             <End Role="Movies" EntitySet="Movies" />
           </AssociationSet>
+          <AssociationSet Name="FK__Movies__RemoveEx__14270015" Association="Self.FK__Movies__RemoveEx__14270015">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Movies" EntitySet="Movies" />
+          </AssociationSet>
           <AssociationSet Name="FK__PersonLoc__Langu__38996AB5" Association="Self.FK__PersonLoc__Langu__38996AB5">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="PersonLocalization" EntitySet="PersonLocalization" />
@@ -668,6 +685,7 @@
           <NavigationProperty Name="TicketPreOrders" Relationship="CinemaDatabaseModel.FK__TicketPre__Accou__02FC7413" FromRole="Account" ToRole="TicketPreOrder" />
           <NavigationProperty Name="Tickets" Relationship="CinemaDatabaseModel.FK__Tickets__Account__06CD04F7" FromRole="Account" ToRole="Ticket" />
           <NavigationProperty Name="Profile" Relationship="CinemaDatabaseModel.FK__Profiles__Accoun__0A9D95DB" FromRole="Account" ToRole="Profile" />
+          <NavigationProperty Name="Movies" Relationship="CinemaDatabaseModel.FK__Movies__RemoveEx__14270015" FromRole="Account" ToRole="Movie" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -1012,6 +1030,10 @@
             <End Role="Account" EntitySet="Accounts" />
             <End Role="Profile" EntitySet="Profiles" />
           </AssociationSet>
+          <AssociationSet Name="FK__Movies__RemoveEx__14270015" Association="CinemaDatabaseModel.FK__Movies__RemoveEx__14270015">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Movie" EntitySet="Movies" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="GenreLocalization">
           <Key>
@@ -1176,6 +1198,8 @@
           <NavigationProperty Name="Ratings" Relationship="CinemaDatabaseModel.FK__Ratings__MovieId__412EB0B6" FromRole="Movy" ToRole="Rating" />
           <NavigationProperty Name="Seances" Relationship="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" FromRole="Movy" ToRole="Seance" />
           <NavigationProperty Name="Actors" Relationship="CinemaDatabaseModel.MoviePersonsJunction" FromRole="Movy" ToRole="Person" />
+          <Property Name="RemoveExecutorId" Type="Int32" />
+          <NavigationProperty Name="RemoveExecutor" Relationship="CinemaDatabaseModel.FK__Movies__RemoveEx__14270015" FromRole="Movie" ToRole="Account" />
         </EntityType>
         <Association Name="FK__Comments__MovieI__300424B4">
           <End Type="CinemaDatabaseModel.Movie" Role="Movy" Multiplicity="1" />
@@ -1300,6 +1324,18 @@
             </Principal>
             <Dependent Role="Profile">
               <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Movies__RemoveEx__14270015">
+          <End Type="CinemaDatabaseModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="CinemaDatabaseModel.Movie" Role="Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Movie">
+              <PropertyRef Name="RemoveExecutorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1483,6 +1519,7 @@
           <EntitySetMapping Name="Movies">
             <EntityTypeMapping TypeName="CinemaDatabaseModel.Movie">
               <MappingFragment StoreEntitySet="Movies">
+                <ScalarProperty Name="RemoveExecutorId" ColumnName="RemoveExecutorId" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="VideoLink" ColumnName="VideoLink" />
                 <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />

@@ -3,14 +3,13 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using Cinema.DataAccess;
-using Cinema.DataAccess.Exceptions;
 using Cinema.Services.Contracts;
 using Cinema.Web.Helpers;
 using Cinema.Web.Models;
 
 namespace Cinema.Web.Controllers
 {
-
+    [HandleLogError]
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
@@ -44,42 +43,34 @@ namespace Cinema.Web.Controllers
         public ActionResult Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid) return View();
-            try
+            if (!_accountService.IsExistUsername(model.Username))
             {
-                if (!_accountService.IsExistUsername(model.Username))
+                if (!_accountService.IsExistEmail(model.Email))
                 {
-                    if (!_accountService.IsExistEmail(model.Email))
+                    model.Email = model.Email.ToLower();
+                    var profile = new Profile()
                     {
-                        model.Email = model.Email.ToLower();
-                        var profile = new Profile()
+                        Name = model.Name,
+                        Surname = model.Surname,
+                        Account = new Account()
                         {
-                            Name = model.Name,
-                            Surname = model.Surname,
-                            Account = new Account()
-                            {
-                                Email = model.Email,
-                                Login = model.Username,
-                                Password = model.Password
-                            }
-                        };
-                        _accountService.CreatePassword(profile.Account);
-                        _accountService.AddProfile(profile);
-                        _accountService.Commit();
-                        return RedirectToAction("Index", "Movie");
-                    }
-                    ModelState.AddModelError("", "User with this email already exists");
-                    return View(model);
+                            Email = model.Email,
+                            Login = model.Username,
+                            Password = model.Password
+                        }
+                    };
+                    _accountService.CreatePassword(profile.Account);
+                    _accountService.AddProfile(profile);
+                    _accountService.Commit();
+                    return RedirectToAction("Index", "Movie");
                 }
+                ModelState.AddModelError("", "User with this email already exists");
+                return View(model);
             }
-            catch (DatabaseNotAvailableException ex)
-            {
-                return View("Error");
-            }
-            
             ModelState.AddModelError("", "User with this username already exists");
             return View(model);
         }
-        
+
         public ActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -128,7 +119,7 @@ namespace Cinema.Web.Controllers
             }
             if (ModelState.IsValid)
             {
-                if(_accountService.IsExistEmail(model.Email))
+                if (_accountService.IsExistEmail(model.Email))
                 {
                     _accountService.RestorePassword(model.Email, Request.Url.Authority);
                     _accountService.Commit();
@@ -199,7 +190,7 @@ namespace Cinema.Web.Controllers
             {
                 return RedirectToAction("Index", "Movie");
             }
-            string message = (string) Session[MESSAGE_KEY];
+            string message = (string)Session[MESSAGE_KEY];
             Session[MESSAGE_KEY] = null;
             return View("ShowMessage", model: message);
         }

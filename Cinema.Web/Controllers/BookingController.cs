@@ -11,6 +11,7 @@ using Cinema.Web.Models;
 
 namespace Cinema.Web.Controllers
 {
+    [HandleLogError]
     public class BookingController : Controller
     {
         private readonly IBookingService _bookingService;

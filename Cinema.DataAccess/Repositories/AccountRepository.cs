@@ -14,12 +14,16 @@ namespace Cinema.DataAccess.Repositories
 
         public bool IsExistUsername(string username)
         {
-            return _accountContext.Accounts.FirstOrDefault(x => x.Login.Equals(username, StringComparison.CurrentCulture)) != null;
+            return
+                _accountContext.Accounts.FirstOrDefault(
+                    x => x.Login.Equals(username, StringComparison.CurrentCultureIgnoreCase)) != null;
         }
 
         public bool IsExistEmail(string email)
         {
-            return _accountContext.Accounts.FirstOrDefault(x => x.Email == email) != null;
+            return
+                _accountContext.Accounts.FirstOrDefault(
+                    x => x.Email.Equals(email, StringComparison.CurrentCultureIgnoreCase)) != null;
         }
 
         public bool IsValidLoginData(Account account)

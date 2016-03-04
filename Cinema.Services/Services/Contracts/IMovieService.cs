@@ -35,7 +35,7 @@ namespace Cinema.Services.Contracts
 
         List<int> GetActorIdsForMovie(int movieId);
 
-        void RemoveMovie(int id);
+        void RemoveMovie(int id, int accountId);
 
         void DeletePreviousPhotoFromDirectory(Photo photo, string serverPath);
 

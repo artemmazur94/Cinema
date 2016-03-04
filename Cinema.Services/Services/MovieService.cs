@@ -97,9 +97,10 @@ namespace Cinema.Services
             return _unitOfWork.PersonRepository.GetActorIdsForMovie(movieId);
         }
 
-        public void RemoveMovie(int id)
+        public void RemoveMovie(int id, int accountId)
         {
             Movie movie = _unitOfWork.MovieRepository.Get(id);
+            movie.RemoveExecutorId = accountId;
             movie.IsDeleted = true;
         }
 

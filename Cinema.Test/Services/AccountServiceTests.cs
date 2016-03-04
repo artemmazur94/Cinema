@@ -1,64 +1,70 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using Cinema.DataAccess;
 using Cinema.DataAccess.Repositories;
 using Cinema.Services;
 using Cinema.Services.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Cinema.Test.Services
 {
     [TestClass]
     public class AccountServiceTests
     {
-        private readonly CinemaDatabaseEntities _context;
-        private readonly AccountService _accountService;
+        private AccountService _accountService;
 
-        private Profile _profile;
-        private string _password;
-
-        public AccountServiceTests()
-        {
-            _context = new CinemaDatabaseEntities();
-            _accountService =
-                new AccountService(new UnitOfWork(_context, new AccountRepository(_context),
-                    new GenreRepository(_context), new MovieRepository(_context), new PersonRepository(_context),
-                    new SeanceRepository(_context), new SecurityTokenRepository(_context)));
-        }
+        private IQueryable<Account> _data;
 
         [TestInitialize]
         public void Initialize()
         {
-            _profile = new Profile()
+            _data = new List<Account>()
             {
-                Name = "name",
-                Surname = "surname",
-                Account = new Account()
+                new Account()
                 {
                     Email = "somemail@mail.com",
                     IsAdmin = false,
                     IsBlocked = false,
                     Password = "somepassword",
                     Login = "somelogin"
+                },
+                new Account()
+                {
+                    Email = "somemail2@mail.com",
+                    IsAdmin = false,
+                    IsBlocked = false,
+                    Password = "somepassword2",
+                    Login = "somelogin2"
                 }
-            };
-            _password = _profile.Account.Password;
-            _accountService.CreatePassword(_profile.Account);
-            _accountService.AddProfile(_profile);
-            _accountService.Commit();
-        }
+            }.AsQueryable();
 
-        [TestCleanup]
-        public void RollBack()
-        {
-            _context.Accounts.RemoveRange(_context.Accounts.Where(x => x.Login == _profile.Account.Login));
-            _context.SaveChanges();
+            var dbSetMock = new Mock<DbSet<Account>>();
+            dbSetMock.As<IQueryable<Account>>().Setup(x => x.Provider).Returns(_data.Provider);
+            dbSetMock.As<IQueryable<Account>>().Setup(x => x.Expression).Returns(_data.Expression);
+            dbSetMock.As<IQueryable<Account>>().Setup(x => x.ElementType).Returns(_data.ElementType);
+            dbSetMock.As<IQueryable<Account>>().Setup(x => x.GetEnumerator()).Returns(_data.GetEnumerator);
+
+            var dbContextMock = new Mock<CinemaDatabaseEntities>();
+            dbContextMock.Setup(x => x.Accounts).Returns(dbSetMock.Object);
+            
+            _accountService = new AccountService(new UnitOfWork(dbContextMock.Object, new AccountRepository(dbContextMock.Object),
+                    new GenreRepository(dbContextMock.Object), new MovieRepository(dbContextMock.Object),
+                    new PersonRepository(dbContextMock.Object), new SeanceRepository(dbContextMock.Object),
+                    new SecurityTokenRepository(dbContextMock.Object)));
+
+            foreach (Account account in _data)
+            {
+                _accountService.CreatePassword(account);
+            }
         }
 
         [TestMethod]
         public void CreatePasswordSuccess()
         {
-            var account = _profile.Account;
-            Assert.AreEqual(account.Password, PasswordManager.GenerateSaltedPassword(_password, account.Salt));
+            var account = _data.First();
+            Assert.AreEqual(account.Password, PasswordManager.GenerateSaltedPassword("somepassword", account.Salt));
         }
 
         [TestMethod]
@@ -99,9 +105,8 @@ namespace Cinema.Test.Services
         public void IsExistUsernameSuccess()
         {
             Assert.IsTrue(_accountService.IsExistUsername("somelogin"));
-            Assert.IsTrue(_accountService.IsExistUsername("SOMELOGIN"));
-            Assert.IsTrue(_accountService.IsExistUsername("SOMElogin"));
             Assert.IsFalse(_accountService.IsExistUsername("somewronglogin"));
+            Assert.IsTrue(_accountService.IsExistUsername("somelogin2"));
         }
 
         [TestMethod]
