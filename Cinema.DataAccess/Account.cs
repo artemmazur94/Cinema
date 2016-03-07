@@ -20,10 +20,11 @@ namespace Cinema.DataAccess
             this.Comments = new HashSet<Comment>();
             this.Ratings = new HashSet<Rating>();
             this.SecurityTokens = new HashSet<SecurityToken>();
-            this.TicketPreOrders = new HashSet<TicketPreOrder>();
             this.Tickets = new HashSet<Ticket>();
             this.Profile = new HashSet<Profile>();
             this.Movies = new HashSet<Movie>();
+            this.TicketPreOrders = new HashSet<TicketPreOrder>();
+            this.TicketPreOrdersDeleted = new HashSet<TicketPreOrdersDeleted>();
         }
     
         public int Id { get; set; }
@@ -41,12 +42,14 @@ namespace Cinema.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SecurityToken> SecurityTokens { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TicketPreOrder> TicketPreOrders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ticket> Tickets { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Profile> Profile { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movie> Movies { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TicketPreOrder> TicketPreOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TicketPreOrdersDeleted> TicketPreOrdersDeleted { get; set; }
     }
 }

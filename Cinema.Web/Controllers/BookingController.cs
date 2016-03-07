@@ -126,7 +126,6 @@ namespace Cinema.Web.Controllers
                 var ticketPreOrder = new TicketPreOrder()
                 {
                     DateTime = DateTime.UtcNow,
-                    IsDeleted = false,
                     Place = place,
                     Row = row,
                     SeanceId = seanceId

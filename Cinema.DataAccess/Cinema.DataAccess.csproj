@@ -143,6 +143,9 @@
     <Compile Include="TicketPreOrder.cs">
       <DependentUpon>CinemaDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TicketPreOrdersDeleted.cs">
+      <DependentUpon>CinemaDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>

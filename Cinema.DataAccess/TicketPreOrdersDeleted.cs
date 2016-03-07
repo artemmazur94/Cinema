@@ -12,7 +12,7 @@ namespace Cinema.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class TicketPreOrder
+    public partial class TicketPreOrdersDeleted
     {
         public int Id { get; set; }
         public int Row { get; set; }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Cinema.DataAccess.Repositories.Contracts;
 
@@ -50,7 +52,6 @@ namespace Cinema.DataAccess.Repositories
             return
                 _seanceContext.TicketPreOrders.Where( x =>
                         x.SeanceId == seanceId &&
-                        !x.IsDeleted &&
                         x.AccountId != accountId).ToList();
         }
 
@@ -59,7 +60,6 @@ namespace Cinema.DataAccess.Repositories
             return
                 _seanceContext.TicketPreOrders.Where( x => 
                         x.SeanceId == seanceId && 
-                        !x.IsDeleted && 
                         x.AccountId == accountId).ToList();
         }
 
@@ -70,7 +70,6 @@ namespace Cinema.DataAccess.Repositories
                         x.SeanceId == seanceId && 
                         x.Place == place && 
                         x.Row == row && 
-                        !x.IsDeleted &&
                         x.AccountId != accountId) != null;
         }
 
@@ -81,7 +80,6 @@ namespace Cinema.DataAccess.Repositories
                         x.AccountId == accountId && 
                         x.SeanceId == seanceId && 
                         x.Row == row && 
-                        !x.IsDeleted &&
                         x.Place == place) != null;
         }
 
@@ -92,7 +90,6 @@ namespace Cinema.DataAccess.Repositories
                         x.Row == row && 
                         x.Place == place && 
                         x.SeanceId == seanceId && 
-                        !x.IsDeleted &&
                         x.AccountId == accountId);
         }
 
@@ -104,7 +101,17 @@ namespace Cinema.DataAccess.Repositories
         public void MarkSeanceTicketPreOrdersAsDeletedForUser(int seanceId, int accountId)
         {
             List<TicketPreOrder> ticketPreOrders = GetSeanceTicketPreOrdersForUser(seanceId, accountId);
-            ticketPreOrders.ForEach(x => x.IsDeleted = true);
+            _seanceContext.TicketPreOrders.RemoveRange(ticketPreOrders);
+            List<TicketPreOrdersDeleted> ticketPreOrdersDeleted = new List<TicketPreOrdersDeleted>();
+            ticketPreOrders.ForEach(x => ticketPreOrdersDeleted.Add(new TicketPreOrdersDeleted()
+            {
+                AccountId = accountId,
+                DateTime = DateTime.UtcNow,
+                Place = x.Place,
+                Row = x.Row,
+                SeanceId = x.SeanceId
+            }));
+            _seanceContext.TicketPreOrdersDeleted.AddRange(ticketPreOrdersDeleted);
         }
 
         public void AddTickets(List<Ticket> tickets)

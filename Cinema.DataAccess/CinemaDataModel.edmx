@@ -184,7 +184,17 @@
           <Property Name="AccountId" Type="int" />
           <Property Name="SeanceId" Type="int" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TicketPreOrdersDeleted">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Row" Type="int" Nullable="false" />
+          <Property Name="Place" Type="int" Nullable="false" />
+          <Property Name="AccountId" Type="int" />
+          <Property Name="SeanceId" Type="int" Nullable="false" />
+          <Property Name="DateTime" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Tickets">
           <Key>
@@ -495,14 +505,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__TicketPre__Accou__17036CC0">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
+          <End Role="TicketPreOrdersDeleted" Type="Self.TicketPreOrdersDeleted" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketPreOrdersDeleted">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__TicketPre__Seanc__03F0984C">
-          <End Role="Seances" Type="Self.Seances" Multiplicity="1" />
+          <End Role="Seances" Type="Self.Seances" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TicketPreOrders" Type="Self.TicketPreOrders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Seances">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="TicketPreOrders">
+              <PropertyRef Name="SeanceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketPre__Seanc__17F790F9">
+          <End Role="Seances" Type="Self.Seances" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TicketPreOrdersDeleted" Type="Self.TicketPreOrdersDeleted" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seances">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketPreOrdersDeleted">
               <PropertyRef Name="SeanceId" />
             </Dependent>
           </ReferentialConstraint>
@@ -554,6 +592,7 @@
           <EntitySet Name="SectorTypes" EntityType="Self.SectorTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SecurityToken" EntityType="Self.SecurityToken" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TicketPreOrders" EntityType="Self.TicketPreOrders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketPreOrdersDeleted" EntityType="Self.TicketPreOrdersDeleted" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Comments__Accoun__2F10007B" Association="Self.FK__Comments__Accoun__2F10007B">
             <End Role="Accounts" EntitySet="Accounts" />
@@ -651,9 +690,17 @@
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="TicketPreOrders" EntitySet="TicketPreOrders" />
           </AssociationSet>
+          <AssociationSet Name="FK__TicketPre__Accou__17036CC0" Association="Self.FK__TicketPre__Accou__17036CC0">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="TicketPreOrdersDeleted" EntitySet="TicketPreOrdersDeleted" />
+          </AssociationSet>
           <AssociationSet Name="FK__TicketPre__Seanc__03F0984C" Association="Self.FK__TicketPre__Seanc__03F0984C">
             <End Role="Seances" EntitySet="Seances" />
             <End Role="TicketPreOrders" EntitySet="TicketPreOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketPre__Seanc__17F790F9" Association="Self.FK__TicketPre__Seanc__17F790F9">
+            <End Role="Seances" EntitySet="Seances" />
+            <End Role="TicketPreOrdersDeleted" EntitySet="TicketPreOrdersDeleted" />
           </AssociationSet>
           <AssociationSet Name="FK__Tickets__Account__06CD04F7" Association="Self.FK__Tickets__Account__06CD04F7">
             <End Role="Accounts" EntitySet="Accounts" />
@@ -682,10 +729,11 @@
           <NavigationProperty Name="Comments" Relationship="Self.FK__Comments__Accoun__2F10007B" FromRole="Accounts" ToRole="Comments" />
           <NavigationProperty Name="Ratings" Relationship="Self.FK__Ratings__Account__403A8C7D" FromRole="Accounts" ToRole="Ratings" />
           <NavigationProperty Name="SecurityTokens" Relationship="Self.FK__SecurityT__Accou__4F7CD00D" FromRole="Accounts" ToRole="SecurityToken" />
-          <NavigationProperty Name="TicketPreOrders" Relationship="CinemaDatabaseModel.FK__TicketPre__Accou__02FC7413" FromRole="Account" ToRole="TicketPreOrder" />
           <NavigationProperty Name="Tickets" Relationship="CinemaDatabaseModel.FK__Tickets__Account__06CD04F7" FromRole="Account" ToRole="Ticket" />
           <NavigationProperty Name="Profile" Relationship="CinemaDatabaseModel.FK__Profiles__Accoun__0A9D95DB" FromRole="Account" ToRole="Profile" />
           <NavigationProperty Name="Movies" Relationship="CinemaDatabaseModel.FK__Movies__RemoveEx__14270015" FromRole="Account" ToRole="Movie" />
+          <NavigationProperty Name="TicketPreOrders" Relationship="CinemaDatabaseModel.FK__TicketPre__Accou__02FC7413" FromRole="Account" ToRole="TicketPreOrder" />
+          <NavigationProperty Name="TicketPreOrdersDeleted" Relationship="CinemaDatabaseModel.FK__TicketPre__Accou__17036CC0" FromRole="Account" ToRole="TicketPreOrdersDeleted" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -784,8 +832,9 @@
           <Property Name="MovieId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__SeanceI__440B1D61" FromRole="Seances" ToRole="Tickets" />
           <NavigationProperty Name="Hall" Relationship="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF" FromRole="Seance" ToRole="Hall" />
-          <NavigationProperty Name="TicketPreOrders" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" FromRole="Seance" ToRole="TicketPreOrder" />
           <NavigationProperty Name="Movy" Relationship="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" FromRole="Seance" ToRole="Movy" />
+          <NavigationProperty Name="TicketPreOrders" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" FromRole="Seance" ToRole="TicketPreOrder" />
+          <NavigationProperty Name="TicketPreOrdersDeleted" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__17F790F9" FromRole="Seance" ToRole="TicketPreOrdersDeleted" />
         </EntityType>
         <EntityType Name="SecurityToken">
           <Key>
@@ -979,15 +1028,6 @@
             <End Role="Hall" EntitySet="Halls" />
             <End Role="Sector" EntitySet="Sectors" />
           </AssociationSet>
-          <EntitySet Name="TicketPreOrders" EntityType="CinemaDatabaseModel.TicketPreOrder" />
-          <AssociationSet Name="FK__TicketPre__Accou__02FC7413" Association="CinemaDatabaseModel.FK__TicketPre__Accou__02FC7413">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="TicketPreOrder" EntitySet="TicketPreOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TicketPre__Seanc__03F0984C" Association="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C">
-            <End Role="Seance" EntitySet="Seances" />
-            <End Role="TicketPreOrder" EntitySet="TicketPreOrders" />
-          </AssociationSet>
           <EntitySet Name="Movies" EntityType="CinemaDatabaseModel.Movie" />
           <AssociationSet Name="FK__Comments__MovieI__300424B4" Association="CinemaDatabaseModel.FK__Comments__MovieI__300424B4">
             <End Role="Movy" EntitySet="Movies" />
@@ -1033,6 +1073,24 @@
           <AssociationSet Name="FK__Movies__RemoveEx__14270015" Association="CinemaDatabaseModel.FK__Movies__RemoveEx__14270015">
             <End Role="Account" EntitySet="Accounts" />
             <End Role="Movie" EntitySet="Movies" />
+          </AssociationSet>
+          <EntitySet Name="TicketPreOrders" EntityType="CinemaDatabaseModel.TicketPreOrder" />
+          <EntitySet Name="TicketPreOrdersDeleted" EntityType="CinemaDatabaseModel.TicketPreOrdersDeleted" />
+          <AssociationSet Name="FK__TicketPre__Accou__02FC7413" Association="CinemaDatabaseModel.FK__TicketPre__Accou__02FC7413">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="TicketPreOrder" EntitySet="TicketPreOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketPre__Accou__17036CC0" Association="CinemaDatabaseModel.FK__TicketPre__Accou__17036CC0">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="TicketPreOrdersDeleted" EntitySet="TicketPreOrdersDeleted" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketPre__Seanc__03F0984C" Association="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C">
+            <End Role="Seance" EntitySet="Seances" />
+            <End Role="TicketPreOrder" EntitySet="TicketPreOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketPre__Seanc__17F790F9" Association="CinemaDatabaseModel.FK__TicketPre__Seanc__17F790F9">
+            <End Role="Seance" EntitySet="Seances" />
+            <End Role="TicketPreOrdersDeleted" EntitySet="TicketPreOrdersDeleted" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="GenreLocalization">
@@ -1136,44 +1194,6 @@
             </Principal>
             <Dependent Role="Sector">
               <PropertyRef Name="HallId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="TicketPreOrder">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Row" Type="Int32" Nullable="false" />
-          <Property Name="Place" Type="Int32" Nullable="false" />
-          <Property Name="AccountId" Type="Int32" />
-          <Property Name="SeanceId" Type="Int32" Nullable="false" />
-          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Account" Relationship="CinemaDatabaseModel.FK__TicketPre__Accou__02FC7413" FromRole="TicketPreOrder" ToRole="Account" />
-          <NavigationProperty Name="Seance" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" FromRole="TicketPreOrder" ToRole="Seance" />
-        </EntityType>
-        <Association Name="FK__TicketPre__Accou__02FC7413">
-          <End Type="CinemaDatabaseModel.Account" Role="Account" Multiplicity="0..1" />
-          <End Type="CinemaDatabaseModel.TicketPreOrder" Role="TicketPreOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TicketPreOrder">
-              <PropertyRef Name="AccountId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__TicketPre__Seanc__03F0984C">
-          <End Type="CinemaDatabaseModel.Seance" Role="Seance" Multiplicity="1" />
-          <End Type="CinemaDatabaseModel.TicketPreOrder" Role="TicketPreOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Seance">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TicketPreOrder">
-              <PropertyRef Name="SeanceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1336,6 +1356,84 @@
             </Principal>
             <Dependent Role="Movie">
               <PropertyRef Name="RemoveExecutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TicketPreOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Row" Type="Int32" Nullable="false" />
+          <Property Name="Place" Type="Int32" Nullable="false" />
+          <Property Name="AccountId" Type="Int32" />
+          <Property Name="SeanceId" Type="Int32" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Account" Relationship="CinemaDatabaseModel.FK__TicketPre__Accou__02FC7413" FromRole="TicketPreOrder" ToRole="Account" />
+          <NavigationProperty Name="Seance" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" FromRole="TicketPreOrder" ToRole="Seance" />
+        </EntityType>
+        <EntityType Name="TicketPreOrdersDeleted">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Row" Type="Int32" Nullable="false" />
+          <Property Name="Place" Type="Int32" Nullable="false" />
+          <Property Name="AccountId" Type="Int32" />
+          <Property Name="SeanceId" Type="Int32" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Account" Relationship="CinemaDatabaseModel.FK__TicketPre__Accou__17036CC0" FromRole="TicketPreOrdersDeleted" ToRole="Account" />
+          <NavigationProperty Name="Seance" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__17F790F9" FromRole="TicketPreOrdersDeleted" ToRole="Seance" />
+        </EntityType>
+        <Association Name="FK__TicketPre__Accou__02FC7413">
+          <End Type="CinemaDatabaseModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="CinemaDatabaseModel.TicketPreOrder" Role="TicketPreOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketPreOrder">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketPre__Accou__17036CC0">
+          <End Type="CinemaDatabaseModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="CinemaDatabaseModel.TicketPreOrdersDeleted" Role="TicketPreOrdersDeleted" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketPreOrdersDeleted">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketPre__Seanc__03F0984C">
+          <End Type="CinemaDatabaseModel.Seance" Role="Seance" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CinemaDatabaseModel.TicketPreOrder" Role="TicketPreOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seance">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketPreOrder">
+              <PropertyRef Name="SeanceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketPre__Seanc__17F790F9">
+          <End Type="CinemaDatabaseModel.Seance" Role="Seance" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CinemaDatabaseModel.TicketPreOrdersDeleted" Role="TicketPreOrdersDeleted" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seance">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketPreOrdersDeleted">
+              <PropertyRef Name="SeanceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1503,19 +1601,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TicketPreOrders">
-            <EntityTypeMapping TypeName="CinemaDatabaseModel.TicketPreOrder">
-              <MappingFragment StoreEntitySet="TicketPreOrders">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="SeanceId" ColumnName="SeanceId" />
-                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-                <ScalarProperty Name="Place" ColumnName="Place" />
-                <ScalarProperty Name="Row" ColumnName="Row" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Movies">
             <EntityTypeMapping TypeName="CinemaDatabaseModel.Movie">
               <MappingFragment StoreEntitySet="Movies">
@@ -1548,6 +1633,30 @@
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketPreOrders">
+            <EntityTypeMapping TypeName="CinemaDatabaseModel.TicketPreOrder">
+              <MappingFragment StoreEntitySet="TicketPreOrders">
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="SeanceId" ColumnName="SeanceId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="Row" ColumnName="Row" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketPreOrdersDeleted">
+            <EntityTypeMapping TypeName="CinemaDatabaseModel.TicketPreOrdersDeleted">
+              <MappingFragment StoreEntitySet="TicketPreOrdersDeleted">
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="SeanceId" ColumnName="SeanceId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="Row" ColumnName="Row" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
