@@ -310,7 +310,17 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\Custom\booktickets.js" />
+    <Content Include="Scripts\Custom\book_tickets.js" />
+    <Content Include="Scripts\Custom\change_password.js" />
+    <Content Include="Scripts\Custom\cusotm_validators.js" />
+    <Content Include="Scripts\Custom\edit_profile.js" />
+    <Content Include="Scripts\Custom\genre_create_edit.js" />
+    <Content Include="Scripts\Custom\login.js" />
+    <Content Include="Scripts\Custom\movie_create_edit.js" />
+    <Content Include="Scripts\Custom\person_create_edit.js" />
+    <Content Include="Scripts\Custom\register.js" />
+    <Content Include="Scripts\Custom\restore_password.js" />
+    <Content Include="Scripts\Custom\update_password.js" />
     <Content Include="Scripts\fileinput.js" />
     <Content Include="Scripts\fileinput.min.js" />
     <Content Include="Scripts\fileinput_locale_de.js" />

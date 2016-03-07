@@ -4,11 +4,13 @@
     ViewBag.Title = "Login";
 }
 
+<script src="~/Scripts/Custom/login.js"></script>
+
 <div class="page-header">
     <h1>Login</h1>
 </div>
 
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", id="login-form" }))
 {
     @Html.AntiForgeryToken()
 
@@ -16,11 +18,13 @@
 
     <div class="form-group">
         @Html.LabelFor(x => x.Username, new {@class = "control-label col-sm-2"})
-        @Html.TextBoxFor(x => x.Username, new {@class = "form-control col-sm-10"})
+        @Html.TextBoxFor(x => x.Username, new {@class = "form-control col-sm-4"})
+        <span class="help-block col-sm-3 hidden" id="username-label">Username is required.</span>
     </div>
     <div class="form-group">
         @Html.LabelFor(x => x.Password, new {@class = "control-label col-sm-2"})
-        @Html.PasswordFor(x => x.Password, new {@class = "form-control col-sm-10"})
+        @Html.PasswordFor(x => x.Password, new {@class = "form-control col-sm-4"})
+        <span class="help-block col-sm-3 hidden" id="password-label">Password is required.</span>
     </div>
     <div class="form-group">
         @Html.LabelFor(x => x.RememberMe, new {@class = "control-label col-sm-2"})
@@ -28,7 +32,7 @@
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <input type="submit" class="btn btn-success" value="Login"/>
+            <input type="button" class="btn btn-success" value="Login" id="submit-btn"/>
         </div>
     </div>
 }
