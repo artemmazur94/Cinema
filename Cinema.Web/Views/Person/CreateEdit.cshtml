@@ -28,7 +28,8 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(x => x.Photo, new { @class = "control-label col-sm-2" })
-        @Html.TextBoxFor(x => x.Photo, new { @type = "file" })
+        @Html.TextBoxFor(x => x.Photo, new { @type = "file", @class = "col-sm-4" })
+        <span class="help-block col-sm-6 hidden" id="file-label">Maximum size of posted file is 5 MB.</span>
     </div>
 
     <div class="form-group">

@@ -4,6 +4,11 @@
         placeholder: "Please, select actors"
     });
 
+    $("#DirectorId").select2({
+        allowClear: true,
+        placeholder: "Select director"
+});
+
     $("#submit-btn").click(function() {
         if (validateInputs()) {
             $("#movie-create-edit-form").submit();
@@ -24,6 +29,11 @@
         $("#ReleaseDate").parent().removeClass("has-error");
         $("#date-label").addClass("hidden");
     });
+
+    $("#Poster").focus(function() {
+        $("#Poster").parent().removeClass("has-error");
+        $("#file-label").addClass("hidden");
+    });
 });
 
 function validateInputs() {
@@ -41,6 +51,11 @@ function validateInputs() {
     if (!validateDate($("#ReleaseDate").val())) {
         $("#ReleaseDate").parent().addClass("has-error");
         $("#date-label").removeClass("hidden");
+        valid = false;
+    }
+    if (!validatePostedFile($("#Poster"))) {
+        $("#Poster").parent().addClass("has-error");
+        $("#file-label").removeClass("hidden");
         valid = false;
     }
     return valid;

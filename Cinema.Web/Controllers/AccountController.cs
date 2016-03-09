@@ -62,6 +62,7 @@ namespace Cinema.Web.Controllers
                     _accountService.CreatePassword(profile.Account);
                     _accountService.AddProfile(profile);
                     _accountService.Commit();
+                    FormsAuthentication.SetAuthCookie(model.Username, true);
                     return RedirectToAction("Index", "Movie");
                 }
                 ModelState.AddModelError("", "User with this email already exists");

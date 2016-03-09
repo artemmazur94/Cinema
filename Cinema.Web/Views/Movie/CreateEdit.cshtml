@@ -49,7 +49,7 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(x => x.DirectorId, new {@class = "control-label col-sm-2"})
-        @Html.DropDownListFor(x => x.DirectorId, (SelectList)ViewBag.DirectorLocalizations, "Select director", new {@class="form-control col-sm-4"})
+        @Html.DropDownListFor(x => x.DirectorId, (SelectList)ViewBag.DirectorLocalizations, new {@class="form-control col-sm-4"})
     </div>
     <div class="form-group">
         @Html.LabelFor(x => x.ActorIds, new {@class = "control-label col-sm-2"})
@@ -57,7 +57,8 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(x => x.Poster, new {@class = "control-label col-sm-2"})
-        @Html.TextBoxFor(x => x.Poster, new {@type = "file", name="file"})
+        @Html.TextBoxFor(x => x.Poster, new {@type = "file", name="file", @class = "col-sm-4"})
+        <span class="help-block col-sm-6 hidden" id="file-label">Maximum size of posted file is 5 MB.</span>
     </div>
     <div class="form-group">
         @Html.LabelFor(x => x.VideoLink, new {@class = "control-label col-sm-2"})

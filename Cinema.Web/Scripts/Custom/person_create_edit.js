@@ -9,13 +9,24 @@
         $("#Name").parent().removeClass("has-error");
         $("#name-label").addClass("hidden");
     });
+
+    $("#Photo").focus(function() {
+        $("#Photo").parent().removeClass("has-error");
+        $("#file-label").addClass("hidden");
+    });
 });
 
 function validateInputs() {
-    if ($("#Name").val().length >= 1 && !validateTrim($("#Name").val())) {
-        return true;
+    var valid = true;
+    if ($("#Name").val().length < 1 || validateTrim($("#Name").val())) {
+        $("#Name").parent().addClass("has-error");
+        $("#name-label").removeClass("hidden");
+        valid = false;
     }
-    $("#Name").parent().addClass("has-error");
-    $("#name-label").removeClass("hidden");
-    return false;
+    if (!validatePostedFile($("#Photo"))) {
+        $("#Photo").parent().addClass("has-error");
+        $("#file-label").removeClass("hidden");
+        valid = false;
+    }
+    return valid;
 }

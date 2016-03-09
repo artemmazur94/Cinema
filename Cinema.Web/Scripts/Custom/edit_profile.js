@@ -14,6 +14,11 @@
         $(this).parent().removeClass("has-error");
         $("#surname-label").addClass("hidden");
     });
+
+    $("#Photo").focus(function() {
+        $(this).parent().removeClass("has-error");
+        $("#file-label").addClass("hidden");
+    });
 });
 
 function validateInputs() {
@@ -26,6 +31,11 @@ function validateInputs() {
     if ($("#Surname").val().length < 1 || validateTrim($("#Surname").val())) {
         $("#Surname").parent().addClass("has-error");
         $("#surname-label").removeClass("hidden");
+        valid = false;
+    }
+    if (!validatePostedFile($("#Photo"))) {
+        $("#Photo").parent().addClass("has-error");
+        $("#file-label").removeClass("hidden");
         valid = false;
     }
     return valid;

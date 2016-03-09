@@ -12,3 +12,10 @@ function validateTrim(data) {
     var pattern = /^\s+|\s+$/g;
     return pattern.test(data);
 }
+
+function validatePostedFile(input) {
+    if ($(input)[0].files[0] != null && $(input)[0].files[0].size > 5 * 1024 * 1024) {
+        return false;
+    }
+    return true;
+}
