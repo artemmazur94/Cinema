@@ -32,5 +32,7 @@ namespace Cinema.DataAccess.Repositories.Contracts
         void AddTickets(List<Ticket> tickets);
 
         List<Ticket> GetTicketsForUser(int accountId);
+
+        int GetSeatType(int hallId, int row, int place);
     }
 }

@@ -37,5 +37,7 @@ namespace Cinema.Services.Contracts
         void RemoveTicketPreOrdersForUser(int seanceId, int accountId);
 
         List<Ticket> GetTicketsForUser(int accountId);
+
+        int GetSeatType(int hallId, int row, int place);
     }
 }

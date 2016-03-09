@@ -14,5 +14,7 @@ namespace Cinema.DataAccess.Repositories.Contracts
         void DeletePhoto(Photo photo);
 
         Photo GetPhotoByMovieId(int movieId);
+
+        List<MovieLocalization> GetMovieLocalizations(List<int> movieIds, int languageId);
     }
 }

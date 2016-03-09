@@ -40,5 +40,7 @@ namespace Cinema.Services.Contracts
         void DeletePreviousPhotoFromDirectory(Photo photo, string serverPath);
 
         List<GenreLocalization> GetGenreLocalizationsForMovies(List<int> genreIds, int languageId);
+
+        List<MovieLocalization> GetMovieLocalizations(List<int> movieIds, int currnetCulture);
     }
 }

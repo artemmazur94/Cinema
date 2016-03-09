@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Cinema.DataAccess.Repositories.Contracts;
 
@@ -121,7 +121,19 @@ namespace Cinema.DataAccess.Repositories
 
         public List<Ticket> GetTicketsForUser(int accountId)
         {
-            return _seanceContext.Tickets.Where(x => x.AccountId == accountId).ToList();
+            return _seanceContext.Tickets.Where(x => x.AccountId == accountId).Include(x => x.Seance).ToList();
+        }
+
+        public int GetSeatType(int hallId, int row, int place)
+        {
+            return
+                _seanceContext.Sectors.FirstOrDefault(x =>
+                    x.HallId == hallId &&
+                    x.FromRow <= row &&
+                    x.ToRow >= row &&
+                    x.FromPlace <= place &&
+                    x.ToPlace >= place)
+                    .SectorTypeId;
         }
     }
 }

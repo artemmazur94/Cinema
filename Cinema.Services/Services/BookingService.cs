@@ -97,6 +97,11 @@ namespace Cinema.Services
             return _unitOfWork.SeanceRepository.GetTicketsForUser(accountId);
         }
 
+        public int GetSeatType(int hallId, int row, int place)
+        {
+            return _unitOfWork.SeanceRepository.GetSeatType(hallId, row, place);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

@@ -34,6 +34,13 @@ namespace Cinema.DataAccess.Repositories
             return _movieContext.Photos.FirstOrDefault(x => x.Movies.Any(z => z.Id == movieId));
         }
 
+        public List<MovieLocalization> GetMovieLocalizations(List<int> movieIds, int languageId)
+        {
+            return
+                _movieContext.MovieLocalizations.Where(
+                    x => movieIds.Contains(x.MovieId) && x.LanguageId == languageId).ToList();
+        }
+
         public void AddMovieLocalization(MovieLocalization movieLocalization)
         {
             _movieContext.MovieLocalizations.Add(movieLocalization);

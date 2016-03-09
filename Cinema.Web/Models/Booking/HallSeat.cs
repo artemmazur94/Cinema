@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Cinema.DataAccess;
 
@@ -6,10 +7,13 @@ namespace Cinema.Web.Models
 {
     public class HallSeat
     {
+        [Display(Name = "Row: ")]
         public int Row { get; set; }
         
+        [Display(Name = "Place: ")]
         public int Place { get; set; }
 
+        [Display(Name = "Seat type: ")]
         public int Type { get; set; }
 
         public static List<HallSeat> GetAllSeats(List<Ticket> seanceTickets, List<TicketPreOrder> seanceTicketPreOrders)

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
@@ -14,6 +16,7 @@ namespace Cinema.Web.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IBookingService _bookingService;
+        private readonly IMovieService _movieService;
 
         private const string MESSAGE_KEY = "Message";
 
@@ -23,10 +26,11 @@ namespace Cinema.Web.Controllers
             LanguageHelper.InitializeCulture(HttpContext);
         }
 
-        public AccountController(IAccountService accountService, IBookingService bookingService)
+        public AccountController(IAccountService accountService, IBookingService bookingService, IMovieService movieService)
         {
             _accountService = accountService;
             _bookingService = bookingService;
+            _movieService = movieService;
         }
 
         public ActionResult Register()
@@ -285,13 +289,41 @@ namespace Cinema.Web.Controllers
             return View(model);
         }
 
-        //[Authorize]
-        //public ActionResult MyTickets()
-        //{
-        //    int accountId = _accountService.GetAccountByUsername(User.Identity.Name).Id;
-        //    List<Ticket> tickets = _bookingService.GetTicketsForUser(accountId);
-        //    return View();
-        //}
+        [Authorize]
+        public ActionResult MyTickets()
+        {
+            int accountId = _accountService.GetAccountByUsername(User.Identity.Name).Id;
+            List<Ticket> tickets = _bookingService.GetTicketsForUser(accountId);
+            List<int> movieIds = (from ticket in tickets select ticket.Seance.MovieId).Distinct().ToList();
+            List<MovieLocalization> movieLocalizations = _movieService.GetMovieLocalizations(movieIds, LanguageHelper.CurrnetCulture);
+            List<TicketViewModel> ticketViewModels = (from ticket in tickets select new TicketViewModel()
+            {
+                Date = ticket.Seance.DateTime.Date,
+                Time = ticket.Seance.DateTime.TimeOfDay,
+                HallName = ticket.Seance.Hall.Name,
+                Id = ticket.Id,
+                MovieName = (from movieLocalization in movieLocalizations where ticket.Seance.MovieId == movieLocalization.MovieId select movieLocalization.Name).First(),
+                Price = ticket.Seance.Price,
+                Seat = new HallSeat()
+                {
+                    Row = ticket.Row,
+                    Place = ticket.Place,
+                    Type = _bookingService.GetSeatType(ticket.Seance.HallId, ticket.Row, ticket.Place)
+                }
+            }).ToList();
+            MyTicketsViewModel model = new MyTicketsViewModel()
+            {
+                PastTickets =
+                    (from ticketViewModel in ticketViewModels
+                        where ticketViewModel.Date < DateTime.UtcNow
+                        select ticketViewModel).ToList(),
+                UpcomingTickets =
+                    (from ticketViewModel in ticketViewModels
+                        where ticketViewModel.Date >= DateTime.UtcNow
+                        select ticketViewModel).ToList()
+            };
+            return View(model);
+        }
 
         protected override void Dispose(bool disposing)
         {
@@ -299,6 +331,7 @@ namespace Cinema.Web.Controllers
             {
                 _accountService.Dispose();
                 _bookingService.Dispose();
+                _movieService.Dispose();
             }
             base.Dispose(disposing);
         }

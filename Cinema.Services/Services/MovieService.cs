@@ -118,6 +118,11 @@ namespace Cinema.Services
             return _unitOfWork.GenreRepository.GetGenresForMovies(genreIds, languageId);
         }
 
+        public List<MovieLocalization> GetMovieLocalizations(List<int> movieIds, int languageId)
+        {
+            return _unitOfWork.MovieRepository.GetMovieLocalizations(movieIds, languageId);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
