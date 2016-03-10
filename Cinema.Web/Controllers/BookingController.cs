@@ -19,6 +19,8 @@ namespace Cinema.Web.Controllers
         private readonly IAccountService _accountService;
 
         private const string MESSAGE_KEY = "Message";
+        private const string HALL_ID_COLUMN = "Id";
+        private const string HALL_NAME_COLUMN = "Name";
 
         public BookingController(IBookingService bookingService, IMovieService movieService, IAccountService accountService)
         {
@@ -198,6 +200,7 @@ namespace Cinema.Web.Controllers
             return View(model);
         }
 
+        [Authorize]
         public ActionResult BookTickets(int? seanceId)
         {
             if (seanceId == null)
@@ -229,6 +232,22 @@ namespace Cinema.Web.Controllers
             _bookingService.AddTickets(tickets);
             _bookingService.Commit();
             return RedirectToAction("Index", "Movie");
+        }
+
+        [Authorize]
+        public ActionResult AddSeance(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadGateway);
+            }
+            Movie movie = _movieService.GetMovie(id.Value);
+            if (movie == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Halls = new SelectList(_bookingService.GetAllHalls(), HALL_ID_COLUMN, HALL_NAME_COLUMN);
+            return View();
         }
 
         protected override void Dispose(bool disposing)

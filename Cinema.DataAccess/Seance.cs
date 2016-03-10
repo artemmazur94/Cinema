@@ -20,6 +20,7 @@ namespace Cinema.DataAccess
             this.Tickets = new HashSet<Ticket>();
             this.TicketPreOrders = new HashSet<TicketPreOrder>();
             this.TicketPreOrdersDeleted = new HashSet<TicketPreOrdersDeleted>();
+            this.SectorPrices = new HashSet<SectorPrice>();
         }
     
         public int Id { get; set; }
@@ -36,5 +37,7 @@ namespace Cinema.DataAccess
         public virtual ICollection<TicketPreOrder> TicketPreOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TicketPreOrdersDeleted> TicketPreOrdersDeleted { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SectorPrice> SectorPrices { get; set; }
     }
 }

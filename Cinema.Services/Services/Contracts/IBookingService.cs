@@ -39,5 +39,7 @@ namespace Cinema.Services.Contracts
         List<Ticket> GetTicketsForUser(int accountId);
 
         int GetSeatType(int hallId, int row, int place);
+
+        List<Hall> GetAllHalls();
     }
 }

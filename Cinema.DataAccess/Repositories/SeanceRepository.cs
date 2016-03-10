@@ -135,5 +135,10 @@ namespace Cinema.DataAccess.Repositories
                     x.ToPlace >= place)
                     .SectorTypeId;
         }
+
+        public List<Hall> GetAllHalls()
+        {
+            return _seanceContext.Halls.ToList();
+        }
     }
 }

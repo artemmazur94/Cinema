@@ -14,6 +14,12 @@ namespace Cinema.DataAccess
     
     public partial class Sector
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Sector()
+        {
+            this.SectorPrices = new HashSet<SectorPrice>();
+        }
+    
         public int Id { get; set; }
         public int FromRow { get; set; }
         public int ToRow { get; set; }
@@ -24,5 +30,7 @@ namespace Cinema.DataAccess
     
         public virtual SectorType SectorType { get; set; }
         public virtual Hall Hall { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SectorPrice> SectorPrices { get; set; }
     }
 }

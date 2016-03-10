@@ -103,6 +103,14 @@
       <HintPath>..\packages\Ninject.MVC3.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -237,6 +245,7 @@
     <Compile Include="Models\Account\LoginViewModel.cs" />
     <Compile Include="Models\Account\MyTicketsViewModel.cs" />
     <Compile Include="Models\Account\ProfileViewModel.cs" />
+    <Compile Include="Models\Booking\AddSeanceViewModel.cs" />
     <Compile Include="Models\Booking\HallSeat.cs" />
     <Compile Include="Models\Booking\MovieSeanceViewModel.cs" />
     <Compile Include="Models\Booking\SeanceViewModel.cs" />
@@ -265,6 +274,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\select2.css" />
     <Content Include="Content\css\select2.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\select2-bootstrap.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -446,6 +456,8 @@
     <Content Include="Views\Shared\FormValidation.cshtml" />
     <Content Include="Views\Account\EditProfile.cshtml" />
     <Content Include="Views\Account\MyTickets.cshtml" />
+    <Content Include="Views\Account\TicketList.cshtml" />
+    <Content Include="Views\Booking\AddSeance.cshtml" />
     <None Include="Views\Booking\SelectSeats.cshtml" />
     <Content Include="Views\Booking\ConfirmSelectedSeats.cshtml" />
     <None Include="Views\Booking\Seances.cshtml" />

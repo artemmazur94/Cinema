@@ -131,6 +131,9 @@
     <Compile Include="Sector.cs">
       <DependentUpon>CinemaDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SectorPrice.cs">
+      <DependentUpon>CinemaDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SectorType.cs">
       <DependentUpon>CinemaDataModel.tt</DependentUpon>
     </Compile>

@@ -53,6 +53,9 @@
         <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Accou__17036CC0" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Seanc__17F790F9" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.SectorPrice" Width="1.5" PointX="13.5" PointY="5.375" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__SectorPri__Seanc__1F98B2C1" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__SectorPri__Secto__1EA48E88" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

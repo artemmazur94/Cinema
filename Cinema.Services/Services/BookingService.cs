@@ -102,6 +102,11 @@ namespace Cinema.Services
             return _unitOfWork.SeanceRepository.GetSeatType(hallId, row, place);
         }
 
+        public List<Hall> GetAllHalls()
+        {
+            return _unitOfWork.SeanceRepository.GetAllHalls();
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
