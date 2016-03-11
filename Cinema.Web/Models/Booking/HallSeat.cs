@@ -52,7 +52,7 @@ namespace Cinema.Web.Models
                                 x.Row <= z.ToRow && 
                                 x.Place >= z.FromPlace && 
                                 x.Place <= z.ToPlace)
-                            .SectorType.Id);
+                            .SeatType.Id);
         }
     }
 }

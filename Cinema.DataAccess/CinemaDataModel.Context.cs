@@ -39,12 +39,12 @@ namespace Cinema.DataAccess
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<GenreLocalization> GenreLocalizations { get; set; }
         public virtual DbSet<Sector> Sectors { get; set; }
-        public virtual DbSet<SectorType> SectorTypes { get; set; }
         public virtual DbSet<Hall> Halls { get; set; }
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<TicketPreOrder> TicketPreOrders { get; set; }
         public virtual DbSet<TicketPreOrdersDeleted> TicketPreOrdersDeleted { get; set; }
-        public virtual DbSet<SectorPrice> SectorPrices { get; set; }
+        public virtual DbSet<SeatType> SeatTypes { get; set; }
+        public virtual DbSet<SectorTypePrice> SectorTypePrices { get; set; }
     }
 }

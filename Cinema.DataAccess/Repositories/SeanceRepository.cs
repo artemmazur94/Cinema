@@ -133,7 +133,7 @@ namespace Cinema.DataAccess.Repositories
                     x.ToRow >= row &&
                     x.FromPlace <= place &&
                     x.ToPlace >= place)
-                    .SectorTypeId;
+                    .SeatTypeId;
         }
 
         public List<Hall> GetAllHalls()

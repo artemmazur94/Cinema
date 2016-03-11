@@ -18,7 +18,7 @@ namespace Cinema.Web.Helpers
                     }
                     for (int j = sector.FromPlace; j <= sector.ToPlace; j++)
                     {
-                        hallPlan[i].Add(j, sector.SectorTypeId);
+                        hallPlan[i].Add(j, sector.SeatTypeId);
                     }
                 }
             }
