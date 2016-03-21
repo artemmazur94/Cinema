@@ -2,7 +2,7 @@
     $(".selected-seat").click(function () {
         var $this = $(this);
         $.ajax({
-            url: window.myActionUrl,
+            url: window.ActionUrl,
             type: 'POST',
             data: {
                 'row': $this.data('row'),

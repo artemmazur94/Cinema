@@ -85,6 +85,7 @@
     <Compile Include="Hall.cs">
       <DependentUpon>CinemaDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DateTimeRange.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Language.cs">
       <DependentUpon>CinemaDataModel.tt</DependentUpon>

@@ -51,8 +51,8 @@ namespace Cinema.Web.Controllers
             var seanceModels = seances.Select(seance => new SeanceViewModel()
             {
                 Id = seance.Id,
-                Date = seance.DateTime.Date,
-                Time = seance.DateTime.TimeOfDay,
+                Date = seance.DateTime.ToLocalTime().Date,
+                Time = seance.DateTime.ToLocalTime().TimeOfDay,
                 HallName = seance.Hall.Name,
                 Price = seance.Price
             }).ToList();
@@ -84,8 +84,8 @@ namespace Cinema.Web.Controllers
             var model = new SeanceViewModel()
             {
                 Id = seance.Id,
-                Date = seance.DateTime.Date,
-                Time = seance.DateTime.TimeOfDay,
+                Date = seance.DateTime.ToLocalTime().Date,
+                Time = seance.DateTime.ToLocalTime().TimeOfDay,
                 Price = seance.Price,
                 HallName = seance.Hall.Name,
                 MovieName = movieLocalization.Name,
@@ -185,8 +185,8 @@ namespace Cinema.Web.Controllers
             var model = new SeanceViewModel()
             {
                 Id = seance.Id,
-                Date = seance.DateTime.Date,
-                Time = seance.DateTime.TimeOfDay,
+                Date = seance.DateTime.ToLocalTime().Date,
+                Time = seance.DateTime.ToLocalTime().TimeOfDay,
                 Price = seance.Price,
                 HallName = seance.Hall.Name,
                 MovieName = movieLocalization.Name,
@@ -247,7 +247,71 @@ namespace Cinema.Web.Controllers
                 return HttpNotFound();
             }
             ViewBag.Halls = new SelectList(_bookingService.GetAllHalls(), HALL_ID_COLUMN, HALL_NAME_COLUMN);
-            return View();
+            MovieLocalization movieLocalization = _movieService.GetMovieLocalization(movie.Id, LanguageHelper.CurrnetCulture);
+            AddSeanceViewModel model = new AddSeanceViewModel()
+            {
+                MovieId = movie.Id,
+                MovieName = movieLocalization.Name,
+                SeatTypePrices = new List<SectorTypePrice>(),
+                Date = DateTime.Now
+            };
+            _bookingService.GetSeatTypesForHall(int.Parse(((SelectList)ViewBag.Halls).First().Value))
+                .ForEach(x => model.SeatTypePrices.Add(new SectorTypePrice()
+                {
+                    SeatTypeId = x
+                }));
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddSeance(AddSeanceViewModel model)
+        {
+            ViewBag.Halls = new SelectList(_bookingService.GetAllHalls(), HALL_ID_COLUMN, HALL_NAME_COLUMN);
+            if (ModelState.IsValid)
+            {
+                DateTime dateTime = model.Date.ToUniversalTime().Add(model.Time);
+                if (dateTime <= DateTime.UtcNow)
+                {
+                    ModelState.AddModelError(String.Empty, "Added seance can't be in the past.");
+                    return View(model);
+                }
+                int movieLength = _movieService.GetMovie(model.MovieId).Length;
+                if (_bookingService.IsAvailableSeanceTime(model.HallId, dateTime, movieLength))
+                {
+                    _bookingService.AddSeance(new Seance()
+                    {
+                        DateTime = dateTime,
+                        HallId = model.HallId,
+                        MovieId = model.MovieId,
+                        SectorTypePrices = model.SeatTypePrices
+                    });
+                    _bookingService.Commit();
+                    return RedirectToAction("Seances", new { id = model.MovieId });
+                }
+                ModelState.AddModelError(String.Empty, "Time is intersepting with other seance(s).");
+            }
+            model.SeatTypePrices = new List<SectorTypePrice>();
+            _bookingService.GetSeatTypesForHall(model.HallId)
+                .ForEach(x => model.SeatTypePrices.Add(new SectorTypePrice()
+                {
+                    SeatTypeId = x
+                }));
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult GetSeatTypes(int hallId)
+        {
+            var model = new List<SectorTypePrice>();
+            _bookingService.GetSeatTypesForHall(hallId).ForEach(x => model.Add(new SectorTypePrice()
+            {
+                SeatTypeId = x
+            }));
+            ViewData.TemplateInfo.HtmlFieldPrefix = nameof(AddSeanceViewModel.SeatTypePrices);
+            return PartialView("_SeatTypePrices", model);
         }
 
         protected override void Dispose(bool disposing)

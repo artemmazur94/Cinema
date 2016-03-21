@@ -8,6 +8,16 @@
     <h1>Seances on movie: @Model.Name.</h1>
 </div>
 
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row">
+        <div class="col-sm-10">
+            <a href="@Url.Action("AddSeance", "Booking", new {id = Model.Id})"><span class="glyphicon glyphicon-plus"></span> Add seance</a>
+        </div>
+    </div>
+    <hr/>
+}
+
 @if (Model.Seances.Count == 0)
 {
     <div class="row">

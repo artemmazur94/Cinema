@@ -7,7 +7,7 @@
     $("#DirectorId").select2({
         allowClear: true,
         placeholder: "Select director"
-});
+    });
 
     $("#submit-btn").click(function() {
         if (validateInputs()) {

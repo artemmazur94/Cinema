@@ -298,8 +298,8 @@ namespace Cinema.Web.Controllers
             List<MovieLocalization> movieLocalizations = _movieService.GetMovieLocalizations(movieIds, LanguageHelper.CurrnetCulture);
             List<TicketViewModel> ticketViewModels = (from ticket in tickets select new TicketViewModel()
             {
-                Date = ticket.Seance.DateTime.Date,
-                Time = ticket.Seance.DateTime.TimeOfDay,
+                Date = ticket.Seance.DateTime.ToLocalTime().Date,
+                Time = ticket.Seance.DateTime.ToLocalTime().TimeOfDay,
                 HallName = ticket.Seance.Hall.Name,
                 Id = ticket.Id,
                 MovieName = (from movieLocalization in movieLocalizations where ticket.Seance.MovieId == movieLocalization.MovieId select movieLocalization.Name).First(),

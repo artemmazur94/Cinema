@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using Cinema.DataAccess.Helpers;
 using Cinema.DataAccess.Repositories.Contracts;
 
 namespace Cinema.DataAccess.Repositories
@@ -139,6 +140,30 @@ namespace Cinema.DataAccess.Repositories
         public List<Hall> GetAllHalls()
         {
             return _seanceContext.Halls.ToList();
+        }
+
+        public bool IsAvailableSeanceTime(int hallId, DateTime dateTime, int movieLength)
+        {
+            DateTimeRange checkedDateTimeRange = new DateTimeRange()
+            {
+                Start = dateTime,
+                End = dateTime.AddMinutes(movieLength)
+            };
+            List<DateTimeRange> seanceDateTimeRanges =
+                (from seance in _seanceContext.Seances.ToList().Where(x => x.DateTime.Date == dateTime.Date)
+                    select new DateTimeRange()
+                    {
+                        Start = seance.DateTime,
+                        End = seance.DateTime.AddMinutes(seance.Movie.Length)
+                    }).ToList();
+            return seanceDateTimeRanges.All(x => x.Intersects(checkedDateTimeRange) == false);
+        }
+
+        public List<int> GetSeatTypesForHall(int hallId)
+        {
+            return
+                (from sector in _seanceContext.Sectors.Where(x => x.HallId == hallId)
+                 select sector.SeatTypeId).Distinct().ToList();
         }
     }
 }

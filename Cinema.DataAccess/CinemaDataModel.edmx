@@ -787,7 +787,7 @@
           <Property Name="CommentText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Account" Relationship="Self.FK__Comments__Accoun__2F10007B" FromRole="Comments" ToRole="Accounts" />
-          <NavigationProperty Name="Movy" Relationship="CinemaDatabaseModel.FK__Comments__MovieI__300424B4" FromRole="Comment" ToRole="Movy" />
+          <NavigationProperty Name="Movie" Relationship="CinemaDatabaseModel.FK__Comments__MovieI__300424B4" FromRole="Comment" ToRole="Movy" />
         </EntityType>
         <EntityType Name="Genre">
           <Key>
@@ -861,7 +861,7 @@
           <Property Name="AccountId" Type="Int32" Nullable="false" />
           <Property Name="MovieId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="Self.FK__Ratings__Account__403A8C7D" FromRole="Ratings" ToRole="Accounts" />
-          <NavigationProperty Name="Movy" Relationship="CinemaDatabaseModel.FK__Ratings__MovieId__412EB0B6" FromRole="Rating" ToRole="Movy" />
+          <NavigationProperty Name="Movie" Relationship="CinemaDatabaseModel.FK__Ratings__MovieId__412EB0B6" FromRole="Rating" ToRole="Movy" />
         </EntityType>
         <EntityType Name="Seance">
           <Key>
@@ -874,7 +874,7 @@
           <Property Name="MovieId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__SeanceI__440B1D61" FromRole="Seances" ToRole="Tickets" />
           <NavigationProperty Name="Hall" Relationship="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF" FromRole="Seance" ToRole="Hall" />
-          <NavigationProperty Name="Movy" Relationship="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" FromRole="Seance" ToRole="Movy" />
+          <NavigationProperty Name="Movie" Relationship="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" FromRole="Seance" ToRole="Movy" />
           <NavigationProperty Name="TicketPreOrders" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" FromRole="Seance" ToRole="TicketPreOrder" />
           <NavigationProperty Name="TicketPreOrdersDeleted" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__17F790F9" FromRole="Seance" ToRole="TicketPreOrdersDeleted" />
           <NavigationProperty Name="SectorTypePrices" Relationship="CinemaDatabaseModel.FK__SectorTyp__Seanc__25518C17" FromRole="Seance" ToRole="SectorTypePrice" />

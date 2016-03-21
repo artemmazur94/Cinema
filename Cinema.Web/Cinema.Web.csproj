@@ -232,6 +232,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CustomHtmlHelpers.cs" />
     <Compile Include="Helpers\HallHelper.cs" />
     <Compile Include="Helpers\HandleLogErrorAttribute.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
@@ -320,6 +321,7 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Custom\add_seance.js" />
     <Content Include="Scripts\Custom\book_tickets.js" />
     <Content Include="Scripts\Custom\change_password.js" />
     <Content Include="Scripts\Custom\cusotm_validators.js" />
@@ -458,9 +460,11 @@
     <Content Include="Views\Account\MyTickets.cshtml" />
     <Content Include="Views\Account\TicketList.cshtml" />
     <Content Include="Views\Booking\AddSeance.cshtml" />
+    <Content Include="Views\Booking\EditorTemplates\SectorTypePrice.cshtml" />
     <None Include="Views\Booking\SelectSeats.cshtml" />
     <Content Include="Views\Booking\ConfirmSelectedSeats.cshtml" />
     <None Include="Views\Booking\Seances.cshtml" />
+    <Content Include="Views\Booking\_SeatTypePrices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

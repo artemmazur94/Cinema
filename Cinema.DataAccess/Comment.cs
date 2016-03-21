@@ -21,6 +21,6 @@ namespace Cinema.DataAccess
         public System.DateTime DateTime { get; set; }
     
         public virtual Account Account { get; set; }
-        public virtual Movie Movy { get; set; }
+        public virtual Movie Movie { get; set; }
     }
 }

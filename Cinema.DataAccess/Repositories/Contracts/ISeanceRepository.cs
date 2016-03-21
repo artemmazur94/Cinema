@@ -36,5 +36,9 @@ namespace Cinema.DataAccess.Repositories.Contracts
         int GetSeatType(int hallId, int row, int place);
 
         List<Hall> GetAllHalls();
+
+        bool IsAvailableSeanceTime(int hallId, DateTime dateTime, int movieLength);
+
+        List<int> GetSeatTypesForHall(int hallId);
     }
 }

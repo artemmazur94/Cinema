@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Cinema.DataAccess;
 
 namespace Cinema.Web.Models
 {
@@ -11,12 +13,7 @@ namespace Cinema.Web.Models
         [Required]
         [Display(Name = "Movie name: ")]
         public string MovieName { get; set; }
-
-        [Required]
-        [Display(Name = "Price: ")]
-        [Range(1, Int32.MaxValue)]
-        public decimal Price { get; set; }
-
+        
         [Required]
         [Display(Name = "Date: ")]
         [DataType(DataType.Date)]
@@ -29,5 +26,8 @@ namespace Cinema.Web.Models
         [Required]
         [Display(Name = "Hall: ")]
         public int HallId { get; set; }
+
+        [Required]
+        public List<SectorTypePrice> SeatTypePrices { get; set; } 
     }
 }

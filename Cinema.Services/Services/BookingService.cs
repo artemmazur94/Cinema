@@ -107,6 +107,21 @@ namespace Cinema.Services
             return _unitOfWork.SeanceRepository.GetAllHalls();
         }
 
+        public bool IsAvailableSeanceTime(int hallId, DateTime dateTime, int movieLength)
+        {
+            return _unitOfWork.SeanceRepository.IsAvailableSeanceTime(hallId, dateTime, movieLength);
+        }
+
+        public void AddSeance(Seance seance)
+        {
+            _unitOfWork.SeanceRepository.Add(seance);
+        }
+
+        public List<int> GetSeatTypesForHall(int hallId)
+        {
+            return _unitOfWork.SeanceRepository.GetSeatTypesForHall(hallId);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
