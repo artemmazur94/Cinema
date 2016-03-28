@@ -12,7 +12,7 @@ namespace Cinema.Services.Helpers
             using (var mailMessage = new MailMessage(ConfigurationManager.AppSettings["SenderEmail"], toEmail))
             {
                 var emailBody = new StringBuilder();
-                emailBody.AppendFormat("Dear {0},<br/><br/>", username);
+                emailBody.Append($"Dear {username},<br/><br/>");
                 emailBody.Append("Please click on the following link to restore your password:<br/>");
                 emailBody.Append(restoreUrl);
                 emailBody.Append("<br/><br/>");

@@ -232,7 +232,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\CustomHtmlHelpers.cs" />
     <Compile Include="Helpers\HallHelper.cs" />
     <Compile Include="Helpers\HandleLogErrorAttribute.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />

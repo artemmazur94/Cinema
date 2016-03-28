@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -110,7 +111,7 @@ namespace Cinema.Web.Controllers
                         AddPerson(model);
                         return RedirectToAction("Index");
                     }
-                    ModelState.AddModelError("", "Photo wasn't provided or bad format. Allowed formats are '.png', '.jpeg', '.jpg'.");
+                    ModelState.AddModelError(String.Empty, "Photo wasn't provided or bad format. Allowed formats are '.png', '.jpeg', '.jpg'.");
                 }
                 else
                 {
@@ -119,7 +120,7 @@ namespace Cinema.Web.Controllers
                         EditPerson(model);
                         return RedirectToAction("Index");
                     }
-                    ModelState.AddModelError("", "Photo has bad format. Allowed formats are '.png', '.jpeg', '.jpg'.");
+                    ModelState.AddModelError(String.Empty, "Photo has bad format. Allowed formats are '.png', '.jpeg', '.jpg'.");
                 }
             }
             return View(model);

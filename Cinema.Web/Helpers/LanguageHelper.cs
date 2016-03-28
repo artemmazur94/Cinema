@@ -6,6 +6,7 @@ namespace Cinema.Web.Helpers
     public static class LanguageHelper
     {
         private static int _currentCulture = -1;
+
         private const string COOKIE_LANGUAGE_KEY = "LanguageId";
 
         public static int CurrnetCulture

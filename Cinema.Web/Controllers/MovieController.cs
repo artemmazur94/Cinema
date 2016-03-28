@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -171,7 +172,7 @@ namespace Cinema.Web.Controllers
             {
                 if (model.ReleaseDate.Year < FIRST_FILMRELEASE_YEAR)
                 {
-                    ModelState.AddModelError("", "There was no films since 1896 year.");
+                    ModelState.AddModelError(String.Empty, "There was no films since 1896 year.");
                 }
                 else
                 {
@@ -186,7 +187,7 @@ namespace Cinema.Web.Controllers
                         EditMovie(model);
                         return RedirectToAction("Details", new {id = model.Id});
                     }
-                    ModelState.AddModelError("", "Poster has bad format. Allowed formats are '.png', '.jpeg', '.jpg'.");
+                    ModelState.AddModelError(String.Empty, "Poster has bad format. Allowed formats are '.png', '.jpeg', '.jpg'.");
                 }
             }
 

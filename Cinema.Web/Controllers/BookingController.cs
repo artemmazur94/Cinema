@@ -22,6 +22,9 @@ namespace Cinema.Web.Controllers
         private const string HALL_ID_COLUMN = "Id";
         private const string HALL_NAME_COLUMN = "Name";
 
+        private const string SEAT_STATUS_FREE = "Free";
+        private const string SEAT_STATUS_OCCUPIED = "Occupied";
+
         public BookingController(IBookingService bookingService, IMovieService movieService, IAccountService accountService)
         {
             _bookingService = bookingService;
@@ -121,7 +124,7 @@ namespace Cinema.Web.Controllers
                     _bookingService.Commit();
                     return Json(new
                     {
-                        Status = "free",
+                        Status = SEAT_STATUS_FREE,
                         Success = true
                     });
                 }
@@ -140,7 +143,7 @@ namespace Cinema.Web.Controllers
                 _bookingService.Commit();
                 return Json(new
                 {
-                    Status = "occupied",
+                    Status = SEAT_STATUS_OCCUPIED,
                     Success = true
                 });
             }

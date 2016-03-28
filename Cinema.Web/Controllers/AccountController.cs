@@ -242,7 +242,7 @@ namespace Cinema.Web.Controllers
                     _accountService.Commit();
                     return RedirectToAction("MyProfile", "Account");
                 }
-                ModelState.AddModelError("key", "Wrong old password.");
+                ModelState.AddModelError(String.Empty, "Wrong old password.");
             }
             return View(model);
         }
