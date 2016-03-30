@@ -1,4 +1,5 @@
-﻿@using Cinema.Web.Helpers
+﻿@using Cinema.DataAccess
+@using SeatType = Cinema.Web.Helpers.SeatType
 @model Cinema.Web.Models.SeanceViewModel
 
 @{
@@ -37,8 +38,8 @@
                 @Model.HallName
             </div>
             <div class="col-sm-6">
-                @Html.LabelFor(x => x.Price)
-                @($"{Model.Price:0.00}") (UAH)
+                @Html.LabelFor(x => x.Prices)
+                @String.Join(", ", Model.Prices.Select(x => $"{x.Price:0.00}")) (UAH)
             </div>
         </div>
     </div>
@@ -104,13 +105,13 @@
                                 {
                                     switch (type)
                                     {
-                                        case (int)SeatType.Single:
+                                        case (int) SeatType.Single:
                                             <button type="button" class="btn btn-primary seat selected-seat" data-row="@i" data-place="@j" data-type="@type">@j</button>
                                             break;
-                                        case (int)SeatType.Double:
+                                        case (int) SeatType.Double:
                                             <button type="button" class="btn btn-info seat selected-seat" data-row="@i" data-place="@j" data-type="@type">@j</button>
                                             break;
-                                        case (int)SeatType.Single4D:
+                                        case (int) SeatType.Single4D:
                                             <button type="button" class="btn btn-danger seat selected-seat" data-row="@i" data-place="@j" data-type="@type">@j</button>
                                             break;
                                     }
@@ -121,11 +122,32 @@
                 }
             </div>
             <hr/>
+            <div class="row">
+                @foreach (SectorTypePrice price in Model.Prices)
+                {
+                    <div class="col-sm-3">
+                        @switch (price.SeatTypeId)
+                        {
+                            case (int) SeatType.Single:
+                                <button type="button" class="btn btn-primary seat"></button>
+                                break;
+                            case (int) SeatType.Double:
+                                <button type="button" class="btn btn-info seat"></button>
+                                break;
+                            case (int) SeatType.Single4D:
+                                <button type="button" class="btn btn-danger seat"></button>
+                                break;
+                        }
+                        <span> - @($"{price.Price:0.00} (UAH)")</span>
+                    </div>
+                }
+            </div>
+            <hr/>
             <div class="row pull-right">
                 <input type="button" class="btn btn-danger" value="Cancel selected tickets" onclick="location.href = '@Url.Action("CancelSelectedSeats", "Booking", new {seanceId = Model.Id})'"/>
                 <input type="button" class="btn btn-success" value="Book selected seats" onclick="location.href = '@Url.Action("ConfirmSelectedSeats", "Booking", new {id = Model.Id})'"/>
             </div>
-            
+
         </div>
     </div>
 }

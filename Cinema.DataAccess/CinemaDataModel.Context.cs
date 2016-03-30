@@ -34,7 +34,6 @@ namespace Cinema.DataAccess
         public virtual DbSet<Person> Persons { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
-        public virtual DbSet<Seance> Seances { get; set; }
         public virtual DbSet<SecurityToken> SecurityTokens { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<GenreLocalization> GenreLocalizations { get; set; }
@@ -46,5 +45,6 @@ namespace Cinema.DataAccess
         public virtual DbSet<TicketPreOrdersDeleted> TicketPreOrdersDeleted { get; set; }
         public virtual DbSet<SeatType> SeatTypes { get; set; }
         public virtual DbSet<SectorTypePrice> SectorTypePrices { get; set; }
+        public virtual DbSet<Seance> Seances { get; set; }
     }
 }

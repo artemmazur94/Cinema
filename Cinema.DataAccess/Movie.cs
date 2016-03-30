@@ -20,8 +20,8 @@ namespace Cinema.DataAccess
             this.Comments = new HashSet<Comment>();
             this.MovieLocalizations = new HashSet<MovieLocalization>();
             this.Ratings = new HashSet<Rating>();
-            this.Seances = new HashSet<Seance>();
             this.Actors = new HashSet<Person>();
+            this.Seances = new HashSet<Seance>();
         }
     
         public int Id { get; set; }
@@ -45,9 +45,9 @@ namespace Cinema.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rating> Ratings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Seance> Seances { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Person> Actors { get; set; }
         public virtual Account RemoveExecutor { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Seance> Seances { get; set; }
     }
 }

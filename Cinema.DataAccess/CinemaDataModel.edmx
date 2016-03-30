@@ -141,7 +141,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
           <Property Name="HallId" Type="int" Nullable="false" />
           <Property Name="MovieId" Type="int" Nullable="false" />
@@ -863,22 +862,6 @@
           <NavigationProperty Name="Account" Relationship="Self.FK__Ratings__Account__403A8C7D" FromRole="Ratings" ToRole="Accounts" />
           <NavigationProperty Name="Movie" Relationship="CinemaDatabaseModel.FK__Ratings__MovieId__412EB0B6" FromRole="Rating" ToRole="Movy" />
         </EntityType>
-        <EntityType Name="Seance">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="HallId" Type="Int32" Nullable="false" />
-          <Property Name="MovieId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__SeanceI__440B1D61" FromRole="Seances" ToRole="Tickets" />
-          <NavigationProperty Name="Hall" Relationship="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF" FromRole="Seance" ToRole="Hall" />
-          <NavigationProperty Name="Movie" Relationship="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" FromRole="Seance" ToRole="Movy" />
-          <NavigationProperty Name="TicketPreOrders" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" FromRole="Seance" ToRole="TicketPreOrder" />
-          <NavigationProperty Name="TicketPreOrdersDeleted" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__17F790F9" FromRole="Seance" ToRole="TicketPreOrdersDeleted" />
-          <NavigationProperty Name="SectorTypePrices" Relationship="CinemaDatabaseModel.FK__SectorTyp__Seanc__25518C17" FromRole="Seance" ToRole="SectorTypePrice" />
-        </EntityType>
         <EntityType Name="SecurityToken">
           <Key>
             <PropertyRef Name="Id" />
@@ -898,9 +881,9 @@
           <Property Name="Place" Type="Int32" Nullable="false" />
           <Property Name="SeanceId" Type="Int32" Nullable="false" />
           <Property Name="SaleDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Seance" Relationship="Self.FK__Tickets__SeanceI__440B1D61" FromRole="Tickets" ToRole="Seances" />
           <Property Name="AccountId" Type="Int32" />
           <NavigationProperty Name="Account" Relationship="CinemaDatabaseModel.FK__Tickets__Account__06CD04F7" FromRole="Ticket" ToRole="Account" />
+          <NavigationProperty Name="Seance" Relationship="CinemaDatabaseModel.FK__Tickets__SeanceI__440B1D61" FromRole="Ticket" ToRole="Seance" />
         </EntityType>
         <Association Name="FK__Comments__Accoun__2F10007B">
           <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
@@ -990,18 +973,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Tickets__SeanceI__440B1D61">
-          <End Role="Seances" Type="Self.Seance" Multiplicity="1" />
-          <End Role="Tickets" Type="Self.Ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Seances">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Tickets">
-              <PropertyRef Name="SeanceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="CinemaDatabaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Accounts" EntityType="Self.Account" />
           <EntitySet Name="Comments" EntityType="Self.Comment" />
@@ -1012,7 +983,6 @@
           <EntitySet Name="Persons" EntityType="Self.Person" />
           <EntitySet Name="Photos" EntityType="Self.Photo" />
           <EntitySet Name="Ratings" EntityType="Self.Rating" />
-          <EntitySet Name="Seances" EntityType="Self.Seance" />
           <EntitySet Name="SecurityTokens" EntityType="Self.SecurityToken" />
           <EntitySet Name="Tickets" EntityType="Self.Ticket" />
           <AssociationSet Name="FK__Comments__Accoun__2F10007B" Association="Self.FK__Comments__Accoun__2F10007B">
@@ -1043,10 +1013,6 @@
             <End Role="Photos" EntitySet="Photos" />
             <End Role="Persons" EntitySet="Persons" />
           </AssociationSet>
-          <AssociationSet Name="FK__Tickets__SeanceI__440B1D61" Association="Self.FK__Tickets__SeanceI__440B1D61">
-            <End Role="Seances" EntitySet="Seances" />
-            <End Role="Tickets" EntitySet="Tickets" />
-          </AssociationSet>
           <EntitySet Name="GenreLocalizations" EntityType="CinemaDatabaseModel.GenreLocalization" />
           <AssociationSet Name="FK__GenreLoca__Langu__5441852A" Association="CinemaDatabaseModel.FK__GenreLoca__Langu__5441852A">
             <End Role="Language" EntitySet="Languages" />
@@ -1058,10 +1024,6 @@
           </AssociationSet>
           <EntitySet Name="Sectors" EntityType="CinemaDatabaseModel.Sector" />
           <EntitySet Name="Halls" EntityType="CinemaDatabaseModel.Hall" />
-          <AssociationSet Name="FK__Seances__HallId__4222D4EF" Association="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF">
-            <End Role="Hall" EntitySet="Halls" />
-            <End Role="Seance" EntitySet="Seances" />
-          </AssociationSet>
           <AssociationSet Name="FK__Sectors__HallId__75A278F5" Association="CinemaDatabaseModel.FK__Sectors__HallId__75A278F5">
             <End Role="Hall" EntitySet="Halls" />
             <End Role="Sector" EntitySet="Sectors" />
@@ -1091,10 +1053,6 @@
             <End Role="Movy" EntitySet="Movies" />
             <End Role="Rating" EntitySet="Ratings" />
           </AssociationSet>
-          <AssociationSet Name="FK__Seances__MovieId__4316F928" Association="CinemaDatabaseModel.FK__Seances__MovieId__4316F928">
-            <End Role="Movy" EntitySet="Movies" />
-            <End Role="Seance" EntitySet="Seances" />
-          </AssociationSet>
           <AssociationSet Name="MoviePersonsJunction" Association="CinemaDatabaseModel.MoviePersonsJunction">
             <End Role="Movy" EntitySet="Movies" />
             <End Role="Person" EntitySet="Persons" />
@@ -1122,6 +1080,29 @@
             <End Role="Account" EntitySet="Accounts" />
             <End Role="TicketPreOrdersDeleted" EntitySet="TicketPreOrdersDeleted" />
           </AssociationSet>
+          <EntitySet Name="SeatTypes" EntityType="CinemaDatabaseModel.SeatType" />
+          <EntitySet Name="SectorTypePrices" EntityType="CinemaDatabaseModel.SectorTypePrice" />
+          <AssociationSet Name="FK__Sectors__SectorT__797309D9" Association="CinemaDatabaseModel.FK__Sectors__SectorT__797309D9">
+            <End Role="SeatType" EntitySet="SeatTypes" />
+            <End Role="Sector" EntitySet="Sectors" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SectorTyp__Secto__245D67DE" Association="CinemaDatabaseModel.FK__SectorTyp__Secto__245D67DE">
+            <End Role="SeatType" EntitySet="SeatTypes" />
+            <End Role="SectorTypePrice" EntitySet="SectorTypePrices" />
+          </AssociationSet>
+          <EntitySet Name="Seances" EntityType="CinemaDatabaseModel.Seance" />
+          <AssociationSet Name="FK__Seances__HallId__4222D4EF" Association="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF">
+            <End Role="Hall" EntitySet="Halls" />
+            <End Role="Seance" EntitySet="Seances" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Seances__MovieId__4316F928" Association="CinemaDatabaseModel.FK__Seances__MovieId__4316F928">
+            <End Role="Movie" EntitySet="Movies" />
+            <End Role="Seance" EntitySet="Seances" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SectorTyp__Seanc__25518C17" Association="CinemaDatabaseModel.FK__SectorTyp__Seanc__25518C17">
+            <End Role="Seance" EntitySet="Seances" />
+            <End Role="SectorTypePrice" EntitySet="SectorTypePrices" />
+          </AssociationSet>
           <AssociationSet Name="FK__TicketPre__Seanc__03F0984C" Association="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C">
             <End Role="Seance" EntitySet="Seances" />
             <End Role="TicketPreOrder" EntitySet="TicketPreOrders" />
@@ -1130,19 +1111,9 @@
             <End Role="Seance" EntitySet="Seances" />
             <End Role="TicketPreOrdersDeleted" EntitySet="TicketPreOrdersDeleted" />
           </AssociationSet>
-          <EntitySet Name="SeatTypes" EntityType="CinemaDatabaseModel.SeatType" />
-          <EntitySet Name="SectorTypePrices" EntityType="CinemaDatabaseModel.SectorTypePrice" />
-          <AssociationSet Name="FK__SectorTyp__Seanc__25518C17" Association="CinemaDatabaseModel.FK__SectorTyp__Seanc__25518C17">
+          <AssociationSet Name="FK__Tickets__SeanceI__440B1D61" Association="CinemaDatabaseModel.FK__Tickets__SeanceI__440B1D61">
             <End Role="Seance" EntitySet="Seances" />
-            <End Role="SectorTypePrice" EntitySet="SectorTypePrices" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Sectors__SectorT__797309D9" Association="CinemaDatabaseModel.FK__Sectors__SectorT__797309D9">
-            <End Role="SeatType" EntitySet="SeatTypes" />
-            <End Role="Sector" EntitySet="Sectors" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SectorTyp__Secto__245D67DE" Association="CinemaDatabaseModel.FK__SectorTyp__Secto__245D67DE">
-            <End Role="SeatType" EntitySet="SeatTypes" />
-            <End Role="SectorTypePrice" EntitySet="SectorTypePrices" />
+            <End Role="Ticket" EntitySet="Tickets" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="GenreLocalization">
@@ -1202,21 +1173,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="HallPicture" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Seances" Relationship="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF" FromRole="Hall" ToRole="Seance" />
           <NavigationProperty Name="Sectors" Relationship="CinemaDatabaseModel.FK__Sectors__HallId__75A278F5" FromRole="Hall" ToRole="Sector" />
+          <NavigationProperty Name="Seances" Relationship="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF" FromRole="Hall" ToRole="Seance" />
         </EntityType>
-        <Association Name="FK__Seances__HallId__4222D4EF">
-          <End Type="CinemaDatabaseModel.Hall" Role="Hall" Multiplicity="1" />
-          <End Type="CinemaDatabaseModel.Seance" Role="Seance" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Hall">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Seance">
-              <PropertyRef Name="HallId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Sectors__HallId__75A278F5">
           <End Type="CinemaDatabaseModel.Hall" Role="Hall" Multiplicity="1" />
           <End Type="CinemaDatabaseModel.Sector" Role="Sector" Multiplicity="*" />
@@ -1248,10 +1207,10 @@
           <NavigationProperty Name="Director" Relationship="CinemaDatabaseModel.FK__Movies__Director__35BCFE0A" FromRole="Movy" ToRole="Person" />
           <NavigationProperty Name="Photo" Relationship="CinemaDatabaseModel.FK__Movies__PhotoId__37A5467C" FromRole="Movy" ToRole="Photo" />
           <NavigationProperty Name="Ratings" Relationship="CinemaDatabaseModel.FK__Ratings__MovieId__412EB0B6" FromRole="Movy" ToRole="Rating" />
-          <NavigationProperty Name="Seances" Relationship="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" FromRole="Movy" ToRole="Seance" />
           <NavigationProperty Name="Actors" Relationship="CinemaDatabaseModel.MoviePersonsJunction" FromRole="Movy" ToRole="Person" />
           <Property Name="RemoveExecutorId" Type="Int32" />
           <NavigationProperty Name="RemoveExecutor" Relationship="CinemaDatabaseModel.FK__Movies__RemoveEx__14270015" FromRole="Movie" ToRole="Account" />
+          <NavigationProperty Name="Seances" Relationship="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" FromRole="Movie" ToRole="Seance" />
         </EntityType>
         <Association Name="FK__Comments__MovieI__300424B4">
           <End Type="CinemaDatabaseModel.Movie" Role="Movy" Multiplicity="1" />
@@ -1321,18 +1280,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Rating">
-              <PropertyRef Name="MovieId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Seances__MovieId__4316F928">
-          <End Type="CinemaDatabaseModel.Movie" Role="Movy" Multiplicity="1" />
-          <End Type="CinemaDatabaseModel.Seance" Role="Seance" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Movy">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Seance">
               <PropertyRef Name="MovieId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1441,6 +1388,101 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SeatType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Sectors" Relationship="CinemaDatabaseModel.FK__Sectors__SectorT__797309D9" FromRole="SeatType" ToRole="Sector" />
+          <NavigationProperty Name="SectorTypePrices" Relationship="CinemaDatabaseModel.FK__SectorTyp__Secto__245D67DE" FromRole="SeatType" ToRole="SectorTypePrice" />
+        </EntityType>
+        <EntityType Name="SectorTypePrice">
+          <Key>
+            <PropertyRef Name="SeatTypeId" />
+            <PropertyRef Name="SeanceId" />
+          </Key>
+          <Property Name="SeatTypeId" Type="Int32" Nullable="false" />
+          <Property Name="SeanceId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="SeatType" Relationship="CinemaDatabaseModel.FK__SectorTyp__Secto__245D67DE" FromRole="SectorTypePrice" ToRole="SeatType" />
+          <NavigationProperty Name="Seance" Relationship="CinemaDatabaseModel.FK__SectorTyp__Seanc__25518C17" FromRole="SectorTypePrice" ToRole="Seance" />
+        </EntityType>
+        <Association Name="FK__Sectors__SectorT__797309D9">
+          <End Type="CinemaDatabaseModel.SeatType" Role="SeatType" Multiplicity="1" />
+          <End Type="CinemaDatabaseModel.Sector" Role="Sector" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SeatType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sector">
+              <PropertyRef Name="SeatTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SectorTyp__Secto__245D67DE">
+          <End Type="CinemaDatabaseModel.SeatType" Role="SeatType" Multiplicity="1" />
+          <End Type="CinemaDatabaseModel.SectorTypePrice" Role="SectorTypePrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SeatType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SectorTypePrice">
+              <PropertyRef Name="SeatTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Seance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HallId" Type="Int32" Nullable="false" />
+          <Property Name="MovieId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Hall" Relationship="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF" FromRole="Seance" ToRole="Hall" />
+          <NavigationProperty Name="Movie" Relationship="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" FromRole="Seance" ToRole="Movie" />
+          <NavigationProperty Name="SectorTypePrices" Relationship="CinemaDatabaseModel.FK__SectorTyp__Seanc__25518C17" FromRole="Seance" ToRole="SectorTypePrice" />
+          <NavigationProperty Name="TicketPreOrders" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" FromRole="Seance" ToRole="TicketPreOrder" />
+          <NavigationProperty Name="TicketPreOrdersDeleted" Relationship="CinemaDatabaseModel.FK__TicketPre__Seanc__17F790F9" FromRole="Seance" ToRole="TicketPreOrdersDeleted" />
+          <NavigationProperty Name="Tickets" Relationship="CinemaDatabaseModel.FK__Tickets__SeanceI__440B1D61" FromRole="Seance" ToRole="Ticket" />
+        </EntityType>
+        <Association Name="FK__Seances__HallId__4222D4EF">
+          <End Type="CinemaDatabaseModel.Hall" Role="Hall" Multiplicity="1" />
+          <End Type="CinemaDatabaseModel.Seance" Role="Seance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hall">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seance">
+              <PropertyRef Name="HallId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Seances__MovieId__4316F928">
+          <End Type="CinemaDatabaseModel.Movie" Role="Movie" Multiplicity="1" />
+          <End Type="CinemaDatabaseModel.Seance" Role="Seance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seance">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SectorTyp__Seanc__25518C17">
+          <End Type="CinemaDatabaseModel.Seance" Role="Seance" Multiplicity="1" />
+          <End Type="CinemaDatabaseModel.SectorTypePrice" Role="SectorTypePrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seance">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SectorTypePrice">
+              <PropertyRef Name="SeanceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__TicketPre__Seanc__03F0984C">
           <End Type="CinemaDatabaseModel.Seance" Role="Seance" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1469,59 +1511,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="SeatType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Sectors" Relationship="CinemaDatabaseModel.FK__Sectors__SectorT__797309D9" FromRole="SeatType" ToRole="Sector" />
-          <NavigationProperty Name="SectorTypePrices" Relationship="CinemaDatabaseModel.FK__SectorTyp__Secto__245D67DE" FromRole="SeatType" ToRole="SectorTypePrice" />
-        </EntityType>
-        <EntityType Name="SectorTypePrice">
-          <Key>
-            <PropertyRef Name="SeatTypeId" />
-            <PropertyRef Name="SeanceId" />
-          </Key>
-          <Property Name="SeatTypeId" Type="Int32" Nullable="false" />
-          <Property Name="SeanceId" Type="Int32" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <NavigationProperty Name="Seance" Relationship="CinemaDatabaseModel.FK__SectorTyp__Seanc__25518C17" FromRole="SectorTypePrice" ToRole="Seance" />
-          <NavigationProperty Name="SeatType" Relationship="CinemaDatabaseModel.FK__SectorTyp__Secto__245D67DE" FromRole="SectorTypePrice" ToRole="SeatType" />
-        </EntityType>
-        <Association Name="FK__SectorTyp__Seanc__25518C17">
+        <Association Name="FK__Tickets__SeanceI__440B1D61">
           <End Type="CinemaDatabaseModel.Seance" Role="Seance" Multiplicity="1" />
-          <End Type="CinemaDatabaseModel.SectorTypePrice" Role="SectorTypePrice" Multiplicity="*" />
+          <End Type="CinemaDatabaseModel.Ticket" Role="Ticket" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Seance">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="SectorTypePrice">
+            <Dependent Role="Ticket">
               <PropertyRef Name="SeanceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Sectors__SectorT__797309D9">
-          <End Type="CinemaDatabaseModel.SeatType" Role="SeatType" Multiplicity="1" />
-          <End Type="CinemaDatabaseModel.Sector" Role="Sector" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SeatType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Sector">
-              <PropertyRef Name="SeatTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SectorTyp__Secto__245D67DE">
-          <End Type="CinemaDatabaseModel.SeatType" Role="SeatType" Multiplicity="1" />
-          <End Type="CinemaDatabaseModel.SectorTypePrice" Role="SectorTypePrice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SeatType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SectorTypePrice">
-              <PropertyRef Name="SeatTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1612,17 +1610,6 @@
               <MappingFragment StoreEntitySet="Ratings">
                 <ScalarProperty Name="Rate" ColumnName="Rate" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Seances">
-            <EntityTypeMapping TypeName="CinemaDatabaseModel.Seance">
-              <MappingFragment StoreEntitySet="Seances">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="HallId" ColumnName="HallId" />
                 <ScalarProperty Name="MovieId" ColumnName="MovieId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1755,6 +1742,16 @@
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="SeanceId" ColumnName="SeanceId" />
                 <ScalarProperty Name="SeatTypeId" ColumnName="SectorTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seances">
+            <EntityTypeMapping TypeName="CinemaDatabaseModel.Seance">
+              <MappingFragment StoreEntitySet="Seances">
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+                <ScalarProperty Name="HallId" ColumnName="HallId" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

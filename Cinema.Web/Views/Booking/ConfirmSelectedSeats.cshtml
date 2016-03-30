@@ -36,8 +36,8 @@
                 @Model.HallName
             </div>
             <div class="col-sm-6">
-                @Html.LabelFor(x => x.Price)
-                @($"{Model.Price:0.00}") (UAH)
+                @Html.LabelFor(x => x.Prices)
+                @String.Join(", ", Model.Prices.Select(x => $"{x.Price:0.00}")) (UAH)
             </div>
         </div>
     </div>
@@ -56,8 +56,9 @@ else
         {
             <div class="col-sm-3">
                 @{
-                    string panelClass = "";
+                    string panelClass;
                     string type = "";
+                    decimal price = Model.Prices.Find(x => x.SeatTypeId == seat.Type).Price;
                     switch (seat.Type)
                     {
                         case (int) SeatType.Single:
@@ -85,6 +86,9 @@ else
                         <strong>Palce: </strong>@seat.Place
                         <br/>
                         <strong>Type: </strong>@type
+                    </div>
+                    <div class="panel-footer">
+                        <strong>Price: </strong>@price
                     </div>
                 </div>
             </div>

@@ -296,21 +296,25 @@ namespace Cinema.Web.Controllers
             List<Ticket> tickets = _bookingService.GetTicketsForUser(accountId);
             List<int> movieIds = (from ticket in tickets select ticket.Seance.MovieId).Distinct().ToList();
             List<MovieLocalization> movieLocalizations = _movieService.GetMovieLocalizations(movieIds, LanguageHelper.CurrnetCulture);
-            List<TicketViewModel> ticketViewModels = (from ticket in tickets select new TicketViewModel()
-            {
-                Date = ticket.Seance.DateTime.ToLocalTime().Date,
-                Time = ticket.Seance.DateTime.ToLocalTime().TimeOfDay,
-                HallName = ticket.Seance.Hall.Name,
-                Id = ticket.Id,
-                MovieName = (from movieLocalization in movieLocalizations where ticket.Seance.MovieId == movieLocalization.MovieId select movieLocalization.Name).First(),
-                Price = ticket.Seance.Price,
-                Seat = new HallSeat()
+            List<TicketViewModel> ticketViewModels = (from ticket in tickets
+                let type = _bookingService.GetSeatType(ticket.Seance.HallId, ticket.Row, ticket.Place)
+                select new TicketViewModel()
                 {
-                    Row = ticket.Row,
-                    Place = ticket.Place,
-                    Type = _bookingService.GetSeatType(ticket.Seance.HallId, ticket.Row, ticket.Place)
-                }
-            }).ToList();
+                    Date = ticket.Seance.DateTime.ToLocalTime().Date,
+                    Time = ticket.Seance.DateTime.ToLocalTime().TimeOfDay,
+                    HallName = ticket.Seance.Hall.Name,
+                    Id = ticket.Id,
+                    MovieName = (from movieLocalization in movieLocalizations
+                                where ticket.Seance.MovieId == movieLocalization.MovieId
+                                select movieLocalization.Name).First(),
+                    Price = ticket.Seance.SectorTypePrices.FirstOrDefault(x => x.SeatTypeId == type).Price,
+                    Seat = new HallSeat()
+                    {
+                        Row = ticket.Row,
+                        Place = ticket.Place,
+                        Type = type
+                    },
+                }).ToList();
             MyTicketsViewModel model = new MyTicketsViewModel()
             {
                 PastTickets =

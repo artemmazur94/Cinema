@@ -17,27 +17,26 @@ namespace Cinema.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Seance()
         {
-            this.Tickets = new HashSet<Ticket>();
+            this.SectorTypePrices = new HashSet<SectorTypePrice>();
             this.TicketPreOrders = new HashSet<TicketPreOrder>();
             this.TicketPreOrdersDeleted = new HashSet<TicketPreOrdersDeleted>();
-            this.SectorTypePrices = new HashSet<SectorTypePrice>();
+            this.Tickets = new HashSet<Ticket>();
         }
     
         public int Id { get; set; }
-        public decimal Price { get; set; }
         public System.DateTime DateTime { get; set; }
         public int HallId { get; set; }
         public int MovieId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ticket> Tickets { get; set; }
         public virtual Hall Hall { get; set; }
         public virtual Movie Movie { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SectorTypePrice> SectorTypePrices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TicketPreOrder> TicketPreOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TicketPreOrdersDeleted> TicketPreOrdersDeleted { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SectorTypePrice> SectorTypePrices { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
     }
 }

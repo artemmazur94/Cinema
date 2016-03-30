@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Cinema.DataAccess;
 
 namespace Cinema.Web.Models
 {
@@ -14,8 +15,8 @@ namespace Cinema.Web.Models
         [Display(Name = "Time: ")]
         public TimeSpan Time { get; set; }
         
-        [Display(Name = "Price: ")]
-        public decimal Price { get; set; }
+        [Display(Name = "Prices: ")]
+        public List<SectorTypePrice> Prices { get; set; }
         
         [Display(Name = "Hall name: ")]
         public string HallName { get; set; }

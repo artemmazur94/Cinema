@@ -18,7 +18,7 @@ namespace Cinema.DataAccess
         public int SeanceId { get; set; }
         public decimal Price { get; set; }
     
-        public virtual Seance Seance { get; set; }
         public virtual SeatType SeatType { get; set; }
+        public virtual Seance Seance { get; set; }
     }
 }

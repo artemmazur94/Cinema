@@ -21,7 +21,7 @@ namespace Cinema.DataAccess
         public System.DateTime SaleDate { get; set; }
         public Nullable<int> AccountId { get; set; }
     
-        public virtual Seance Seance { get; set; }
         public virtual Account Account { get; set; }
+        public virtual Seance Seance { get; set; }
     }
 }

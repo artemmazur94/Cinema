@@ -57,14 +57,14 @@ namespace Cinema.Web.Controllers
                 Date = seance.DateTime.ToLocalTime().Date,
                 Time = seance.DateTime.ToLocalTime().TimeOfDay,
                 HallName = seance.Hall.Name,
-                Price = seance.Price
+                Prices = seance.SectorTypePrices.ToList()
             }).ToList();
             var model = new MovieSeanceViewModel()
             {
                 Id = movie.Id,
                 Name = _movieService.GetMovieLocalization(id.Value, LanguageHelper.CurrnetCulture).Name,
                 Poster = movie.Photo,
-                Seances = seanceModels
+                Seances = seanceModels,
             };
             return View(model);
         }
@@ -89,7 +89,7 @@ namespace Cinema.Web.Controllers
                 Id = seance.Id,
                 Date = seance.DateTime.ToLocalTime().Date,
                 Time = seance.DateTime.ToLocalTime().TimeOfDay,
-                Price = seance.Price,
+                Prices = seance.SectorTypePrices.ToList(),
                 HallName = seance.Hall.Name,
                 MovieName = movieLocalization.Name,
                 MovieId = movieLocalization.MovieId
@@ -190,7 +190,7 @@ namespace Cinema.Web.Controllers
                 Id = seance.Id,
                 Date = seance.DateTime.ToLocalTime().Date,
                 Time = seance.DateTime.ToLocalTime().TimeOfDay,
-                Price = seance.Price,
+                Prices = seance.SectorTypePrices.ToList(),
                 HallName = seance.Hall.Name,
                 MovieName = movieLocalization.Name,
                 MovieId = movieLocalization.MovieId,

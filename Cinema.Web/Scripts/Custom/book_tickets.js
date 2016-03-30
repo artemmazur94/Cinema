@@ -14,7 +14,7 @@
                 if (!data.Success) {
                     alert("Sorry, this seat is already reserved!");
                 } else {
-                    if (data.Status === "free") {
+                    if (data.Status === "Free") {
                         $this.removeClass('btn-success');
                         $this.addClass(getSeatTypeClass($this));
                     } else {

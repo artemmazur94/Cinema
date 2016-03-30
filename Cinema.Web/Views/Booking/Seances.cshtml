@@ -1,4 +1,5 @@
-﻿@model Cinema.Web.Models.MovieSeanceViewModel
+﻿@using System.Globalization
+@model Cinema.Web.Models.MovieSeanceViewModel
 
 @{
     ViewBag.Title = "Seances";
@@ -57,8 +58,8 @@ else
                             @seance.HallName
                         </div>
                         <div class="row">
-                            @Html.LabelFor(x => seance.Price, new {@class = "control-label"})
-                            @seance.Price
+                            @Html.LabelFor(x => seance.Prices, new {@class = "control-label"})
+                            @String.Join(", ", seance.Prices.Select(x => x.Price))
                         </div>
                     </div>
                     <div class="col-sm-3">

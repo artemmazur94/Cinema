@@ -14,7 +14,6 @@
         <EntityTypeShape EntityType="CinemaDatabaseModel.Person" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.Photo" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.Rating" Width="1.5" PointX="8.25" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaDatabaseModel.Seance" Width="1.5" PointX="13.5" PointY="5.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.SecurityToken" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.Ticket" Width="1.5" PointX="9.125" PointY="6.25" IsExpanded="true" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Comments__Accoun__2F10007B" ManuallyRouted="false" />
@@ -24,13 +23,11 @@
         <AssociationConnector Association="CinemaDatabaseModel.FK__PersonLoc__Langu__38996AB5" ManuallyRouted="false" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__PersonLoc__Perso__398D8EEE" ManuallyRouted="false" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Persons__PhotoId__3B75D760" ManuallyRouted="false" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__Tickets__SeanceI__440B1D61" ManuallyRouted="false" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.GenreLocalization" Width="1.5" PointX="8.25" PointY="3.125" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__GenreLoca__Langu__5441852A" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__GenreLocaliz__Id__5629CD9C" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.Sector" Width="1.5" PointX="11.25" PointY="3.125" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.Hall" Width="1.5" PointX="5.75" PointY="3.375" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Sectors__HallId__75A278F5" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.Movie" Width="1.5" PointX="5.25" PointY="13.625" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Comments__MovieI__300424B4" />
@@ -39,7 +36,6 @@
         <AssociationConnector Association="CinemaDatabaseModel.FK__Movies__Director__35BCFE0A" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Movies__PhotoId__37A5467C" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Ratings__MovieId__412EB0B6" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" />
         <AssociationConnector Association="CinemaDatabaseModel.MoviePersonsJunction" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Tickets__Account__06CD04F7" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.Profile" Width="1.5" PointX="2.625" PointY="17" />
@@ -49,13 +45,17 @@
         <EntityTypeShape EntityType="CinemaDatabaseModel.TicketPreOrdersDeleted" Width="1.5" PointX="0.875" PointY="4.125" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Accou__02FC7413" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Accou__17036CC0" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Seanc__17F790F9" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.SeatType" Width="1.5" PointX="11.25" PointY="0.625" />
         <EntityTypeShape EntityType="CinemaDatabaseModel.SectorTypePrice" Width="1.5" PointX="13.5" PointY="2.5" />
-        <AssociationConnector Association="CinemaDatabaseModel.FK__SectorTyp__Seanc__25518C17" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__Sectors__SectorT__797309D9" />
         <AssociationConnector Association="CinemaDatabaseModel.FK__SectorTyp__Secto__245D67DE" />
+        <EntityTypeShape EntityType="CinemaDatabaseModel.Seance" Width="2" PointX="11" PointY="10.375" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Seances__HallId__4222D4EF" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Seances__MovieId__4316F928" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__SectorTyp__Seanc__25518C17" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Seanc__03F0984C" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__TicketPre__Seanc__17F790F9" />
+        <AssociationConnector Association="CinemaDatabaseModel.FK__Tickets__SeanceI__440B1D61" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

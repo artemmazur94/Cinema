@@ -17,8 +17,8 @@ namespace Cinema.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Hall()
         {
-            this.Seances = new HashSet<Seance>();
             this.Sectors = new HashSet<Sector>();
+            this.Seances = new HashSet<Seance>();
         }
     
         public int Id { get; set; }
@@ -26,8 +26,8 @@ namespace Cinema.DataAccess
         public byte[] HallPicture { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Seance> Seances { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sector> Sectors { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Seance> Seances { get; set; }
     }
 }
